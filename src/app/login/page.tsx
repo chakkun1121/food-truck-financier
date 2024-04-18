@@ -24,6 +24,7 @@ export default function LoginPage() {
   }
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    disabled: isLoading,
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
