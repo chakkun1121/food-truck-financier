@@ -30,7 +30,11 @@ export default function Header() {
             </>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>設定</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/user" prefetch={false}>
+                ユーザー情報
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/logout" prefetch={false}>
                 ログアウト
