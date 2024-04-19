@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import firebase from "firebase/compat/app";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,6 +12,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (typeof window !== "undefined") {
+    window.addEventListener("beforeunload", () => {
+      console.log("Disconnecting from Firebase");
+      firebase.database().goOffline();
+    });
+  }
   return (
     <html lang="en">
       <body>{children}</body>
