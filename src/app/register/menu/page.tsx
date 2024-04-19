@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { auth, db } from "@/firebase";
 import { UUID } from "crypto";
 import { ref } from "firebase/database";
-import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -15,6 +14,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import AccessError from "@/components/accessError";
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
@@ -33,15 +33,7 @@ export default function RegisterPage() {
     [key: UUID]: number;
   }>({});
   if (loading || userInfoLoading || stallInfoLoading) return <Loading />;
-  if (!user || !stallInfo)
-    return (
-      <div className="text-center">
-        <h2>正しいユーザーでログインするか管理者へお問い合わせください。</h2>
-        <Button asChild>
-          <Link href="/logout">ログアウト</Link>
-        </Button>
-      </div>
-    );
+  if (!user || !stallInfo) return <AccessError />;
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel className="p-4">
