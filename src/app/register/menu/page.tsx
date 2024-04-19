@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { PlusIcon, MinusIcon } from "@radix-ui/react-icons";
+import { PlusIcon, MinusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import {
   ResizableHandle,
@@ -62,7 +62,16 @@ export default function RegisterPage() {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className="p-4 flex flex-col gap-4" defaultSize={25}>
-        <h2 className="text-2xl">注文内容</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl">注文内容</h2>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setCurrentOrder({})}
+          >
+            <TrashIcon />
+          </Button>
+        </div>
         <div className="flex flex-col gap-2">
           {Object.entries(currentOrder)
             .filter(([_, value]) => value)
