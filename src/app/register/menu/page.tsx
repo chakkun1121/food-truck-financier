@@ -74,7 +74,7 @@ export default function RegisterPage() {
                   <span className="opacity-70"> × {value}</span>
                 </p>
                 <p className="opacity-80">
-                  \{(stallInfo.commodities?.[key as UUID]?.price || 0) * value}
+                  ¥{(stallInfo.commodities?.[key as UUID]?.price || 0) * value}
                 </p>
               </CardContent>
             </Card>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
           <p className="flex items-center justify-between">
             <span>計:</span>
             <span className="text-xl">
-              \
+              ¥
               {Object.entries(currentOrder).reduce((sum, [key, value]) => {
                 const price = stallInfo?.commodities?.[key as UUID]?.price || 0;
                 return sum + price * value;
