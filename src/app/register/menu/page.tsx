@@ -64,21 +64,24 @@ export default function RegisterPage() {
       <ResizablePanel className="p-4 flex flex-col gap-4" defaultSize={25}>
         <h2 className="text-2xl">注文内容</h2>
         <div className="flex flex-col gap-2">
-          {Object.entries(currentOrder).map(([key, value]) => (
-            <Card key={key}>
-              <CardContent className="p-2 flex justify-between items-center">
-                <p>
-                  <span className="text-lg">
-                    {stallInfo?.commodities?.[key as UUID].name}
-                  </span>
-                  <span className="opacity-70"> × {value}</span>
-                </p>
-                <p className="opacity-80">
-                  ¥{(stallInfo.commodities?.[key as UUID]?.price || 0) * value}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+          {Object.entries(currentOrder)
+            .filter(([_, value]) => value)
+            .map(([key, value]) => (
+              <Card key={key}>
+                <CardContent className="p-2 flex justify-between items-center">
+                  <p>
+                    <span className="text-lg">
+                      {stallInfo?.commodities?.[key as UUID].name}
+                    </span>
+                    <span className="opacity-70"> × {value}</span>
+                  </p>
+                  <p className="opacity-80">
+                    ¥
+                    {(stallInfo.commodities?.[key as UUID]?.price || 0) * value}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
         </div>
         <div className="p-4">
           <p className="flex items-center justify-between">
