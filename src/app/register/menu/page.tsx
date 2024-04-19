@@ -77,14 +77,23 @@ export default function RegisterPage() {
             .filter(([_, value]) => value)
             .map(([key, value]) => (
               <Card key={key}>
-                <CardContent className="p-2 flex justify-between items-center">
-                  <p>
-                    <span className="text-lg">
-                      {stallInfo?.commodities?.[key as UUID].name}
-                    </span>
-                    <span className="opacity-70"> × {value}</span>
-                  </p>
-                  <p className="opacity-80">
+                <CardContent className="p-2 ">
+                  <div className="flex justify-between">
+                    <p>
+                      <span className="text-lg">
+                        {stallInfo?.commodities?.[key as UUID].name}
+                      </span>
+                      <span className="opacity-70"> × {value}</span>
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full"
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </div>
+                  <p className="opacity-80 text-right">
                     ¥
                     {(stallInfo.commodities?.[key as UUID]?.price || 0) * value}
                   </p>
