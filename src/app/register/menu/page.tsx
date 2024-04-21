@@ -130,22 +130,25 @@ function CommodityCard({
 }) {
   return (
     <Card className="max-w-xs w-full">
-      <CardContent className="p-6 flex justify-between">
-        <div>
+      <CardContent className="p-0 flex justify-between">
+        <div className="flex-1 p-6" onClick={() => setCount(count + 1)}>
           <h3 className="text-xl">{commodity.name}</h3>
           <p className="ml-1">¥{commodity.price}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-none py-6 pr-6">
           <Button
-            className="rounded-full"
+            className="rounded-full relative z-10"
             variant="outline"
             size="icon"
-            onClick={() => setCount(count - 1)}
+            onClick={e => {
+              e.preventDefault();
+              setCount(count - 1);
+            }}
             disabled={count === 0}
           >
             <MinusIcon />
           </Button>
-          <p className="text-lg">{count}</p>
+          <p className="text-lg w-8 text-center">{count}</p>
           <Button
             className="rounded-full"
             variant="outline"
