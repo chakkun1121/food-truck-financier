@@ -81,6 +81,13 @@ export default function RegisterPage() {
                       variant="outline"
                       size="icon"
                       className="rounded-full"
+                      onClick={() =>
+                        setCurrentOrder(o => {
+                          const newOrder = { ...o };
+                          delete newOrder[key as UUID];
+                          return newOrder;
+                        })
+                      }
                     >
                       <TrashIcon />
                     </Button>
