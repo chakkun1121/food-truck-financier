@@ -6,7 +6,7 @@ import { UUID } from "crypto";
 import { ref } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { PlusIcon, MinusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import {
@@ -14,6 +14,13 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import AccessError from "@/components/accessError";
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -32,6 +39,10 @@ export default function RegisterPage() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: UUID]: number;
   }>({});
+  const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
+    const price = stallInfo?.commodities?.[key as UUID]?.price || 0;
+    return sum + price * value;
+  }, 0);
   if (loading || userInfoLoading || stallInfoLoading) return <Loading />;
   if (!user || !stallInfo) return <AccessError />;
   return (
@@ -103,21 +114,46 @@ export default function RegisterPage() {
         <div className="p-4">
           <p className="flex items-center justify-between">
             <span>計:</span>
-            <span className="text-xl">
-              ¥
-              {Object.entries(currentOrder).reduce((sum, [key, value]) => {
-                const price = stallInfo?.commodities?.[key as UUID]?.price || 0;
-                return sum + price * value;
-              }, 0)}
-            </span>
+            <span className="text-xl">¥{sum}</span>
           </p>
         </div>
-        <Button
-          className="w-full"
-          disabled={Object.values(currentOrder).every(value => value === 0)}
-        >
-          注文する
-        </Button>
+        <Dialog>
+          <DialogTrigger
+            asChild
+            disabled={Object.values(currentOrder).every(value => value === 0)}
+          >
+            <Button className="w-full">注文する</Button>
+          </DialogTrigger>
+          <DialogContent className="h-5/6 w-5/6 max-w-none flex flex-col">
+            <DialogHeader className="flex-none">金額入力</DialogHeader>
+            <div className="flex flex-1">
+              <div className="flex-1">
+                <p>点数:{}</p>
+                <h2>¥{sum}</h2>
+              </div>{" "}
+              <div className="flex-none">
+                <p className="text-3xl text-center">¥000</p>
+                <div className="grid grid-rows-4 grid-cols-3 gap-4">
+                  {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0"].map(
+                    v => (
+                      <Button
+                        key={v}
+                        className="aspect-square w-24 h-24 text-xl"
+                        variant="outline"
+                      >
+                        {v}
+                      </Button>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="flex-none">
+              <Button>注文を確定する</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
