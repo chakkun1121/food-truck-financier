@@ -22,6 +22,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import AccessError from "@/components/accessError";
+import { cn } from "@/lib/utils";
+import KeyPad from "@/components/ui-element/keypad";
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
@@ -130,25 +132,9 @@ export default function RegisterPage() {
               <div className="flex-1">
                 <p>点数:{}</p>
                 <h2>¥{sum}</h2>
-              </div>{" "}
-              <div className="flex-none">
-                <p className="text-3xl text-center">¥000</p>
-                <div className="grid grid-rows-4 grid-cols-3 gap-4">
-                  {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0"].map(
-                    v => (
-                      <Button
-                        key={v}
-                        className="aspect-square w-24 h-24 text-xl"
-                        variant="outline"
-                      >
-                        {v}
-                      </Button>
-                    )
-                  )}
-                </div>
               </div>
+              <KeyPad className="flex-none" />
             </div>
-
             <DialogFooter className="flex-none">
               <Button>注文を確定する</Button>
             </DialogFooter>
