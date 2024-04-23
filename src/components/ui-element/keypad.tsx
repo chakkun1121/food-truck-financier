@@ -42,14 +42,11 @@ export default function KeyPad({
           className="aspect-square w-24 h-24 text-xl"
           variant="outline"
           data-testid="backspace"
+          onClick={() => {
+            setValue(Number(("" + value).slice(0, -1)));
+          }}
         >
-          <BackSpaceIcon
-            variant="outline"
-            className="w-1/2 h-1/2"
-            onClick={() => {
-              setValue(Math.floor(value / 10));
-            }}
-          />
+          <BackSpaceIcon variant="outline" className="w-1/2 h-1/2" />
         </Button>
       </div>
     </div>

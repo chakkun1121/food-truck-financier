@@ -32,17 +32,17 @@ describe("KeyPad", () => {
 
     expect(inputElement).toHaveValue(12);
   });
-  // test("delete the last digit when backspace is clicked", () => {
-  //   render(<KeyPad />);
+  test("delete the last digit when backspace is clicked", () => {
+    render(<KeyPad />);
 
-  //   const inputElement = screen.getByPlaceholderText("金額を入力");
-  //   const buttonElement = screen.getByText("1");
-  //   fireEvent.click(buttonElement);
-  //   const buttonElement2 = screen.getByText("2");
-  //   fireEvent.click(buttonElement2);
-  //   const backspaceElement = screen.getByTestId("backspace");
-  //   fireEvent.click(backspaceElement);
+    const inputElement = screen.getByPlaceholderText("金額を入力");
+    const buttonElement = screen.getByText("1");
+    fireEvent.click(buttonElement);
+    const buttonElement2 = screen.getByText("2");
+    fireEvent.click(buttonElement2);
+    const backspaceElement = screen.getByTestId("backspace");
+    fireEvent.click(backspaceElement);
 
-  //   expect(inputElement).toHaveValue(1);
-  // });
+    expect(inputElement).toHaveValue(1);
+  });
 });
