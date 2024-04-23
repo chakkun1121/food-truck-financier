@@ -8,4 +8,11 @@ export type StallInfo = {
       price: number;
     };
   };
+  orders?: {
+    [key: UUID]: {
+      commodity: UUID;
+      count: number;
+      status: "pending" | "completed" | "cancelled";
+    };
+  };
 };
