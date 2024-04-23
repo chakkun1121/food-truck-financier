@@ -66,7 +66,7 @@ export default function RegisterPage() {
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel className="p-4 flex flex-col gap-4" defaultSize={25}>
+      <ResizablePanel className="p-4 space-y-4" defaultSize={25}>
         <div className="flex justify-between items-center">
           <h2 className="text-2xl">注文内容</h2>
           <Button
@@ -77,7 +77,7 @@ export default function RegisterPage() {
             <TrashIcon />
           </Button>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="space-y-2">
           {Object.entries(currentOrder)
             .filter(([_, value]) => value)
             .map(([key, value]) => (
@@ -128,10 +128,21 @@ export default function RegisterPage() {
           </DrawerTrigger>
           <DrawerContent className="h-full flex flex-col w-4/6 right-0 left-auto">
             <DrawerHeader className="flex-none">金額入力</DrawerHeader>
-            <div className="flex flex-1 p-4">
+            <div className="flex flex-1 p-4 gap-4">
               <div className="flex-1">
-                <p>点数:{}</p>
-                <h2>¥{sum}</h2>
+                <p className="flex justify-between text-xl">
+                  <span>点数:</span>
+                  <span>{}</span>
+                </p>
+                <p className="flex justify-between text-xl">
+                  <span>小計</span>
+                  <span>¥{sum}</span>
+                </p>
+                <br />
+                <p className="flex justify-between text-2xl">
+                  <span>合計</span>
+                  <span>¥{sum}(税込)</span>
+                </p>
               </div>
               <KeyPad className="flex-none" onChange={setReceivedMoney} />
             </div>
