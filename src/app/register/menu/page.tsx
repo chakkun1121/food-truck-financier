@@ -15,14 +15,13 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import AccessError from "@/components/accessError";
-import { cn } from "@/lib/utils";
 import KeyPad from "@/components/ui-element/keypad";
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -120,27 +119,27 @@ export default function RegisterPage() {
             <span className="text-xl">¥{sum}</span>
           </p>
         </div>
-        <Dialog>
-          <DialogTrigger
+        <Drawer direction="right">
+          <DrawerTrigger
             asChild
             disabled={Object.values(currentOrder).every(value => value === 0)}
           >
             <Button className="w-full">注文する</Button>
-          </DialogTrigger>
-          <DialogContent className="h-5/6 w-5/6 max-w-none flex flex-col">
-            <DialogHeader className="flex-none">金額入力</DialogHeader>
-            <div className="flex flex-1">
+          </DrawerTrigger>
+          <DrawerContent className="h-full flex flex-col w-4/6 right-0 left-auto">
+            <DrawerHeader className="flex-none">金額入力</DrawerHeader>
+            <div className="flex flex-1 p-4">
               <div className="flex-1">
                 <p>点数:{}</p>
                 <h2>¥{sum}</h2>
               </div>
               <KeyPad className="flex-none" onChange={setReceivedMoney} />
             </div>
-            <DialogFooter className="flex-none">
-              <Button disabled={sum>receivedMoney}>注文を確定する</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            <DrawerFooter className="flex-none">
+              <Button disabled={sum > receivedMoney}>注文を確定する</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
