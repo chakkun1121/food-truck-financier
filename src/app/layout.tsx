@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import firebase from "firebase/compat/app";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,8 +20,11 @@ export default function RootLayout({
     });
   }
   return (
-    <html lang="en">
-      <body className="select-none min-h-screen">{children}</body>
+    <html lang="ja">
+      <body className="select-none min-h-screen">
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

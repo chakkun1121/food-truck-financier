@@ -9,10 +9,10 @@ export type StallInfo = {
     };
   };
   orders?: {
-    [key: UUID]: {
-      commodity: UUID;
-      count: number;
-      status: "pending" | "completed" | "cancelled";
-    };
+    [key: UUID]: OrderType;
   };
+};
+export type OrderType = {
+  commodities: { [commodityId: UUID]: number };
+  status: "pending" | "completed" | "cancelled";
 };

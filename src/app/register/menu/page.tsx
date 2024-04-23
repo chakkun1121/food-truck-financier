@@ -2,7 +2,7 @@
 import Loading from "@/components/ui-element/loading";
 import { auth, db } from "@/firebase";
 import { UUID } from "crypto";
-import { ref } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { useState } from "react";
@@ -12,9 +12,10 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import AccessError from "@/components/accessError";
-import { StallInfo } from "@/types/stallInfo";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import Menu from "@/components/functional/register/menu/menu";
 import Order from "@/components/functional/register/menu/order";
+import { createUUID } from "@/lib/uuid";
 
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -26,10 +27,19 @@ export default function RegisterPage() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: UUID]: number;
   }>({});
-  const [receivedMoney, setReceivedMoney] = useState(0);
 
   if (loading || userInfoLoading || commoditiesLoading) return <Loading />;
   if (!user || !commodities) return <AccessError />;
+  async function handleOrder() {
+    if (!userInfo?.stallId) return;
+    const order: OrderType = {
+      commodities: currentOrder,
+      status: "pending",
+    };
+    const orderId = createUUID();
+    await set(ref(db, `stalls/${userInfo.stallId}/orders/${orderId}`), order);
+    setCurrentOrder({});
+  }
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel className="p-4">
@@ -45,8 +55,7 @@ export default function RegisterPage() {
           commodities={commodities}
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
-          receivedMoney={receivedMoney}
-          setReceivedMoney={setReceivedMoney}
+          handleOrder={handleOrder}
         />
       </ResizablePanel>
     </ResizablePanelGroup>

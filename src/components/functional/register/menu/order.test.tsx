@@ -1,24 +1,24 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Order from "./order";
+import { UUID } from "crypto";
+import { StallInfo } from "@/types/stallInfo";
 
-const mockStallInfo = {
+const mockStallInfo: StallInfo = {
   name: "テスト店",
   commodities: {
     "1": { name: "Item 1", price: 10 },
     "2": { name: "Item 2", price: 20 },
-  },
+  } as StallInfo["commodities"],
 };
 
 describe("Order", () => {
   test("should display the correct order items", () => {
-    const currentOrder = { "1": 2, "2": 1 };
+    const currentOrder = { "1": 2, "2": 1 } as { [key: UUID]: number };
     render(
       <Order
-        stallInfo={mockStallInfo}
+        commodities={mockStallInfo.commodities}
         currentOrder={currentOrder}
         setCurrentOrder={jest.fn()}
-        receivedMoney={0}
-        setReceivedMoney={jest.fn()}
       />
     );
 

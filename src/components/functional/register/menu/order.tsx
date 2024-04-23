@@ -4,22 +4,23 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import OrderDrawer from "./orderDrawer";
 import { StallInfo } from "@/types/stallInfo";
+import { useState } from "react";
 
 export default function Order({
   commodities,
   currentOrder,
   setCurrentOrder,
-  receivedMoney,
-  setReceivedMoney,
+  handleOrder,
 }: {
   commodities: StallInfo["commodities"];
   currentOrder: { [key: UUID]: number };
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: UUID]: number }>
   >;
-  receivedMoney: number;
-  setReceivedMoney(receivedMoney: number): void;
+  handleOrder: () => Promise<void>;
 }) {
+  const [receivedMoney, setReceivedMoney] = useState(0);
+
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
     const price = commodities?.[key as UUID]?.price || 0;
     return sum + price * value;
@@ -83,6 +84,7 @@ export default function Order({
         receivedMoney={receivedMoney}
         setReceivedMoney={setReceivedMoney}
         commodities={commodities}
+        handleOrder={handleOrder}
         trigger={<Button className="w-full">注文する</Button>}
       />
     </>
