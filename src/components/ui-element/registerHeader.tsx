@@ -9,17 +9,17 @@ export default function Header() {
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
     stallId?: string;
   }>(ref(db, `users/${user?.uid}`));
-  const [stallInfo, stallInfoLoading, stallInfoError] = useObjectVal<{
-    name?: string;
-  }>(ref(db, `stalls/${userInfo?.stallId}`));
+  const [stallName, stallInfoLoading, stallInfoError] = useObjectVal<string>(
+    ref(db, `stalls/${userInfo?.stallId}/name`)
+  );
   return (
     <header className="flex justify-between p-2 items-center">
       <h1 className="text-2xl">FoodTruck Financier</h1>
       <div>
         {loading || userInfoLoading || stallInfoLoading ? (
           <Loading className="text-start" />
-        ) : stallInfo ? (
-          <p>{stallInfo?.name}</p>
+        ) : stallName ? (
+          <p>{stallName}</p>
         ) : (
           <p>未所属</p>
         )}

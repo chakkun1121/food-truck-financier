@@ -3,11 +3,11 @@ import { UUID } from "crypto";
 import CommodityCard from "./commodityCard";
 
 export default function Menu({
-  stallInfo,
+  commodities,
   currentOrder,
   setCurrentOrder,
 }: {
-  stallInfo: StallInfo;
+  commodities: StallInfo["commodities"];
   currentOrder: { [key: UUID]: number };
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: UUID]: number }>
@@ -17,8 +17,8 @@ export default function Menu({
     <>
       <h2 className="text-2xl">メニュー</h2>
       <div className="flex flex-wrap gap-4">
-        {stallInfo?.commodities &&
-          Object.entries(stallInfo?.commodities).map(([key, value]) => (
+        {commodities &&
+          Object.entries(commodities).map(([key, value]) => (
             <CommodityCard
               key={key}
               commodity={value}

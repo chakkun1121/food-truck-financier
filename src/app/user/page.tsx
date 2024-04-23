@@ -17,9 +17,9 @@ export default function UserPage() {
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
     stallId?: string;
   }>(ref(db, `users/${user?.uid}`));
-  const [stallInfo, stallInfoLoading, stallInfoError] = useObjectVal<{
-    name?: string;
-  }>(ref(db, `stalls/${userInfo?.stallId}`));
+  const [stallName, stallInfoLoading, stallInfoError] = useObjectVal<string>(
+    ref(db, `stalls/${userInfo?.stallId}/name`)
+  );
 
   return (
     <>
@@ -33,7 +33,7 @@ export default function UserPage() {
             <p>メールアドレス: {user?.email}</p>
             <p>名前: {user?.displayName}</p>
             <h2 className="text-2xl">所属屋台情報</h2>
-            <p>屋台名: {stallInfo?.name}</p>
+            <p>屋台名: {stallName}</p>
           </>
         )}
       </main>

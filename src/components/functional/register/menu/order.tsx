@@ -6,13 +6,13 @@ import OrderDrawer from "./orderDrawer";
 import { StallInfo } from "@/types/stallInfo";
 
 export default function Order({
-  stallInfo,
+  commodities,
   currentOrder,
   setCurrentOrder,
   receivedMoney,
   setReceivedMoney,
 }: {
-  stallInfo: StallInfo;
+  commodities: StallInfo["commodities"];
   currentOrder: { [key: UUID]: number };
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: UUID]: number }>
@@ -21,7 +21,7 @@ export default function Order({
   setReceivedMoney(receivedMoney: number): void;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
-    const price = stallInfo?.commodities?.[key as UUID]?.price || 0;
+    const price = commodities?.[key as UUID]?.price || 0;
     return sum + price * value;
   }, 0);
   return (
@@ -45,7 +45,7 @@ export default function Order({
                 <div className="flex justify-between">
                   <p>
                     <span className="text-lg">
-                      {stallInfo?.commodities?.[key as UUID].name}
+                      {commodities?.[key as UUID].name}
                     </span>
                     <span className="opacity-70"> × {value}</span>
                   </p>
@@ -66,7 +66,7 @@ export default function Order({
                   </Button>
                 </div>
                 <p className="opacity-80 text-right">
-                  ¥{(stallInfo.commodities?.[key as UUID]?.price || 0) * value}
+                  ¥{(commodities?.[key as UUID]?.price || 0) * value}
                 </p>
               </CardContent>
             </Card>
@@ -82,7 +82,7 @@ export default function Order({
         currentOrder={currentOrder}
         receivedMoney={receivedMoney}
         setReceivedMoney={setReceivedMoney}
-        stallInfo={stallInfo}
+        commodities={commodities}
         trigger={<Button className="w-full">注文する</Button>}
       />
     </>

@@ -14,17 +14,17 @@ export default function OrderDrawer({
   currentOrder,
   receivedMoney,
   setReceivedMoney,
-  stallInfo,
+  commodities,
   trigger,
 }: {
   currentOrder: { [key: UUID]: number };
   receivedMoney: number;
   setReceivedMoney(receivedMoney: number): void;
-  stallInfo: StallInfo;
+  commodities: StallInfo["commodities"];
   trigger: React.ReactNode;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
-    const price = stallInfo?.commodities?.[key as UUID]?.price || 0;
+    const price = commodities?.[key as UUID]?.price || 0;
     return sum + price * value;
   }, 0);
   return (

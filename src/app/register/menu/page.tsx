@@ -21,21 +21,20 @@ export default function RegisterPage() {
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
     stallId?: string;
   }>(ref(db, `users/${user?.uid}`));
-  const [stallInfo, stallInfoLoading, stallInfoError] = useObjectVal<StallInfo>(
-    ref(db, `stalls/${userInfo?.stallId}`)
-  );
+  const [commodities, commoditiesLoading, commoditiesError] =
+    useObjectVal<StallInfo>(ref(db, `stalls/${userInfo?.stallId}/commodities`));
   const [currentOrder, setCurrentOrder] = useState<{
     [key: UUID]: number;
   }>({});
   const [receivedMoney, setReceivedMoney] = useState(0);
 
-  if (loading || userInfoLoading || stallInfoLoading) return <Loading />;
-  if (!user || !stallInfo) return <AccessError />;
+  if (loading || userInfoLoading || commoditiesLoading) return <Loading />;
+  if (!user || !commodities) return <AccessError />;
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel className="p-4">
         <Menu
-          stallInfo={stallInfo}
+          commodities={commodities}
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
         />
@@ -43,7 +42,7 @@ export default function RegisterPage() {
       <ResizableHandle />
       <ResizablePanel className="p-4 space-y-4" defaultSize={25}>
         <Order
-          stallInfo={stallInfo}
+          commodities={commodities}
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
           receivedMoney={receivedMoney}
