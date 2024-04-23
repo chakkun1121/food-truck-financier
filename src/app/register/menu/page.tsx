@@ -41,6 +41,7 @@ export default function RegisterPage() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: UUID]: number;
   }>({});
+  const [receivedMoney, setReceivedMoney] = useState(0);
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
     const price = stallInfo?.commodities?.[key as UUID]?.price || 0;
     return sum + price * value;
@@ -133,10 +134,10 @@ export default function RegisterPage() {
                 <p>点数:{}</p>
                 <h2>¥{sum}</h2>
               </div>
-              <KeyPad className="flex-none" />
+              <KeyPad className="flex-none" onChange={setReceivedMoney} />
             </div>
             <DialogFooter className="flex-none">
-              <Button>注文を確定する</Button>
+              <Button disabled={sum>receivedMoney}>注文を確定する</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
