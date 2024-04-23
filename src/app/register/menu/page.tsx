@@ -126,7 +126,7 @@ export default function RegisterPage() {
           >
             <Button className="w-full">注文する</Button>
           </DrawerTrigger>
-          <DrawerContent className="h-full flex flex-col w-4/6 right-0 left-auto">
+          <DrawerContent className="h-full flex flex-col max-w-4xl w-full right-0 left-auto">
             <DrawerHeader className="flex-none">金額入力</DrawerHeader>
             <div className="flex flex-1 p-4 gap-4">
               <div className="flex-1">
@@ -144,7 +144,7 @@ export default function RegisterPage() {
                   <span>¥{sum}(税込)</span>
                 </p>
               </div>
-              <KeyPad className="flex-none" onChange={setReceivedMoney} />
+              <KeyPad className="flex-none mx-16" onChange={setReceivedMoney} />
             </div>
             <DrawerFooter className="flex-none">
               <Button disabled={sum > receivedMoney}>注文を確定する</Button>
