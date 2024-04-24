@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { CommodityType } from "@/types/stallInfo";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 
 export default function CommodityCard({
@@ -7,19 +9,24 @@ export default function CommodityCard({
   count,
   setCount,
 }: {
-  commodity: {
-    name: string;
-    price: number;
-  };
+  commodity: CommodityType;
   count: number;
   setCount(count: number): void;
 }) {
   return (
     <Card className="max-w-xs w-full">
-      <CardContent className="p-0 flex justify-between">
-        <div className="flex-1 p-6" onClick={() => setCount(count + 1)}>
-          <h3 className="text-xl">{commodity.name}</h3>
-          <p className="ml-1">¥{commodity.price}</p>
+      <CardContent
+        className={cn("p-0 flex justify-between", !commodity.stock && "")}
+      >
+        <div
+          className="flex-1 p-6"
+          onClick={() => commodity?.stock - count && setCount(count + 1)}
+        >
+          <h3 className="text-xl">{commodity?.name}</h3>
+          <div className="flex justify-between items-center mt-2">
+            <p className="ml-1">¥{commodity?.price}</p>
+            <p>在庫:{commodity.stock}</p>
+          </div>
         </div>
         <div className="flex items-center gap-2 flex-none py-6 pr-6">
           <Button
@@ -42,6 +49,7 @@ export default function CommodityCard({
             size="icon"
             onClick={() => setCount(count + 1)}
             aria-label="Plus"
+            disabled={count >= commodity?.stock}
           >
             <PlusIcon />
           </Button>
