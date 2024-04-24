@@ -17,7 +17,7 @@ export default function Order({
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: UUID]: number }>
   >;
-  handleOrder: () => Promise<void>;
+  handleOrder: (receivedAmount: number) => Promise<void>;
 }) {
   const [receivedMoney, setReceivedMoney] = useState(0);
 
@@ -84,7 +84,7 @@ export default function Order({
         receivedMoney={receivedMoney}
         setReceivedMoney={setReceivedMoney}
         commodities={commodities}
-        handleOrder={handleOrder}
+        handleOrder={() => handleOrder(receivedMoney)}
         trigger={<Button className="w-full">注文する</Button>}
       />
     </>

@@ -30,10 +30,11 @@ export default function RegisterPage() {
 
   if (loading || userInfoLoading || commoditiesLoading) return <Loading />;
   if (!user || !commodities) return <AccessError />;
-  async function handleOrder() {
+  async function handleOrder(receivedAmount: number) {
     if (!userInfo?.stallId) return;
     const order: OrderType = {
       commodities: currentOrder,
+      receivedAmount,
       status: "pending",
     };
     const orderId = createUUID();

@@ -14,5 +14,6 @@ export type StallInfo = {
 };
 export type OrderType = {
   commodities: { [commodityId: UUID]: number };
+  receivedAmount: number; //受け取った金額
   status: "pending" | "completed" | "cancelled";
 };
