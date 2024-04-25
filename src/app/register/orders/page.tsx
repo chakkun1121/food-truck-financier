@@ -72,6 +72,7 @@ export default function OrdersPage() {
       </div>
       <div className="p-4 max-w-7xl mx-auto space-y-4">
         {Object.entries(orders)
+          .reverse()
           // @ts-ignore
           .filter(([_, o]: [_: any, o: OrderType]) => {
             if (orderStatus == "all") return true;

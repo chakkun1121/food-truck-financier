@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
+import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 
 export default function OrderCard({
   order,
@@ -20,6 +21,7 @@ export default function OrderCard({
   commodities: StallInfo["commodities"];
   setOrderState: (state: OrderType["status"]) => void;
 }) {
+  const timestamp = UUIDv7GetTimestamp(order.id);
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between p-4">
@@ -38,24 +40,38 @@ export default function OrderCard({
             </Button>
           )}
         </div>
-        {order.status == "pending" && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild aria-label="More options">
-              <Button variant="outline">
-                <DotsVerticalIcon />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => {
-                  setOrderState("completed");
-                }}
-              >
-                キャンセル
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+        <div className="flex items-center gap-4">
+          <p className="opacity-80">
+            {timestamp.toDateString() !== new Date().toDateString() &&
+              [
+                ("00" + (timestamp.getMonth() + 1)).slice(-2),
+                ("00" + timestamp.getDate()).slice(-2),
+              ].join("/")}
+            {[
+              ("00" + timestamp.getHours()).slice(-2),
+              ("00" + timestamp.getMinutes()).slice(-2),
+              ("00" + timestamp.getSeconds()).slice(-2),
+            ].join(":")}
+          </p>
+          {order.status == "pending" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild aria-label="More options">
+                <Button variant="outline">
+                  <DotsVerticalIcon />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  onClick={() => {
+                    setOrderState("completed");
+                  }}
+                >
+                  キャンセル
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="p-4 pt-0">
         <div>
