@@ -31,7 +31,7 @@ import { useObjectVal } from "react-firebase-hooks/database";
 export default function OrdersPage() {
   const [user, loading, error] = useAuthState(auth);
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
-    stallId?: UUID;
+    stallId?: string;
   }>(ref(db, `users/${user?.uid}`));
   const [commodities, commoditiesLoading, commoditiesError] = useObjectVal<
     StallInfo["commodities"]
