@@ -1,16 +1,17 @@
 "use client";
 
 import AccessError from "@/components/accessError";
+import EditStockDialog from "@/components/functional/register/stock/editStockDialog";
 import Loading from "@/components/ui-element/loading";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { DataTableColumnHeader } from "@/components/ui/data-table/columnHeader";
 import { auth, db } from "@/firebase";
 import { cn } from "@/lib/utils";
 import { CommodityType, StallInfo } from "@/types/stallInfo";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { UUID } from "crypto";
-import { ref } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 
@@ -58,6 +59,24 @@ export default function StockPage() {
             {row.getValue("stock")}
           </span>
         </p>
+      ),
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <EditStockDialog
+          trigger={<Button>編集</Button>}
+          stock={row.getValue("stock")}
+          setStock={async stock => {
+            await set(
+              ref(
+                db,
+                `stalls/${userInfo?.stallId}/commodities/${row.original.id}/stock`
+              ),
+              stock
+            );
+          }}
+        />
       ),
     },
   ];
