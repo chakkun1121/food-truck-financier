@@ -1,5 +1,4 @@
 import { StallInfo } from "@/types/stallInfo";
-import { UUID } from "crypto";
 import CommodityCard from "./commodityCard";
 
 export default function Menu({
@@ -8,9 +7,9 @@ export default function Menu({
   setCurrentOrder,
 }: {
   commodities: StallInfo["commodities"];
-  currentOrder: { [key: UUID]: number };
+  currentOrder: { [key: string]: number };
   setCurrentOrder: React.Dispatch<
-    React.SetStateAction<{ [key: UUID]: number }>
+    React.SetStateAction<{ [key: string]: number }>
   >;
 }) {
   return (
@@ -22,7 +21,7 @@ export default function Menu({
             <CommodityCard
               key={key}
               commodity={value}
-              count={currentOrder[key as UUID] || 0}
+              count={currentOrder[key] || 0}
               setCount={c => {
                 setCurrentOrder(o => ({ ...o, [key]: c }));
               }}

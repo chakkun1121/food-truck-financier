@@ -26,7 +26,7 @@ export default function RegisterPage() {
     StallInfo["commodities"]
   >(ref(db, `stalls/${userInfo?.stallId}/commodities`));
   const [currentOrder, setCurrentOrder] = useState<{
-    [key: UUID]: number;
+    [key: string]: number;
   }>({});
 
   if (loading || userInfoLoading || commoditiesLoading) return <Loading />;

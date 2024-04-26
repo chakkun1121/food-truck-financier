@@ -10,7 +10,6 @@ import { auth, db } from "@/firebase";
 import { cn } from "@/lib/utils";
 import { CommodityType, StallInfo } from "@/types/stallInfo";
 import { ColumnDef } from "@tanstack/react-table";
-import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
@@ -24,7 +23,7 @@ export default function StockPage() {
     StallInfo["commodities"]
   >(ref(db, `stalls/${userInfo?.stallId}/commodities`));
   const columns: ColumnDef<{
-    id: UUID;
+    id: string;
     name: string;
     price: number;
     stock: number;
@@ -82,7 +81,7 @@ export default function StockPage() {
   ];
   const data = Object.entries(commodities || {}).map(
     // @ts-ignore
-    ([id, commodity]: [id: UUID, commodity: CommodityType]) => ({
+    ([id, commodity]: [id: string, commodity: CommodityType]) => ({
       id,
       name: commodity.name,
       price: commodity.price,
