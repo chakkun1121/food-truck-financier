@@ -3,7 +3,7 @@ import { UUID } from "crypto";
 export type StallInfo = {
   name: string;
   commodities?: {
-    [key: UUID]: CommodityType;
+    [key: string]: CommodityType;
   };
   orders?: {
     [key: UUID]: OrderType;
