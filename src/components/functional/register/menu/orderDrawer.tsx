@@ -7,7 +7,7 @@ import {
   DrawerHeader,
   DrawerFooter,
 } from "@/components/ui/drawer";
-import { StallInfo } from "@/types/stallInfo";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,7 +25,7 @@ export default function OrderDrawer({
   setReceivedMoney(receivedMoney: number): void;
   commodities: StallInfo["commodities"];
   trigger: React.ReactNode;
-  handleOrder: () => Promise<void>;
+  handleOrder: () => Promise<OrderType>;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
     const price = commodities?.[key as UUID]?.price || 0;
@@ -70,9 +70,10 @@ export default function OrderDrawer({
                 disabled={sum > receivedMoney}
                 onClick={async () => {
                   setOrdering(true);
-                  await handleOrder();
+                  const order = await handleOrder();
                   setOrdering(false);
-                  toast("注文を送信しました");
+                  toast(`注文を送信しました。注文番号:${order.ticket}`);
+
                   setOpen(false);
                 }}
               >

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import OrderDrawer from "./orderDrawer";
-import { StallInfo } from "@/types/stallInfo";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import { useState } from "react";
 
 export default function Order({
@@ -17,7 +17,7 @@ export default function Order({
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: UUID]: number }>
   >;
-  handleOrder: (receivedAmount: number) => Promise<void>;
+  handleOrder: (receivedAmount: number) => Promise<OrderType>;
 }) {
   const [receivedMoney, setReceivedMoney] = useState(0);
 
