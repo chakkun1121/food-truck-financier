@@ -80,10 +80,10 @@ export default function OrdersPage() {
           })
           .map(
             // @ts-ignore // なぜかidがstringとなるため踏み倒す
-            ([id, order]: [id: UUID, order: OrderType], index) => (
+            ([id, order]: [id: UUID, order: OrderType]) => (
               <OrderCard
                 key={id}
-                order={{ ...order, id, index }}
+                order={{ ...order, id }}
                 commodities={commodities}
                 setOrderState={(status: OrderType["status"]) => {
                   set(
