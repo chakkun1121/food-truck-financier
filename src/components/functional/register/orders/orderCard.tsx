@@ -17,7 +17,7 @@ export default function OrderCard({
   commodities,
   setOrderState,
 }: {
-  order: OrderType & { id: UUID; index: number };
+  order: OrderType & { id: UUID };
   commodities: StallInfo["commodities"];
   setOrderState: (state: OrderType["status"]) => void;
 }) {
@@ -26,7 +26,7 @@ export default function OrderCard({
     <Card>
       <CardHeader className="flex flex-row items-center justify-between p-4">
         <div className="flex gap-4 items-center">
-          <CardTitle>{order.index}</CardTitle>
+          <CardTitle>{order.ticket}</CardTitle>
           <Badge variant="outline">{order.status}</Badge>
           {order.status == "pending" && (
             <Button

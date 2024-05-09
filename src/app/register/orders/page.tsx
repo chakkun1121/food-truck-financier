@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/select";
 import { auth, db } from "@/firebase";
 import { OrderType, StallInfo } from "@/types/stallInfo";
-import { CheckIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
 import { useState } from "react";
@@ -33,6 +32,7 @@ export default function OrdersPage() {
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
     stallId?: string;
   }>(ref(db, `users/${user?.uid}`));
+
   const [commodities, commoditiesLoading, commoditiesError] = useObjectVal<
     StallInfo["commodities"]
   >(ref(db, `stalls/${userInfo?.stallId}/commodities`));
@@ -80,10 +80,10 @@ export default function OrdersPage() {
           })
           .map(
             // @ts-ignore // なぜかidがstringとなるため踏み倒す
-            ([id, order]: [id: UUID, order: OrderType], index) => (
+            ([id, order]: [id: UUID, order: OrderType]) => (
               <OrderCard
                 key={id}
-                order={{ ...order, id, index }}
+                order={{ ...order, id }}
                 commodities={commodities}
                 setOrderState={(status: OrderType["status"]) => {
                   set(
