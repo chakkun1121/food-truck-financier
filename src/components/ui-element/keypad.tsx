@@ -19,7 +19,12 @@ export default function KeyPad({
   }, [onChange, value]);
   return (
     <div className={cn("space-y-4", className)}>
-      <form onSubmit={() => onSubmit?.(value)}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          onSubmit?.(value);
+        }}
+      >
         <Input
           className="text-center text-3xl"
           onChange={e => setValue(Number(e.target.value))}

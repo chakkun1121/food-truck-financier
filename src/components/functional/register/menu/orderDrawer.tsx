@@ -84,7 +84,7 @@ export default function OrderDrawer({
               <KeyPad
                 className="flex-none mx-16"
                 onChange={setReceivedMoney}
-                onSubmit={order}
+                onSubmit={() => sum <= receivedMoney && order()}
               />
             </div>
             <DrawerFooter className="flex-none">
@@ -94,7 +94,7 @@ export default function OrderDrawer({
             </DrawerFooter>
           </>
         )}
-        {mode === "ordering" && <p className="text-center">注文を送信中</p>}
+        {mode === "ordering" && <p className="text-center p-4">注文を送信中</p>}
         {mode === "finished" && (
           <>
             <div className="flex-1 p-4 ">
