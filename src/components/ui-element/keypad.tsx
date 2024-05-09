@@ -7,9 +7,11 @@ import BackSpaceIcon from "../icons/backspace";
 export default function KeyPad({
   onChange,
   className,
+  onSubmit,
 }: {
   onChange?: (newValue: number) => void;
   className?: string;
+  onSubmit?: (v: number) => void;
 }) {
   const [value, setValue] = useState(0);
   useEffect(() => {
@@ -17,14 +19,16 @@ export default function KeyPad({
   }, [onChange, value]);
   return (
     <div className={cn("space-y-4", className)}>
-      <Input
-        className="text-center text-3xl"
-        onChange={e => setValue(Number(e.target.value))}
-        value={value}
-        type="number"
-        autoFocus
-        placeholder="金額を入力"
-      />
+      <form onSubmit={() => onSubmit?.(value)}>
+        <Input
+          className="text-center text-3xl"
+          onChange={e => setValue(Number(e.target.value))}
+          value={value}
+          type="number"
+          autoFocus
+          placeholder="金額を入力"
+        />
+      </form>
       <div className="grid grid-rows-4 grid-cols-3 gap-4 justify-items-center">
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0"].map(v => (
           <Button
