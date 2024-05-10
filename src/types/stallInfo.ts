@@ -18,6 +18,13 @@ export type CommodityType = {
 export type OrderType = {
   commodities: { [commodityId: UUID]: number };
   receivedAmount: number; //受け取った金額
-  status: "pending" | "completed" | "cancelled";
+  /**
+   * status
+   * pending: 裏で準備中
+   * ready: 受取準備完了
+   * completed: 受け取り完了
+   * cancelled: キャンセル
+   */
+  status: "pending" | "ready" | "completed" | "cancelled";
   ticket: string;
 };

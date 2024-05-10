@@ -3,15 +3,6 @@
 import AccessError from "@/components/accessError";
 import OrderCard from "@/components/functional/register/orders/orderCard";
 import Loading from "@/components/ui-element/loading";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -40,7 +31,7 @@ export default function OrdersPage() {
     [key: UUID]: OrderType;
   }>(ref(db, `stalls/${userInfo?.stallId}/orders`));
   const [orderStatus, setOrderStatus] = useState<
-    "all" | "pending" | "completed" | "cancelled"
+    "all" | "pending" | "ready" | "completed" | "cancelled"
   >("pending");
   if (
     loading ||
@@ -65,6 +56,7 @@ export default function OrdersPage() {
           <SelectContent>
             <SelectItem value="all">すべて</SelectItem>
             <SelectItem value="pending">未完了</SelectItem>
+            <SelectItem value="ready">準備完了(未受取)</SelectItem>
             <SelectItem value="completed">完了</SelectItem>
             <SelectItem value="cancelled">キャンセル</SelectItem>
           </SelectContent>

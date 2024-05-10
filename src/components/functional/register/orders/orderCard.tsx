@@ -26,15 +26,18 @@ export default function OrderCard({
     <Card>
       <CardHeader className="flex flex-row items-center justify-between p-4">
         <div className="flex gap-4 items-center">
-          <CardTitle>{order.ticket}</CardTitle>
+          <CardTitle className="text-xl">{order.ticket}</CardTitle>
           <Badge variant="outline">{order.status}</Badge>
-          {order.status == "pending" && (
+          {(order.status == "pending" || order.status == "ready") && (
             <Button
               onClick={() => {
-                setOrderState("completed");
+                setOrderState(
+                  order.status == "pending" ? "ready" : "completed"
+                );
               }}
-              aria-label="complete"
-              variant="outline"
+              aria-label={`make as ${
+                order.status == "pending" ? "ready" : "completed"
+              }`}
             >
               <CheckIcon />
             </Button>
@@ -53,10 +56,10 @@ export default function OrderCard({
               ("00" + timestamp.getSeconds()).slice(-2),
             ].join(":")}
           </p>
-          {order.status == "pending" && (
+          {(order.status == "pending" || order.status == "ready") && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild aria-label="More options">
-                <Button variant="outline">
+                <Button variant="ghost">
                   <DotsVerticalIcon />
                 </Button>
               </DropdownMenuTrigger>
