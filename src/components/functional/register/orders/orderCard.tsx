@@ -40,6 +40,7 @@ export default function OrderCard({
               }`}
             >
               <CheckIcon />
+              {order.status == "pending" ? "準備完了" : "受取完了"}
             </Button>
           )}
         </div>

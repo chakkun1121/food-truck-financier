@@ -24,32 +24,34 @@ export default function ReceivePage() {
   function setOrderState(id: string, status: OrderType["status"]) {
     set(ref(db, `stalls/${userInfo?.stallId}/orders/${id}/status`), status);
   }
+  const receive = Object.entries(orders)
+    .reverse()
+    .filter(
+      // @ts-ignore
+      ([_, o]: [_: any, o: OrderType]) => o.status == "ready"
+    ) as unknown as [UUID, OrderType][];
   return (
     <>
       <h2 className="text-2xl"></h2>
       <section className="grid gap-4 p-4">
-        {Object.entries(orders)
-          .reverse()
-          // @ts-ignore
-          .filter(([_, o]: [_: any, o: OrderType]) => o.status == "ready")
-          .map(
-            // @ts-ignore // なぜかidがstringとなるため踏み倒す
-            ([id, order]: [id: UUID, order: OrderType]) => (
-              <button
-                className="max-w-52"
-                key={id}
-                onClick={() => setOrderState(id, "completed")}
-              >
-                <Card>
-                  <CardContent className="p-6">
-                    <p className="text-3xl font-bold text-center">
-                      {order.ticket}
-                    </p>
-                  </CardContent>
-                </Card>
-              </button>
-            )
-          )}
+        {receive.map(([id, order]) => (
+          <button
+            className="max-w-52"
+            key={id}
+            onClick={() => setOrderState(id, "completed")}
+          >
+            <Card>
+              <CardContent className="p-6">
+                <p className="text-3xl font-bold text-center">{order.ticket}</p>
+              </CardContent>
+            </Card>
+          </button>
+        ))}
+        {!receive.length && (
+          <p className="text-center text-2xl">
+            受取準備が整った商品はありません
+          </p>
+        )}
       </section>
     </>
   );
