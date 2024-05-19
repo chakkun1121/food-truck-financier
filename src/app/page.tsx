@@ -22,6 +22,9 @@ export default function Home() {
               <Link href="/register/orders">注文情報</Link>
             </li>
             <li>
+              <Link href="/register/receive">受取管理</Link>
+            </li>
+            <li>
               <Link href="/register/stock">在庫管理</Link>
             </li>
           </ul>
