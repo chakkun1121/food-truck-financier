@@ -35,12 +35,15 @@ export default function OrderDrawer({
   }, 0);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"input" | "ordering" | "finished">("input");
-  const [ticketId, setTicketId] = useState<string | undefined>();
+  const [lastOrderInfo, setLastOrderInfo] = useState<
+    { ticketId: string; sum: number } | undefined
+  >();
   async function order() {
     setMode("ordering");
+    const lastSum = sum;
     const order = await handleOrder();
     setMode("finished");
-    setTicketId(order.ticket);
+    setLastOrderInfo({ ticketId: order.ticket, sum: lastSum });
   }
   return (
     <Drawer
@@ -50,7 +53,7 @@ export default function OrderDrawer({
         if (!o) {
           setMode("input");
           setReceivedMoney(0);
-          setTicketId(undefined);
+          setLastOrderInfo(undefined);
         }
       }}
       open={open}
@@ -101,7 +104,16 @@ export default function OrderDrawer({
               <DrawerHeader>注文完了</DrawerHeader>
               <CheckCircledIcon className="mx-auto text-primary h-48 w-48" />
               <h2 className="text-center text-2xl">
-                整理券:<span className="font-bold text-3xl">{ticketId}</span>
+                整理券:
+                <span className="font-bold text-3xl">
+                  {lastOrderInfo?.ticketId}
+                </span>
+              </h2>
+              <h2 className="text-center text-2xl">
+                お釣り:
+                <span className="font-bold text-3xl">
+                  ¥{receivedMoney - (lastOrderInfo?.sum ?? 0)}
+                </span>
               </h2>
             </div>
             <DrawerFooter className="flex-none p-4">
