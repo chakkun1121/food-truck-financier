@@ -1,4 +1,4 @@
-import Header from "@/components/ui-element/registerHeader";
+import Header from "@/components/ui-element/header";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {

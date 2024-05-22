@@ -8,6 +8,9 @@ export const metadata: Metadata = {
     default: "FoodTruck Financier",
     template: "%s | FoodTruck Financier",
   },
+  robots: {
+    index: false,
+  },
 };
 
 export default function RootLayout({

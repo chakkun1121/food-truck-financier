@@ -15,8 +15,12 @@ export default function Header() {
   );
   const router = useRouter();
   return (
-    <header className="flex justify-between p-2 items-center">
-      <h1 className="text-2xl" onDoubleClick={() => router.push("/")} title="ダブルクリックでトップへ移動">
+    <header className="top-0 inset-x-0 flex justify-between p-2 items-center fixed h-12 w-full bg-opacity-50 bg-background z-50">
+      <h1
+        className="text-2xl"
+        onDoubleClick={() => router.push("/")}
+        title="ダブルクリックでトップへ移動"
+      >
         FoodTruck Financier
       </h1>
       <div>

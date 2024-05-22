@@ -82,12 +82,12 @@ export default function OrdersPage() {
     <>
       <div className="flex justify-between p-4">
         <h2>注文情報</h2>
-        <div className="flex">
+        <div className="flex fixed right-0">
           <Select
             value={orderStatus}
             onValueChange={(v: any) => setOrderStatus(v)}
           >
-            <SelectTrigger className="w-24">
+            <SelectTrigger className="w-36 bg-background">
               <SelectValue placeholder="絞り込み" />
             </SelectTrigger>
             <SelectContent>
