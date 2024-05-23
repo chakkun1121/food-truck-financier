@@ -41,7 +41,7 @@ export default function Order({
         {Object.entries(currentOrder)
           .filter(([_, value]) => value)
           .map(([key, value]) => (
-            <Card key={key}>
+            <Card key={key} className="animate-in slide-in-from-right-full">
               <CardContent className="p-2 ">
                 <div className="flex justify-between">
                   <p>
