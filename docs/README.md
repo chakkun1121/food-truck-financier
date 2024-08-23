@@ -2,6 +2,10 @@
 
 このアプリは屋台の総合会計アプリです。レジ打ち、注文管理、在庫管理、売上管理などができます。
 
+[デモ](https://food-truck-financier-demo.vercel.app/)
+
+Basic 認証のアカウント名、パスワードは`test`です。デモ用のアカウントが必要な場合はお問い合わせください
+
 ## スクリーンショット
 
 ![レジ画面](/src/public/register/menu/1.png)
