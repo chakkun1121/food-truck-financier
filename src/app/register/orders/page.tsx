@@ -52,9 +52,7 @@ export default function OrdersPage() {
         .map(([id, order]: [id: UUID, order: OrderType]) =>
           [
             order.ticket,
-            Object.values(order.commodities).reduce(
-              (prev, current) => prev + current
-            ),
+         
             new Date(UUIDv7GetTimestamp(id)).toLocaleString(),
             "",
             order.status,
@@ -85,8 +83,7 @@ export default function OrdersPage() {
         <div className="flex fixed right-0">
           <Select
             value={orderStatus}
-            onValueChange={(v: any) => setOrderStatus(v)}
-          >
+            onValueChange={(v: any) => setOrderStatus(v)}>
             <SelectTrigger className="w-36 bg-background">
               <SelectValue placeholder="絞り込み" />
             </SelectTrigger>

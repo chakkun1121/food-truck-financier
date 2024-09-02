@@ -37,8 +37,7 @@ export default function OrderCard({
               }}
               aria-label={`make as ${
                 order.status == "pending" ? "ready" : "completed"
-              }`}
-            >
+              }`}>
               <CheckIcon />
               {order.status == "pending" ? "準備完了" : "受取完了"}
             </Button>
@@ -68,8 +67,7 @@ export default function OrderCard({
                 <DropdownMenuItem
                   onClick={() => {
                     setOrderState("completed");
-                  }}
-                >
+                  }}>
                   キャンセル
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -84,8 +82,7 @@ export default function OrderCard({
             ([commodityId, amount]: [commodityId: UUID, amount: number]) => (
               <div
                 key={commodityId}
-                className="flex justify-between items-center"
-              >
+                className="flex justify-between items-center">
                 <span>{commodities?.[commodityId]?.name}</span>
                 <span className="text-lg">{amount}</span>
               </div>
@@ -101,7 +98,15 @@ export default function OrderCard({
             )}
             点
           </p>
-          <p className="text-lg">{order.receivedAmount}円</p>
+          <p className="text-lg">
+            {
+              (Object.keys(order.commodities).reduce(
+                (prev, current) => prev + commodities?.[current].price
+              ),
+              0)
+            }
+            円
+          </p>
         </div>
       </CardContent>
     </Card>
