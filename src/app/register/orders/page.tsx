@@ -27,6 +27,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { convertCsv } from "./convertCsv";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
+import { useError } from "@/hooks/useError";
 
 export default function OrdersPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -68,6 +69,7 @@ export default function OrdersPage() {
     a.click();
     URL.revokeObjectURL(url);
   }
+  useError(error, userInfoError, commoditiesError, ordersError);
   if (
     loading ||
     userInfoLoading ||
