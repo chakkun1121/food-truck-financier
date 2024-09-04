@@ -46,7 +46,7 @@ export default function RegisterPage() {
       // userNumberが存在しない場合、メールアドレスの@の前の1文字を使用する
       ticket: `${prefix}-${
         userInfo.userNumber ?? user?.email?.split("@")[0].slice(-1)
-      }${("000" + (userInfo?.lastTicket ?? 0 + 1)).slice(-3)}`,
+      }${("000" + ((userInfo?.lastTicket ?? 0) + 1)).slice(-3)}`,
     };
     console.log(order);
     const orderId = createUUID();
