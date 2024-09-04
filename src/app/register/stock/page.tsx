@@ -14,6 +14,7 @@ import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import AddCommodityDialog from "./addCommodityDialog";
+import { useError } from "@/hooks/useError";
 
 export default function StockPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -23,6 +24,7 @@ export default function StockPage() {
   const [commodities, commoditiesLoading, commoditiesError] = useObjectVal<
     StallInfo["commodities"]
   >(ref(db, `stalls/${userInfo?.stallId}/commodities`));
+  useError(error, userInfoError, commoditiesError);
   const columns: ColumnDef<{
     id: string;
     name: string;
@@ -54,8 +56,7 @@ export default function StockPage() {
           <span
             className={cn(
               Number(row.getValue("stock")) <= 10 && "text-red-600 text-lg"
-            )}
-          >
+            )}>
             {row.getValue("stock")}
           </span>
         </p>

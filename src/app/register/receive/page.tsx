@@ -4,6 +4,7 @@ import AccessError from "@/components/accessError";
 import Loading from "@/components/ui-element/loading";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth, db } from "@/firebase";
+import { useError } from "@/hooks/useError";
 import { OrderType } from "@/types/stallInfo";
 import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
@@ -18,6 +19,7 @@ export default function ReceivePage() {
   const [orders, ordersLoading, ordersError] = useObjectVal<{
     [key: UUID]: OrderType;
   }>(ref(db, `stalls/${userInfo?.stallId}/orders`));
+  useError(error, userInfoError, ordersError);
   if (loading || userInfoLoading || ordersLoading || !orders)
     return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
@@ -38,8 +40,7 @@ export default function ReceivePage() {
           <button
             className="max-w-52"
             key={id}
-            onClick={() => setOrderState(id, "completed")}
-          >
+            onClick={() => setOrderState(id, "completed")}>
             <Card>
               <CardContent className="p-8">
                 <p className="text-4xl font-bold text-center">{order.ticket}</p>

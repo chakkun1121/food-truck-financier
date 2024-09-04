@@ -26,6 +26,7 @@ import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { convertCsv } from "./convertCsv";
+import { useError } from "@/hooks/useError";
 
 export default function OrdersPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -42,7 +43,7 @@ export default function OrdersPage() {
   const [orderStatus, setOrderStatus] = useState<
     "all" | "pending" | "ready" | "completed" | "cancelled"
   >("pending");
-
+  useError(error, userInfoError, commoditiesError, ordersError);
   if (
     loading ||
     userInfoLoading ||

@@ -15,6 +15,7 @@ import { OrderType, StallInfo } from "@/types/stallInfo";
 import Menu from "@/components/functional/register/menu/menu";
 import Order from "@/components/functional/register/menu/order";
 import { createUUID } from "@/lib/uuid";
+import { useError } from "@/hooks/useError";
 
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -32,7 +33,7 @@ export default function RegisterPage() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: string]: number;
   }>({});
-
+  useError(error, userInfoError, commoditiesError);
   if (loading || userInfoLoading || commoditiesLoading || prefixLoading)
     return <Loading />;
   if (!user || !commodities) return <AccessError />;
