@@ -17,22 +17,33 @@ export default function KeyPad({
   useEffect(() => {
     onChange?.(value);
   }, [onChange, value]);
+  useEffect(() => {
+    function onKeydown(e: KeyboardEvent) {
+      switch (e.key) {  
+        case "Backspace":
+          setValue(Number(("" + value).slice(0, -1)));
+          break;
+        case "Enter":
+          onSubmit?.(value);
+          break;
+        default:
+          const v = Number(e.key);
+          if (!isNaN(v)) {
+            setValue(Number("" + value + v));
+          }
+      }
+    }
+    window.addEventListener("keydown", onKeydown);
+    return () => window.removeEventListener("keydown", onKeydown);  
+  }, [onSubmit, value]);
   return (
     <div className={cn("space-y-4", className)}>
       <form
         onSubmit={e => {
           e.preventDefault();
           onSubmit?.(value);
-        }}
-      >
-        <Input
-          className="text-center text-3xl"
-          onChange={e => setValue(Number(e.target.value))}
-          value={value}
-          type="number"
-          autoFocus
-          placeholder="金額を入力"
-        />
+        }}>
+        <div className="text-center text-3xl border rounded">{value}</div>
       </form>
       <div className="grid grid-rows-4 grid-cols-3 gap-4 justify-items-center">
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0"].map(v => (
@@ -42,8 +53,7 @@ export default function KeyPad({
             variant="outline"
             onClick={() => {
               setValue(Number("" + value + v));
-            }}
-          >
+            }}>
             {v}
           </Button>
         ))}
@@ -53,8 +63,7 @@ export default function KeyPad({
           data-testid="backspace"
           onClick={() => {
             setValue(Number(("" + value).slice(0, -1)));
-          }}
-        >
+          }}>
           <BackSpaceIcon variant="outline" className="w-1/2 h-1/2" />
         </Button>
       </div>
