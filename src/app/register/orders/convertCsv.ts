@@ -2,6 +2,7 @@
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 import { StallInfo, OrderType } from "@/types/stallInfo";
 import { UUID } from "crypto";
+import { totalAmount } from "../../../lib/totalAmount";
 
 export function convertCsv(
   commodities: StallInfo["commodities"],
@@ -16,14 +17,7 @@ export function convertCsv(
       .map(([id, order]: [id: UUID, order: OrderType]) =>
         [
           order.ticket,
-          Object.entries(order.commodities)
-            .reduce(
-              (acc, [commodityId, quantity]) =>
-                acc + commodities?.[commodityId].price! * quantity,
-              0
-            )
-            .toString(),
-
+          totalAmount(commodities, order).toString(),
           new Date(UUIDv7GetTimestamp(id)).toLocaleString(),
           "",
           order.status,
