@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className="h-screen pt-12">{children}</main>
+      <main className="h-screen pt-12 p-4">{children}</main>
     </>
   );
 }
