@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import firebase from "firebase/compat/app";
 import { Toaster } from "@/components/ui/sonner";
+import { Noto_Sans_JP } from "next/font/google";
+import { cn } from "@/lib/utils";
+const noto = Noto_Sans_JP({
+  weight: ["400", "700"],
+  style: "normal",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +33,7 @@ export default function RootLayout({
   }
   return (
     <html lang="ja">
-      <body className="select-none min-h-screen">
+      <body className={cn("select-none min-h-screen", noto.className)}>
         {children}
         <Toaster />
       </body>
