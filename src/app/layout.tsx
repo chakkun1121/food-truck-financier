@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import firebase from "firebase/compat/app";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   robots: {
     index: false,
   },
+};
+export const viewport: Viewport = {
+  themeColor: "#ff9933",
 };
 
 export default function RootLayout({
