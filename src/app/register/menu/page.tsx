@@ -15,6 +15,7 @@ import { OrderType, StallInfo } from "@/types/stallInfo";
 import Menu from "@/components/functional/register/menu/menu";
 import Order from "@/components/functional/register/menu/order";
 import { createUUID } from "@/lib/uuid";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import { useError } from "@/hooks/useError";
 
 export default function RegisterPage() {
@@ -33,6 +34,7 @@ export default function RegisterPage() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: string]: number;
   }>({});
+  const [width] = useWindowSize();
   useError(error, userInfoError, commoditiesError);
   if (loading || userInfoLoading || commoditiesLoading || prefixLoading)
     return <Loading />;
@@ -71,7 +73,7 @@ export default function RegisterPage() {
     return order;
   }
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
       <ResizablePanel className="p-4">
         <Menu
           commodities={commodities}

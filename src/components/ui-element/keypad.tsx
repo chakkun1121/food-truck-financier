@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { useEffect, useState } from "react";
 import BackSpaceIcon from "../icons/backspace";
 
@@ -19,7 +18,7 @@ export default function KeyPad({
   }, [onChange, value]);
   useEffect(() => {
     function onKeydown(e: KeyboardEvent) {
-      switch (e.key) {  
+      switch (e.key) {
         case "Backspace":
           setValue(Number(("" + value).slice(0, -1)));
           break;
@@ -34,22 +33,16 @@ export default function KeyPad({
       }
     }
     window.addEventListener("keydown", onKeydown);
-    return () => window.removeEventListener("keydown", onKeydown);  
+    return () => window.removeEventListener("keydown", onKeydown);
   }, [onSubmit, value]);
   return (
-    <div className={cn("space-y-4", className)}>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit?.(value);
-        }}>
-        <div className="text-center text-3xl border rounded">{value}</div>
-      </form>
-      <div className="grid grid-rows-4 grid-cols-3 gap-4 justify-items-center">
+    <div className={cn("space-y-4 ", className)}>
+      <div className="text-center text-3xl border rounded">{value}</div>
+      <div className="grid grid-rows-4 grid-cols-3 gap-4 justify-items-center ">
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0"].map(v => (
           <Button
             key={v}
-            className="aspect-square w-24 h-24 text-xl"
+            className="aspect-square text-xl h-24"
             variant="outline"
             onClick={() => {
               setValue(Number("" + value + v));
@@ -58,7 +51,7 @@ export default function KeyPad({
           </Button>
         ))}
         <Button
-          className="aspect-square w-24 h-24 text-xl"
+          className="aspect-square text-xl h-24"
           variant="outline"
           data-testid="backspace"
           onClick={() => {
