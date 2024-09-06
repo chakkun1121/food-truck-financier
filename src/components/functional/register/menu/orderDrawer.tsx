@@ -56,19 +56,17 @@ export default function OrderDrawer({
           setLastOrderInfo(undefined);
         }
       }}
-      open={open}
-    >
+      open={open}>
       <DrawerTrigger
         asChild
-        disabled={Object.values(currentOrder).every(value => value === 0)}
-      >
+        disabled={Object.values(currentOrder).every(value => value === 0)}>
         {trigger}
       </DrawerTrigger>
       <DrawerContent className="h-full flex flex-col max-w-4xl w-full right-0 left-auto">
         {mode === "input" && (
           <>
             <DrawerHeader className="flex-none">金額入力</DrawerHeader>
-            <div className="flex flex-1 p-4 gap-4">
+            <div className="flex flex-1 p-4 gap-4 md:flex-row flex-col">
               <div className="flex-1">
                 <p className="flex justify-between text-xl">
                   <span>点数:</span>
