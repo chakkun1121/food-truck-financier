@@ -9,6 +9,7 @@ const noto = Noto_Sans_JP({
   style: "normal",
   subsets: ["latin"],
 });
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -34,8 +35,14 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={cn("select-none min-h-screen", noto.className)}>
-        {children}
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

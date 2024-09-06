@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HeaderUser from "./headerUser";
+import { ModeToggle } from "../ui/mode-toggle";
 export default function Header() {
   return (
     <header className="flex justify-between items-center p-2 fixed w-full h-12">
@@ -8,7 +9,10 @@ export default function Header() {
           FoodTruck Financier
         </Link>
       </h1>
-      <HeaderUser />
+      <div className="flex items-center gap-2">
+        <ModeToggle />
+        <HeaderUser />
+      </div>
     </header>
   );
 }
