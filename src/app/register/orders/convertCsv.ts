@@ -8,6 +8,9 @@ export function convertCsv(
   commodities: StallInfo["commodities"],
   orders: { [key: UUID]: OrderType }
 ) {
+  if (!commodities || !orders) {
+    return "";
+  }
   // 注文番号 合計金額 注文日時 受取日時 ステータス
   const csv = [
     ["注文番号", "合計金額", "注文日時", "受取日時", "ステータス"],
@@ -18,7 +21,9 @@ export function convertCsv(
         [
           order.ticket,
           totalAmount(commodities, order).toString(),
-          new Date(UUIDv7GetTimestamp(id)).toLocaleString(),
+          new Date(UUIDv7GetTimestamp(id)).toLocaleString("ja-JP", {
+            timeZone: "Asia/Tokyo",
+          }),
           "",
           order.status,
         ].join(",")
