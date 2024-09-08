@@ -49,4 +49,9 @@ describe("convertCsv", () => {
 
     expect(csv).toEqual(expectedCsv);
   });
+  test("should return empty string when orders is empty", () => {
+    const expectedCsv = "";
+    const csv = convertCsv(null!, null!);
+    expect(csv).toEqual(expectedCsv);
+  });
 });
