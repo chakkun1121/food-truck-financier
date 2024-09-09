@@ -62,7 +62,7 @@ export default function OrderDrawer({
         disabled={Object.values(currentOrder).every(value => value === 0)}>
         {trigger}
       </DrawerTrigger>
-      <DrawerContent className="h-full flex flex-col max-w-4xl w-full right-0 left-auto">
+      <DrawerContent className="h-full flex flex-col max-w-4xl w-full right-0 left-auto overflow-y-scroll overflow-x-hidden">
         {mode === "input" && (
           <>
             <DrawerHeader className="flex-none">金額入力</DrawerHeader>

@@ -74,7 +74,7 @@ export default function RegisterPage() {
   }
   return (
     <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
-      <ResizablePanel className="p-4">
+      <ResizablePanel className="p-4 !overflow-y-scroll">
         <Menu
           commodities={commodities}
           currentOrder={currentOrder}
