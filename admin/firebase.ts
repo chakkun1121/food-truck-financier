@@ -1,9 +1,17 @@
-import { initializeApp } from "firebase-admin/app";
-import admin from "firebase-admin";
-import { getAuth } from "firebase-admin/auth";
+import { initializeApp, cert, getApps } from 'firebase-admin/app';
+import { getDatabase } from 'firebase-admin/database';
+import { getAuth } from 'firebase-admin/auth';
+import 'dotenv/config'
 
-export const app = initializeApp({
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-});
-export const db = admin.database(app);
-export const auth = getAuth(app);
+if (!getApps()?.length) {
+  initializeApp({
+    credential: cert(
+      JSON.parse(JSON.stringify(process.env.FIREBASE_SERVICE_ACCOUNT_KEY)
+      )
+    ),
+    databaseURL: "https://food-truck-financier-default-rtdb.asia-southeast1.firebasedatabase.app"
+  });
+}
+
+export const db = getDatabase();
+export const auth = getAuth();

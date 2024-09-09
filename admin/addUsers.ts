@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { auth, db } from "./firebase";
-import { promises as fsPromises } from "fs";
+import { promises as fsPromises } from "node:fs";
 import { confirm } from "@inquirer/prompts";
 
 const program = new Command();
