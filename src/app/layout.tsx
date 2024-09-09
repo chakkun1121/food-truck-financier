@@ -1,7 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import firebase from "firebase/compat/app";
 import { Toaster } from "@/components/ui/sonner";
+import { Noto_Sans_JP } from "next/font/google";
+import { cn } from "@/lib/utils";
+const noto = Noto_Sans_JP({
+  weight: ["400", "700"],
+  style: "normal",
+  subsets: ["latin"],
+});
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -11,6 +19,9 @@ export const metadata: Metadata = {
   robots: {
     index: false,
   },
+};
+export const viewport: Viewport = {
+  themeColor: "#ff9933",
 };
 
 export default function RootLayout({
@@ -26,9 +37,15 @@ export default function RootLayout({
   }
   return (
     <html lang="ja">
-      <body className="select-none min-h-screen">
-        {children}
-        <Toaster />
+      <body className={cn("select-none min-h-screen", noto.className)}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

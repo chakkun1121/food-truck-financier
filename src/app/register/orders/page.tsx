@@ -18,7 +18,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { auth, db } from "@/firebase";
-import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
@@ -26,6 +25,8 @@ import { ref, set } from "firebase/database";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
+import { convertCsv } from "./convertCsv";
+import { useError } from "@/hooks/useError";
 
 export default function OrdersPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -42,31 +43,7 @@ export default function OrdersPage() {
   const [orderStatus, setOrderStatus] = useState<
     "all" | "pending" | "ready" | "completed" | "cancelled"
   >("pending");
-  function exportCsv() {
-    // 注文番号 合計金額 注文日時 受取日時 ステータス
-    const csv = [
-      ["注文番号", "合計金額", "注文日時", "受取日時", "ステータス"],
-      // @ts-ignore
-      ...Object.entries(orders)
-        // @ts-ignore
-        .map(([id, order]: [id: UUID, order: OrderType]) =>
-          [
-            order.ticket,
-         
-            new Date(UUIDv7GetTimestamp(id)).toLocaleString(),
-            "",
-            order.status,
-          ].join(",")
-        ),
-    ].join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "orders.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  useError(error, userInfoError, commoditiesError, ordersError);
   if (
     loading ||
     userInfoLoading ||
@@ -76,6 +53,16 @@ export default function OrdersPage() {
   )
     return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
+  function exportCsv() {
+    const csv = convertCsv(commodities, orders || {});
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "orders.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
   return (
     <>
       <div className="flex justify-between p-4">

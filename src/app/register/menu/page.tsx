@@ -15,6 +15,8 @@ import { OrderType, StallInfo } from "@/types/stallInfo";
 import Menu from "@/components/functional/register/menu/menu";
 import Order from "@/components/functional/register/menu/order";
 import { createUUID } from "@/lib/uuid";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { useError } from "@/hooks/useError";
 
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -32,7 +34,8 @@ export default function RegisterPage() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: string]: number;
   }>({});
-
+  const [width] = useWindowSize();
+  useError(error, userInfoError, commoditiesError);
   if (loading || userInfoLoading || commoditiesLoading || prefixLoading)
     return <Loading />;
   if (!user || !commodities) return <AccessError />;
@@ -42,9 +45,10 @@ export default function RegisterPage() {
       commodities: currentOrder,
       receivedAmount,
       status: "pending",
-      ticket: `${prefix}-${userInfo.userNumber}${(
-        "000" + (userInfo?.lastTicket ?? 0 + 1)
-      ).slice(-3)}`,
+      // userNumberが存在しない場合、メールアドレスの@の前の1文字を使用する
+      ticket: `${prefix}-${
+        userInfo.userNumber ?? user?.email?.split("@")[0].slice(-1)
+      }${("000" + ((userInfo?.lastTicket ?? 0) + 1)).slice(-3)}`,
     };
     console.log(order);
     const orderId = createUUID();
@@ -69,7 +73,7 @@ export default function RegisterPage() {
     return order;
   }
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
       <ResizablePanel className="p-4">
         <Menu
           commodities={commodities}

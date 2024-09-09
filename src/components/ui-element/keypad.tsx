@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { useEffect, useState } from "react";
 import BackSpaceIcon from "../icons/backspace";
 
@@ -17,44 +16,47 @@ export default function KeyPad({
   useEffect(() => {
     onChange?.(value);
   }, [onChange, value]);
-  return (
-    <div className={cn("space-y-4", className)}>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
+  useEffect(() => {
+    function onKeydown(e: KeyboardEvent) {
+      switch (e.key) {
+        case "Backspace":
+          setValue(Number(("" + value).slice(0, -1)));
+          break;
+        case "Enter":
           onSubmit?.(value);
-        }}
-      >
-        <Input
-          className="text-center text-3xl"
-          onChange={e => setValue(Number(e.target.value))}
-          value={value}
-          type="number"
-          autoFocus
-          placeholder="金額を入力"
-        />
-      </form>
-      <div className="grid grid-rows-4 grid-cols-3 gap-4 justify-items-center">
+          break;
+        default:
+          const v = Number(e.key);
+          if (!isNaN(v)) {
+            setValue(Number("" + value + v));
+          }
+      }
+    }
+    window.addEventListener("keydown", onKeydown);
+    return () => window.removeEventListener("keydown", onKeydown);
+  }, [onSubmit, value]);
+  return (
+    <div className={cn("space-y-4 ", className)}>
+      <div className="text-center text-3xl border rounded">{value}</div>
+      <div className="grid grid-rows-4 grid-cols-3 gap-4 justify-items-center ">
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0"].map(v => (
           <Button
             key={v}
-            className="aspect-square w-24 h-24 text-xl"
+            className="aspect-square text-xl h-24"
             variant="outline"
             onClick={() => {
               setValue(Number("" + value + v));
-            }}
-          >
+            }}>
             {v}
           </Button>
         ))}
         <Button
-          className="aspect-square w-24 h-24 text-xl"
+          className="aspect-square text-xl h-24"
           variant="outline"
           data-testid="backspace"
           onClick={() => {
             setValue(Number(("" + value).slice(0, -1)));
-          }}
-        >
+          }}>
           <BackSpaceIcon variant="outline" className="w-1/2 h-1/2" />
         </Button>
       </div>
