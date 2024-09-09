@@ -67,4 +67,19 @@ describe("CommodityCard", () => {
 
     expect(setCountMock).not.toHaveBeenCalled();
   });
+  test("should not increase count if stock is 0 or less", () => {
+    const setCountMock = jest.fn();
+    render(
+      <CommodityCard
+        commodity={{ ...commodity, stock: -1 }}
+        count={0}
+        setCount={setCountMock}
+      />
+    );
+
+    const plusButton = screen.getByLabelText("Plus");
+    fireEvent.click(plusButton);
+
+    expect(setCountMock).not.toHaveBeenCalled();
+  });
 });

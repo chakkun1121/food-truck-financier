@@ -16,12 +16,10 @@ export default function CommodityCard({
   return (
     <Card className="max-w-xs w-full">
       <CardContent
-        className={cn("p-0 flex justify-between", !commodity.stock && "")}
-      >
+        className={cn("p-0 flex justify-between", !commodity.stock && "")}>
         <div
           className="flex-1 p-6"
-          onClick={() => commodity?.stock - count && setCount(count + 1)}
-        >
+          onClick={() => commodity?.stock - count > 0 && setCount(count + 1)}>
           <h3 className="text-xl">{commodity?.name}</h3>
           <div className="flex justify-between items-center mt-2">
             <p className="ml-1">¥{commodity?.price}</p>
@@ -38,8 +36,7 @@ export default function CommodityCard({
               setCount(count - 1);
             }}
             disabled={count === 0}
-            aria-label="Minus"
-          >
+            aria-label="Minus">
             <MinusIcon />
           </Button>
           <p className="text-lg w-8 text-center">{count}</p>
@@ -49,8 +46,7 @@ export default function CommodityCard({
             size="icon"
             onClick={() => setCount(count + 1)}
             aria-label="Plus"
-            disabled={count >= commodity?.stock}
-          >
+            disabled={count >= commodity?.stock}>
             <PlusIcon />
           </Button>
         </div>
