@@ -10,6 +10,7 @@ const noto = Noto_Sans_JP({
   subsets: ["latin"],
 });
 import { ThemeProvider } from "@/components/theme-provider";
+import "@/lib/customErrorMap";
 
 export const metadata: Metadata = {
   title: {

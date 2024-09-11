@@ -13,7 +13,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
-import AddCommodityDialog from "./addCommodityDialog";
+import AddCommodityDialog from "../../../components/functional/register/stock/addCommodityDialog";
 import { useError } from "@/hooks/useError";
 
 export default function StockPage() {
@@ -95,7 +95,7 @@ export default function StockPage() {
   return (
     <>
       <h2 className="text-2xl text-center p-4">在庫、商品管理</h2>
-      <div className="p-4 max-w-7xl mx-auto">
+      <div className="p-4 max-w-7xl mx-auto space-y-4">
         <DataTable columns={columns} data={data} className="" />
         <AddCommodityDialog stallId={userInfo.stallId} />
       </div>

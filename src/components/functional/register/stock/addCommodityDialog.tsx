@@ -26,8 +26,8 @@ export default function AddCommodityDialog({ stallId }: { stallId: string }) {
   const [saving, setSaving] = useState(false);
   const formSchema = z.object({
     name: z.string(),
-    price: z.number().int().min(0),
-    stock: z.number().int().min(0),
+    price: z.number().int().min(0).max(10000),
+    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +46,7 @@ export default function AddCommodityDialog({ stallId }: { stallId: string }) {
       setOpen(false);
     } catch (error) {
       console.error(error);
-      toast("エラーが発生しました");
+      toast.error("エラーが発生しました");
     } finally {
       setSaving(false);
     }
@@ -62,7 +62,7 @@ export default function AddCommodityDialog({ stallId }: { stallId: string }) {
       <DialogContent>
         <DialogHeader>商品追加</DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField
               control={form.control}
               name="name"
