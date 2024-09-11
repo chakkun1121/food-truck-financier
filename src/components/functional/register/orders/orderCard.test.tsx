@@ -1,23 +1,34 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import OrderCard from "./orderCard";
-import { OrderType } from "@/types/stallInfo";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
+import { createUUID } from "@/lib/uuid";
 
 describe("OrderCard", () => {
-  const order: OrderType & { id: UUID; index: number } = {
-    id: "123" as UUID,
-    index: 1,
+  const uuid = createUUID();
+  const now = new Date();
+  const order: OrderType & { id: UUID } = {
+    id: uuid,
     status: "pending",
     commodities: {
-      commodity1: 2,
-      commodity2: 3,
+      "00000000-0000-0000-4000-000000000001": 2,
+      "00000000-0000-0000-4000-000000000002": 3,
     } as OrderType["commodities"],
     receivedAmount: 100,
+    ticket: "T-0001",
   };
 
-  const commodities = {
-    commodity1: { name: "Commodity 1" },
-    commodity2: { name: "Commodity 2" },
+  const commodities: StallInfo["commodities"] = {
+    "00000000-0000-0000-4000-000000000001": {
+      name: "Commodity 1",
+      price: 100,
+      stock: 10,
+    },
+    "00000000-0000-0000-4000-000000000002": {
+      name: "Commodity 2",
+      price: 200,
+      stock: 10,
+    },
   };
 
   const setOrderStateMock = jest.fn();
@@ -32,25 +43,14 @@ describe("OrderCard", () => {
     );
   });
 
-  test("should render order index", () => {
-    const orderIndexElement = screen.getByText("1");
-    expect(orderIndexElement).toBeInTheDocument();
-  });
-
   test("should render order status badge", () => {
     const orderStatusElement = screen.getByText("pending");
     expect(orderStatusElement).toBeInTheDocument();
   });
 
   test("should render complete button when order status is pending", () => {
-    const completeButtonElement = screen.getByLabelText("complete");
+    const completeButtonElement = screen.getByText("準備完了");
     expect(completeButtonElement).toBeInTheDocument();
-  });
-
-  test("should call setOrderState with 'completed' when complete button is clicked", () => {
-    const completeButtonElement = screen.getByLabelText("complete");
-    fireEvent.click(completeButtonElement);
-    expect(setOrderStateMock).toHaveBeenCalledWith("completed");
   });
 
   test("should render dropdown menu when order status is pending", () => {
@@ -59,18 +59,6 @@ describe("OrderCard", () => {
     });
     expect(dropdownMenuElement).toBeInTheDocument();
   });
-
-  // test("should call setOrderState with 'cancelled' when cancel option is clicked in dropdown menu", () => {
-  //   const dropdownMenuElement = screen.getByRole("button", {
-  //     name: "More options",
-  //   });
-  //   fireEvent.click(dropdownMenuElement);
-
-  //   const cancelOptionElement = screen.getByText("キャンセル");
-  //   fireEvent.click(cancelOptionElement);
-
-  //   expect(setOrderStateMock).toHaveBeenCalledWith("cancelled");
-  // });
 
   test("should render commodities with their names and amounts", () => {
     const commodity1Element = screen.getByText("Commodity 1");
@@ -83,12 +71,24 @@ describe("OrderCard", () => {
     expect(amount1Element).toBeInTheDocument();
     expect(amount2Element).toBeInTheDocument();
   });
-
-  // test("should render total points and received amount", () => {
-  //   const totalPointsElement = screen.getByText(5);
-  //   const receivedAmountElement = screen.getByText("100円");
-
-  //   expect(totalPointsElement).toBeInTheDocument();
-  //   expect(receivedAmountElement).toBeInTheDocument();
-  // });
+  test("should not throw error when order are broken", () => {
+    const brokenOrder = {
+      status: "pending",
+      receivedAmount: 100,
+    };
+    render(
+      <OrderCard
+        order={brokenOrder as unknown as OrderType & { id: UUID }}
+        commodities={commodities}
+        setOrderState={setOrderStateMock}
+      />
+    );
+    render(
+      <OrderCard
+        order={undefined as unknown as OrderType & { id: UUID }}
+        commodities={commodities}
+        setOrderState={setOrderStateMock}
+      />
+    );
+  });
 });

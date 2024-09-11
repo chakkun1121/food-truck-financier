@@ -17,7 +17,7 @@ export default function Menu({
       <h2 className="text-2xl">メニュー</h2>
       <div className="flex flex-wrap gap-4">
         {commodities &&
-          Object.entries(commodities).map(([key, value]) => (
+          Object.entries(commodities)?.map(([key, value]) => (
             <CommodityCard
               key={key}
               commodity={value}

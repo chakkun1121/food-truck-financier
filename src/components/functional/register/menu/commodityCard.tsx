@@ -9,21 +9,23 @@ export default function CommodityCard({
   count,
   setCount,
 }: {
-  commodity: CommodityType;
+  commodity: Partial<CommodityType>;
   count: number;
   setCount(count: number): void;
 }) {
   return (
     <Card className="max-w-xs w-full">
       <CardContent
-        className={cn("p-0 flex justify-between", !commodity.stock && "")}>
+        className={cn("p-0 flex justify-between", !commodity?.stock && "")}>
         <div
           className="flex-1 p-6"
-          onClick={() => commodity?.stock - count > 0 && setCount(count + 1)}>
+          onClick={() =>
+            (commodity?.stock ?? 0) - count > 0 && setCount(count + 1)
+          }>
           <h3 className="text-xl">{commodity?.name}</h3>
           <div className="flex justify-between items-center mt-2">
             <p className="ml-1">¥{commodity?.price}</p>
-            <p>在庫:{commodity.stock}</p>
+            <p>在庫:{commodity?.stock}</p>
           </div>
         </div>
         <div className="flex items-center gap-2 flex-none py-6 pr-6">
@@ -46,7 +48,7 @@ export default function CommodityCard({
             size="icon"
             onClick={() => setCount(count + 1)}
             aria-label="Plus"
-            disabled={count >= commodity?.stock}>
+            disabled={count >= (commodity?.stock ?? 0)}>
             <PlusIcon />
           </Button>
         </div>

@@ -82,4 +82,14 @@ describe("CommodityCard", () => {
 
     expect(setCountMock).not.toHaveBeenCalled();
   });
+  test("should not throw an error if the commodity is broken", () => {
+    const setCountMock = jest.fn();
+    render(
+      <CommodityCard
+        commodity={null as unknown as CommodityType}
+        count={0}
+        setCount={setCountMock}
+      />
+    );
+  });
 });

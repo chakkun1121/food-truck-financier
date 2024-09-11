@@ -32,8 +32,7 @@ export default function Order({
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setCurrentOrder({})}
-        >
+          onClick={() => setCurrentOrder({})}>
           <TrashIcon />
         </Button>
       </div>
@@ -46,7 +45,7 @@ export default function Order({
                 <div className="flex justify-between">
                   <p>
                     <span className="text-lg">
-                      {commodities?.[key as UUID].name}
+                      {commodities?.[key as UUID]?.name}
                     </span>
                     <span className="opacity-70"> × {value}</span>
                   </p>
@@ -61,8 +60,7 @@ export default function Order({
                         return newOrder;
                       })
                     }
-                    data-testid="delete-order"
-                  >
+                    data-testid="delete-order">
                     <TrashIcon />
                   </Button>
                 </div>
