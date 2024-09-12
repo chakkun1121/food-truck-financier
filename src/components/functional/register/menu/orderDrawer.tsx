@@ -11,8 +11,9 @@ import {
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
 
 export default function OrderDrawer({
   currentOrder,
@@ -45,6 +46,18 @@ export default function OrderDrawer({
     setMode("finished");
     setLastOrderInfo({ ticketId: order.ticket, sum: lastSum });
   }
+  const valueSchema = z.number().min(0).max(Number.MAX_SAFE_INTEGER);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    const result = valueSchema.safeParse(receivedMoney);
+    if (!result.success) {
+      setError(result.error.errors[0].message);
+    } else {
+      setError(null);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [receivedMoney]);
   return (
     <Drawer
       direction="right"
@@ -82,14 +95,16 @@ export default function OrderDrawer({
                   <span>¥{sum}(税込)</span>
                 </p>
               </div>
-              <KeyPad
-                className="flex-none mx-16"
-                onChange={setReceivedMoney}
-                onSubmit={() => sum <= receivedMoney && order()}
-              />
+              <div className="flex-none mx-16">
+                <KeyPad
+                  onChange={setReceivedMoney}
+                  onSubmit={() => sum <= receivedMoney && order()}
+                />
+                {error && <p className="text-red-500">{error}</p>}
+              </div>
             </div>
             <DrawerFooter className="flex-none">
-              <Button disabled={sum > receivedMoney} onClick={order}>
+              <Button disabled={sum > receivedMoney || !!error} onClick={order}>
                 注文を確定する
               </Button>
             </DrawerFooter>
