@@ -25,7 +25,7 @@ export default function RegisterPage() {
     lastTicket?: number; //最後に発見した整理券の番号
     userNumber: number; //ユーザーごとに固有 0から割り振る
   }>(ref(db, `users/${user?.uid}`));
-  const [prefix, prefixLoading] = useObjectVal<string>(
+  const [prefix, prefixLoading, prefixError] = useObjectVal<string>(
     ref(db, `stalls/${userInfo?.stallId}/prefix`)
   ); //Todo:変わらないため最初のみに読み込むようにする
   const [commodities, commoditiesLoading, commoditiesError] = useObjectVal<
@@ -35,10 +35,12 @@ export default function RegisterPage() {
     [key: string]: number;
   }>({});
   const [width] = useWindowSize();
-  useError(error, userInfoError, commoditiesError);
+  useError(error, userInfoError, commoditiesError, prefixError);
   if (loading || userInfoLoading || commoditiesLoading || prefixLoading)
     return <Loading />;
-  if (!user || !commodities) return <AccessError />;
+  if (!user) return <AccessError />;
+  if (!commodities)
+    return <p className="text-center">先に商品登録を行ってください</p>;
   async function handleOrder(receivedAmount: number): Promise<OrderType> {
     if (!userInfo?.stallId || !commodities) throw new Error("No stall Info");
     const order: OrderType = {
