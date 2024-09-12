@@ -1,8 +1,8 @@
 "use client";
+import { totalAmount } from "@/lib/totalAmount";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 import { StallInfo, OrderType } from "@/types/stallInfo";
 import { UUID } from "crypto";
-import { totalAmount } from "../../../lib/totalAmount";
 
 export function convertCsv(
   commodities: StallInfo["commodities"],

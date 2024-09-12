@@ -1,4 +1,4 @@
-import { convertCsv } from "@/app/register/orders/convertCsv";
+import { convertCsv } from "@/lib/convertCsv";
 import { Button } from "@/components/ui/button";
 import { StallInfo } from "@/types/stallInfo";
 import { useState } from "react";
