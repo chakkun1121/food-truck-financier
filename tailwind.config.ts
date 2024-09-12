@@ -73,13 +73,19 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       height: {
-        screen: ["100vh", "100dvh"] as any,
+        // @ts-ignore
+        screen: ["100vh", "100dvh"],
       },
       minHeight: {
-        screen: ["100vh", "100dvh"] as any,
+        // @ts-ignore
+        screen: ["100vh", "100dvh"],
       },
       maxHeight: {
-        screen: ["100vh", "100dvh"] as any,
+        // @ts-ignore
+        screen: ["100vh", "100dvh"],
+      },
+      fontFamily: {
+        sans: ['var(--font-poppins)', 'var(--font-noto-sans-jp)'],
       },
     },
   },
