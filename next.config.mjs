@@ -8,10 +8,10 @@ const nextConfig = {
       {
         source: "/register",
         destination: "/register/menu",
-        permanent: true,
-      },
+        permanent: true
+      }
     ];
-  },
+  }
 };
 
 export default withPWA(nextConfig);

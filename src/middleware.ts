@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/(.*)"],
+  matcher: ["/(.*)"]
 };
 
 export default function middleware(req: NextRequest) {
@@ -22,7 +22,7 @@ export default function middleware(req: NextRequest) {
   return new NextResponse("Unauthorized.", {
     status: 401,
     headers: {
-      "WWW-authenticate": 'Basic realm="Secure Area"',
-    },
+      "WWW-authenticate": 'Basic realm="Secure Area"'
+    }
   });
 }

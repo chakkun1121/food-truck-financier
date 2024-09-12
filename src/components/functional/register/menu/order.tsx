@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
-import OrderDrawer from "./orderDrawer";
-import { OrderType, StallInfo } from "@/types/stallInfo";
 import { useState } from "react";
+import OrderDrawer from "./orderDrawer";
 
 export default function Order({
   commodities,
   currentOrder,
   setCurrentOrder,
-  handleOrder,
+  handleOrder
 }: {
   commodities: StallInfo["commodities"];
   currentOrder: { [key: UUID]: number };
@@ -27,12 +27,13 @@ export default function Order({
   }, 0);
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h2 className="text-2xl">注文内容</h2>
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setCurrentOrder({})}>
+          onClick={() => setCurrentOrder({})}
+        >
           <TrashIcon />
         </Button>
       </div>
@@ -41,7 +42,7 @@ export default function Order({
           .filter(([_, value]) => value)
           .map(([key, value]) => (
             <Card key={key}>
-              <CardContent className="p-2 ">
+              <CardContent className="p-2">
                 <div className="flex justify-between">
                   <p>
                     <span className="text-lg">
@@ -60,11 +61,12 @@ export default function Order({
                         return newOrder;
                       })
                     }
-                    data-testid="delete-order">
+                    data-testid="delete-order"
+                  >
                     <TrashIcon />
                   </Button>
                 </div>
-                <p className="opacity-80 text-right">
+                <p className="text-right opacity-80">
                   ¥{(commodities?.[key as UUID]?.price || 0) * value}
                 </p>
               </CardContent>

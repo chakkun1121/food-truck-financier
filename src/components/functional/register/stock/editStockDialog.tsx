@@ -4,15 +4,14 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +22,7 @@ import { z } from "zod";
 export default function EditStockDialog({
   trigger,
   stock,
-  setStock,
+  setStock
 }: {
   trigger: ReactNode;
   stock: number;
@@ -31,11 +30,11 @@ export default function EditStockDialog({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const formSchema = z.object({
-    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
+    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER)
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { stock },
+    defaultValues: { stock }
   });
   return (
     <Dialog open={isOpen} onOpenChange={o => setIsOpen(o)}>

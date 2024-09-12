@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { DataTableColumnHeader } from "@/components/ui/data-table/columnHeader";
 import { auth, db } from "@/firebase";
+import { useError } from "@/hooks/useError";
 import { cn } from "@/lib/utils";
 import { CommodityType, StallInfo } from "@/types/stallInfo";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,7 +15,6 @@ import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import AddCommodityDialog from "../../../components/functional/register/stock/addCommodityDialog";
-import { useError } from "@/hooks/useError";
 
 export default function StockPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -35,13 +35,13 @@ export default function StockPage() {
       accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="商品名" />
-      ),
+      )
     },
     {
       accessorKey: "price",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="値段" />
-      ),
+      )
     },
     {
       accessorKey: "stock",
@@ -49,18 +49,19 @@ export default function StockPage() {
         <DataTableColumnHeader column={column} title="在庫数" />
       ),
       cell: ({ row }) => (
-        <p className="flex gap-2 items-center">
+        <p className="flex items-center gap-2">
           {row.getValue("stock") == 0 && (
-            <span className="text-red-600 text-lg">!</span>
+            <span className="text-lg text-red-600">!</span>
           )}
           <span
             className={cn(
-              Number(row.getValue("stock")) <= 10 && "text-red-600 text-lg"
-            )}>
+              Number(row.getValue("stock")) <= 10 && "text-lg text-red-600"
+            )}
+          >
             {row.getValue("stock")}
           </span>
         </p>
-      ),
+      )
     },
     {
       id: "actions",
@@ -78,8 +79,8 @@ export default function StockPage() {
             );
           }}
         />
-      ),
-    },
+      )
+    }
   ];
   const data = Object.entries(commodities || {}).map(
     // @ts-ignore
@@ -87,15 +88,15 @@ export default function StockPage() {
       id,
       name: commodity.name,
       price: commodity.price,
-      stock: commodity.stock,
+      stock: commodity.stock
     })
   );
   if (loading || userInfoLoading || commoditiesLoading) return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
   return (
     <>
-      <h2 className="text-2xl text-center p-4">在庫、商品管理</h2>
-      <div className="p-4 max-w-7xl mx-auto space-y-4">
+      <h2 className="p-4 text-center text-2xl">在庫、商品管理</h2>
+      <div className="mx-auto max-w-7xl space-y-4 p-4">
         <DataTable columns={columns} data={data} className="" />
         <AddCommodityDialog stallId={userInfo.stallId} />
       </div>

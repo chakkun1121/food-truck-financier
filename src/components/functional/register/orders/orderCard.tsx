@@ -1,21 +1,21 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { CheckIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { OrderType, StallInfo } from "@/types/stallInfo";
-import { UUID } from "crypto";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
+import { OrderType, StallInfo } from "@/types/stallInfo";
+import { CheckIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
+import { UUID } from "crypto";
 
 export default function OrderCard({
   order,
   commodities,
-  setOrderState,
+  setOrderState
 }: {
   order: OrderType & { id: UUID };
   commodities: StallInfo["commodities"];
@@ -31,7 +31,7 @@ export default function OrderCard({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between p-4">
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
           <CardTitle className="text-xl">{order?.ticket}</CardTitle>
           <Badge variant="outline">{order?.status}</Badge>
           {order?.status &&
@@ -44,7 +44,8 @@ export default function OrderCard({
                 }}
                 aria-label={`make as ${
                   order.status == "pending" ? "ready" : "completed"
-                }`}>
+                }`}
+              >
                 <CheckIcon />
                 {order.status == "pending" ? "準備完了" : "受取完了"}
               </Button>
@@ -55,12 +56,12 @@ export default function OrderCard({
             {timestamp.toDateString() !== new Date().toDateString() &&
               [
                 ("00" + (timestamp.getMonth() + 1)).slice(-2),
-                ("00" + timestamp.getDate()).slice(-2),
+                ("00" + timestamp.getDate()).slice(-2)
               ].join("/")}
             {[
               ("00" + timestamp.getHours()).slice(-2),
               ("00" + timestamp.getMinutes()).slice(-2),
-              ("00" + timestamp.getSeconds()).slice(-2),
+              ("00" + timestamp.getSeconds()).slice(-2)
             ].join(":")}
           </p>
           {order?.status &&
@@ -75,7 +76,8 @@ export default function OrderCard({
                   <DropdownMenuItem
                     onClick={() => {
                       setOrderState("completed");
-                    }}>
+                    }}
+                  >
                     キャンセル
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -90,15 +92,16 @@ export default function OrderCard({
             ([commodityId, amount]: [commodityId: UUID, amount: number]) => (
               <div
                 key={commodityId}
-                className="flex justify-between items-center">
+                className="flex items-center justify-between"
+              >
                 <span>{commodities?.[commodityId]?.name}</span>
                 <span className="text-lg">{amount}</span>
               </div>
             )
           )}
         </div>
-        <br className="w-full h-1 border border-w-full" />
-        <div className="flex justify-between items-center">
+        <br className="border-w-full h-1 w-full border" />
+        <div className="flex items-center justify-between">
           <p>
             計
             {Object.values(order?.commodities || {}).reduce(

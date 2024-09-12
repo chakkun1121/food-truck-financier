@@ -1,7 +1,7 @@
 "use client";
 import { totalAmount } from "@/lib/totalAmount";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
-import { StallInfo, OrderType } from "@/types/stallInfo";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
 
 export function convertCsv(
@@ -22,12 +22,12 @@ export function convertCsv(
           order.ticket,
           totalAmount(commodities, order).toString(),
           new Date(UUIDv7GetTimestamp(id)).toLocaleString("ja-JP", {
-            timeZone: "Asia/Tokyo",
+            timeZone: "Asia/Tokyo"
           }),
           "",
-          order.status,
+          order.status
         ].join(",")
-      ),
+      )
   ].join("\n");
   return csv;
 }

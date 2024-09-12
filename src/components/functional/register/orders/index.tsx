@@ -4,15 +4,15 @@ import AccessError from "@/components/accessError";
 import OrderCard from "@/components/functional/register/orders/orderCard";
 import Loading from "@/components/ui-element/loading";
 import { auth, db } from "@/firebase";
+import { useError } from "@/hooks/useError";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
-import { useError } from "@/hooks/useError";
-import OrdersHeaderButtons from "./headerButtons";
 import { toast } from "sonner";
+import OrdersHeaderButtons from "./headerButtons";
 
 export default function Orders() {
   const [user, loading, error] = useAuthState(auth);
@@ -51,7 +51,7 @@ export default function Orders() {
           orders={orders}
         />
       </div>
-      <div className="p-4 max-w-7xl mx-auto space-y-4">
+      <div className="mx-auto max-w-7xl space-y-4 p-4">
         {showOrders?.map(([id, order]) => (
           <OrderCard
             key={id}

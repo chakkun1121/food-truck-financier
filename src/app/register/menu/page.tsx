@@ -1,22 +1,22 @@
 "use client";
+import AccessError from "@/components/accessError";
+import Menu from "@/components/functional/register/menu/menu";
+import Order from "@/components/functional/register/menu/order";
 import Loading from "@/components/ui-element/loading";
-import { auth, db } from "@/firebase";
-import { ref, set } from "firebase/database";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useObjectVal } from "react-firebase-hooks/database";
-import { useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
-  ResizablePanelGroup,
+  ResizablePanelGroup
 } from "@/components/ui/resizable";
-import AccessError from "@/components/accessError";
-import { OrderType, StallInfo } from "@/types/stallInfo";
-import Menu from "@/components/functional/register/menu/menu";
-import Order from "@/components/functional/register/menu/order";
-import { createUUID } from "@/lib/uuid";
-import { useWindowSize } from "@/hooks/useWindowSize";
+import { auth, db } from "@/firebase";
 import { useError } from "@/hooks/useError";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { createUUID } from "@/lib/uuid";
+import { OrderType, StallInfo } from "@/types/stallInfo";
+import { ref, set } from "firebase/database";
+import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useObjectVal } from "react-firebase-hooks/database";
 
 export default function RegisterPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -50,7 +50,7 @@ export default function RegisterPage() {
       // userNumberが存在しない場合、メールアドレスの@の前の1文字を使用する
       ticket: `${prefix}-${
         userInfo.userNumber ?? user?.email?.split("@")[0].slice(-1)
-      }${("000" + ((userInfo?.lastTicket ?? 0) + 1)).slice(-3)}`,
+      }${("000" + ((userInfo?.lastTicket ?? 0) + 1)).slice(-3)}`
     };
     console.log(order);
     const orderId = createUUID();
@@ -69,14 +69,14 @@ export default function RegisterPage() {
       set(
         ref(db, `users/${user?.uid}/lastTicket`),
         (userInfo?.lastTicket ?? 0) + 1
-      ),
+      )
     ]);
     setCurrentOrder({});
     return order;
   }
   return (
     <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
-      <ResizablePanel className="p-4 !overflow-y-scroll">
+      <ResizablePanel className="!overflow-y-scroll p-4">
         <Menu
           commodities={commodities}
           currentOrder={currentOrder}
@@ -84,7 +84,7 @@ export default function RegisterPage() {
         />
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel className="p-4 space-y-4" defaultSize={25}>
+      <ResizablePanel className="space-y-4 p-4" defaultSize={25}>
         <Order
           commodities={commodities}
           currentOrder={currentOrder}

@@ -1,5 +1,5 @@
 "use client";
-import { StallInfo, OrderType } from "@/types/stallInfo";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 
 // 合計金額を出す関数
 export function totalAmount(

@@ -7,30 +7,32 @@ import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 export default function CommodityCard({
   commodity,
   count,
-  setCount,
+  setCount
 }: {
   commodity: Partial<CommodityType>;
   count: number;
   setCount(count: number): void;
 }) {
   return (
-    <Card className="max-w-xs w-full">
+    <Card className="w-full max-w-xs">
       <CardContent
-        className={cn("p-0 flex justify-between", !commodity?.stock && "")}>
+        className={cn("flex justify-between p-0", !commodity?.stock && "")}
+      >
         <div
           className="flex-1 p-6"
           onClick={() =>
             (commodity?.stock ?? 0) - count > 0 && setCount(count + 1)
-          }>
+          }
+        >
           <h3 className="text-xl">{commodity?.name}</h3>
-          <div className="flex justify-between items-center mt-2">
+          <div className="mt-2 flex items-center justify-between">
             <p className="ml-1">¥{commodity?.price}</p>
             <p>在庫:{commodity?.stock}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 flex-none py-6 pr-6">
+        <div className="flex flex-none items-center gap-2 py-6 pr-6">
           <Button
-            className="rounded-full relative z-10"
+            className="relative z-10 rounded-full"
             variant="outline"
             size="icon"
             onClick={e => {
@@ -38,17 +40,19 @@ export default function CommodityCard({
               setCount(count - 1);
             }}
             disabled={count === 0}
-            aria-label="Minus">
+            aria-label="Minus"
+          >
             <MinusIcon />
           </Button>
-          <p className="text-lg w-8 text-center">{count}</p>
+          <p className="w-8 text-center text-lg">{count}</p>
           <Button
             className="rounded-full"
             variant="outline"
             size="icon"
             onClick={() => setCount(count + 1)}
             aria-label="Plus"
-            disabled={count >= (commodity?.stock ?? 0)}>
+            disabled={count >= (commodity?.stock ?? 0)}
+          >
             <PlusIcon />
           </Button>
         </div>

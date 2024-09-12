@@ -16,23 +16,23 @@ const columns: ColumnDef<Data>[] = [
     accessorKey: "storeName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="店舗名" />
-    ),
+    )
   },
   {
     accessorKey: "commodityName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="商品名" />
-    ),
+    )
   },
   {
     accessorKey: "stock",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="在庫数" />
-    ),
-  },
+    )
+  }
 ];
 export function StockSheet({
-  stalls,
+  stalls
 }: {
   stalls: { [key: string]: StallInfo };
 }) {
@@ -45,14 +45,14 @@ export function StockSheet({
           storeName: stall.name,
           commodityId,
           commodityName: commodity.name,
-          stock: commodity.stock,
+          stock: commodity.stock
         })
       )
     )
     .filter(d => d.stock <= 10);
   return (
-    <div className="p-4 space-y-2">
-      <h2 className="text-2xl text-center">在庫10件以下の商品</h2>
+    <div className="space-y-2 p-4">
+      <h2 className="text-center text-2xl">在庫10件以下の商品</h2>
       <DataTable columns={columns} data={data} />
     </div>
   );

@@ -35,15 +35,16 @@ export default function ReceivePage() {
   return (
     <>
       <h2 className="text-2xl"></h2>
-      <section className="flex gap-4 p-4 flex-wrap">
+      <section className="flex flex-wrap gap-4 p-4">
         {receive.map(([id, order]) => (
           <button
             className="max-w-52"
             key={id}
-            onClick={() => setOrderState(id, "completed")}>
+            onClick={() => setOrderState(id, "completed")}
+          >
             <Card>
               <CardContent className="p-8">
-                <p className="text-4xl font-bold text-center">{order.ticket}</p>
+                <p className="text-center text-4xl font-bold">{order.ticket}</p>
               </CardContent>
             </Card>
           </button>

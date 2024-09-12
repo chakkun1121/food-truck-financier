@@ -1,25 +1,29 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { DialogHeader } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger
+} from "@/components/ui/dialog";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { db } from "@/firebase";
 import { createUUID } from "@/lib/uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { ref, set } from "firebase/database";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
+import { z } from "zod";
 
 export default function AddCommodityDialog({ stallId }: { stallId: string }) {
   const [open, setOpen] = useState(false);
@@ -27,11 +31,11 @@ export default function AddCommodityDialog({ stallId }: { stallId: string }) {
   const formSchema = z.object({
     name: z.string(),
     price: z.number().int().min(0).max(10000),
-    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
+    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER)
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    disabled: saving,
+    disabled: saving
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);

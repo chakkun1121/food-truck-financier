@@ -1,11 +1,10 @@
-import React from "react";
+import { StallInfo } from "@/types/stallInfo";
 import { render, screen } from "@testing-library/react";
 import Menu from "./menu";
-import { StallInfo } from "@/types/stallInfo";
 
 const mockCommodities: StallInfo["commodities"] = {
   item1: { name: "Item 1", price: 100, stock: 10 },
-  item2: { name: "Item 2", price: 200, stock: 10 },
+  item2: { name: "Item 2", price: 200, stock: 10 }
 };
 
 describe("Menu Component", () => {

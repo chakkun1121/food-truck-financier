@@ -1,19 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { auth } from "@/firebase";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { toast } from "sonner";
+import { z } from "zod";
 
 const formSchema = z.object({
   email: z.string(),
-  password: z.string(),
+  password: z.string()
 });
 const emailDomain = process.env.NEXT_PUBLIC_EMAIL_DOMAIN;
 export default function LoginPage() {
@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    disabled: isLoading,
+    disabled: isLoading
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -51,7 +51,8 @@ export default function LoginPage() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col p-2 border rounded gap-2 mx-auto max-w-3xl">
+          className="mx-auto flex max-w-3xl flex-col gap-2 rounded border p-2"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -60,7 +61,7 @@ export default function LoginPage() {
               return (
                 <FormItem>
                   <FormControl>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                       <Input
                         className="flex-1"
                         placeholder="username"

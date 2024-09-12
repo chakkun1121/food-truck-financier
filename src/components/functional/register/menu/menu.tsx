@@ -4,7 +4,7 @@ import CommodityCard from "./commodityCard";
 export default function Menu({
   commodities,
   currentOrder,
-  setCurrentOrder,
+  setCurrentOrder
 }: {
   commodities: StallInfo["commodities"];
   currentOrder: { [key: string]: number };

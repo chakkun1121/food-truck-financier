@@ -1,14 +1,14 @@
+import { StallInfo } from "@/types/stallInfo";
 import { render, screen } from "@testing-library/react";
 import Order from "./order";
-import { StallInfo } from "@/types/stallInfo";
 
 const mockStallInfo: StallInfo = {
   name: "テスト店",
   commodities: {
     "1": { name: "Item 1", price: 10, stock: 10 },
-    "2": { name: "Item 2", price: 20, stock: 10 },
+    "2": { name: "Item 2", price: 20, stock: 10 }
   },
-  prefix: "T",
+  prefix: "T"
 };
 
 describe("Order", () => {

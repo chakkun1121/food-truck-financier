@@ -6,12 +6,12 @@ export default function Page() {
   return (
     <>
       <Header />
-      <main className="h-screen pt-12 p-4 max-w-7xl mx-auto space-y-4">
+      <main className="mx-auto h-screen max-w-7xl space-y-4 p-4 pt-12">
         <Dashboard />
       </main>
     </>
   );
 }
 export const metadata: Metadata = {
-  title: "ダッシュボード",
+  title: "ダッシュボード"
 };

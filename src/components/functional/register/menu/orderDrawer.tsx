@@ -2,17 +2,16 @@ import KeyPad from "@/components/ui-element/keypad";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
   DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger
 } from "@/components/ui/drawer";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 export default function OrderDrawer({
@@ -21,7 +20,7 @@ export default function OrderDrawer({
   setReceivedMoney,
   commodities,
   trigger,
-  handleOrder,
+  handleOrder
 }: {
   currentOrder: { [key: UUID]: number };
   receivedMoney: number;
@@ -69,17 +68,19 @@ export default function OrderDrawer({
           setLastOrderInfo(undefined);
         }
       }}
-      open={open}>
+      open={open}
+    >
       <DrawerTrigger
         asChild
-        disabled={Object.values(currentOrder).every(value => value === 0)}>
+        disabled={Object.values(currentOrder).every(value => value === 0)}
+      >
         {trigger}
       </DrawerTrigger>
-      <DrawerContent className="h-full flex flex-col max-w-4xl w-full right-0 left-auto overflow-y-scroll overflow-x-hidden">
+      <DrawerContent className="left-auto right-0 flex h-full w-full max-w-4xl flex-col overflow-x-hidden overflow-y-scroll">
         {mode === "input" && (
           <>
             <DrawerHeader className="flex-none">金額入力</DrawerHeader>
-            <div className="flex flex-1 p-4 gap-4 md:flex-row flex-col">
+            <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
               <div className="flex-1">
                 <p className="flex justify-between text-xl">
                   <span>点数:</span>
@@ -95,7 +96,7 @@ export default function OrderDrawer({
                   <span>¥{sum}(税込)</span>
                 </p>
               </div>
-              <div className="flex-none mx-16">
+              <div className="mx-16 flex-none">
                 <KeyPad
                   onChange={setReceivedMoney}
                   onSubmit={() => sum <= receivedMoney && order()}
@@ -110,21 +111,21 @@ export default function OrderDrawer({
             </DrawerFooter>
           </>
         )}
-        {mode === "ordering" && <p className="text-center p-4">注文を送信中</p>}
+        {mode === "ordering" && <p className="p-4 text-center">注文を送信中</p>}
         {mode === "finished" && (
           <>
-            <div className="flex-1 p-4 ">
+            <div className="flex-1 p-4">
               <DrawerHeader>注文完了</DrawerHeader>
-              <CheckCircledIcon className="mx-auto text-primary h-48 w-48" />
+              <CheckCircledIcon className="mx-auto h-48 w-48 text-primary" />
               <h2 className="text-center text-2xl">
                 整理券:
-                <span className="font-bold text-3xl">
+                <span className="text-3xl font-bold">
                   {lastOrderInfo?.ticketId}
                 </span>
               </h2>
               <h2 className="text-center text-2xl">
                 お釣り:
-                <span className="font-bold text-3xl">
+                <span className="text-3xl font-bold">
                   ¥{receivedMoney - (lastOrderInfo?.sum ?? 0)}
                 </span>
               </h2>

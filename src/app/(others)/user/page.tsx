@@ -9,7 +9,7 @@ import { useState } from "react";
 import {
   useAuthState,
   useUpdatePassword,
-  useUpdateProfile,
+  useUpdateProfile
 } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { toast } from "sonner";
@@ -36,7 +36,7 @@ export default function UserPage() {
     updatePasswordError
   );
   return (
-    <main className="max-w-4xl mx-auto">
+    <main className="mx-auto max-w-4xl">
       {loading || userInfoLoading || stallInfoLoading ? (
         <p>Loading...</p>
       ) : (
@@ -47,13 +47,14 @@ export default function UserPage() {
               setUpdating(true);
               await updatePassword(newPassword);
               const success = await updateProfile({
-                displayName: newUserName,
+                displayName: newUserName
               });
               setUpdating(false);
               if (success) {
                 toast.success("更新しました");
               }
-            }}>
+            }}
+          >
             <h1 className="text-3xl">ユーザー情報</h1>
             <p>
               メールアドレス:

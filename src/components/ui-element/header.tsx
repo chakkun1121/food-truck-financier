@@ -1,9 +1,9 @@
 import Link from "next/link";
-import HeaderUser from "./headerUser";
 import { ModeToggle } from "../ui/mode-toggle";
+import HeaderUser from "./headerUser";
 export default function Header() {
   return (
-    <header className="flex justify-between items-center p-2 fixed w-full h-12">
+    <header className="fixed flex h-12 w-full items-center justify-between p-2">
       <h1 className="text-2xl">
         <Link href="/" prefetch={false}>
           FoodTruck Financier

@@ -1,32 +1,32 @@
-import type { Metadata, Viewport } from "next";
-import "./globals.css";
-import firebase from "firebase/compat/app";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { Noto_Sans_JP } from "next/font/google";
+import "@/lib/customErrorMap";
 import { cn } from "@/lib/utils";
+import firebase from "firebase/compat/app";
+import type { Metadata, Viewport } from "next";
+import { Noto_Sans_JP } from "next/font/google";
+import "./globals.css";
 const noto = Noto_Sans_JP({
   weight: ["400", "700"],
   style: "normal",
-  subsets: ["latin"],
+  subsets: ["latin"]
 });
-import { ThemeProvider } from "@/components/theme-provider";
-import "@/lib/customErrorMap";
 
 export const metadata: Metadata = {
   title: {
     default: "FoodTruck Financier",
-    template: "%s | FoodTruck Financier",
+    template: "%s | FoodTruck Financier"
   },
   robots: {
-    index: false,
-  },
+    index: false
+  }
 };
 export const viewport: Viewport = {
-  themeColor: "#ff9933",
+  themeColor: "#ff9933"
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -38,12 +38,13 @@ export default function RootLayout({
   }
   return (
     <html lang="ja">
-      <body className={cn("select-none min-h-screen", noto.className)}>
+      <body className={cn("min-h-screen select-none", noto.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
-          disableTransitionOnChange>
+          disableTransitionOnChange
+        >
           {children}
           <Toaster />
         </ThemeProvider>

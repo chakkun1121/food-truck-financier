@@ -4,25 +4,25 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
+import { convertCsv } from "@/lib/convertCsv";
+import { OrderType, StallInfo } from "@/types/stallInfo";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@radix-ui/react-dropdown-menu";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
-import { OrderStatus } from ".";
-import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
-import { convertCsv } from "@/lib/convertCsv";
+import { OrderStatus } from ".";
 
 export default function OrdersHeaderButtons({
   orderStatus,
   setOrderStatus,
   commodities,
-  orders,
+  orders
 }: {
   orderStatus: OrderStatus;
   setOrderStatus: any;
@@ -40,7 +40,7 @@ export default function OrdersHeaderButtons({
     URL.revokeObjectURL(url);
   }
   return (
-    <div className="flex fixed right-0">
+    <div className="fixed right-0 flex">
       <Select value={orderStatus} onValueChange={(v: any) => setOrderStatus(v)}>
         <SelectTrigger className="w-36 bg-background">
           <SelectValue placeholder="絞り込み" />

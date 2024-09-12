@@ -21,7 +21,7 @@ const customErrorMap: zod.ZodErrorMap = (issue, ctx) => {
         return {
           message: `${issue.maximum.toLocaleString(
             "ja-JP"
-          )}以下の数値を入力してください`,
+          )}以下の数値を入力してください`
         };
       }
       return { message: `${issue.maximum}文字以内で入力してください` };
@@ -29,7 +29,7 @@ const customErrorMap: zod.ZodErrorMap = (issue, ctx) => {
     case zod.ZodIssueCode.too_small:
       if (issue.type === "array") {
         return {
-          message: `${issue.minimum}つ以上チェックしてください`,
+          message: `${issue.minimum}つ以上チェックしてください`
         };
       }
       if (issue.type === "number") {

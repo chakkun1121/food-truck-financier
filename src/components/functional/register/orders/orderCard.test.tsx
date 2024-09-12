@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import OrderCard from "./orderCard";
-import { OrderType, StallInfo } from "@/types/stallInfo";
-import { UUID } from "crypto";
 import { createUUID } from "@/lib/uuid";
+import { OrderType, StallInfo } from "@/types/stallInfo";
+import { render, screen } from "@testing-library/react";
+import { UUID } from "crypto";
+import OrderCard from "./orderCard";
 
 describe("OrderCard", () => {
   const uuid = createUUID();
@@ -12,23 +12,23 @@ describe("OrderCard", () => {
     status: "pending",
     commodities: {
       "00000000-0000-0000-4000-000000000001": 2,
-      "00000000-0000-0000-4000-000000000002": 3,
+      "00000000-0000-0000-4000-000000000002": 3
     } as OrderType["commodities"],
     receivedAmount: 100,
-    ticket: "T-0001",
+    ticket: "T-0001"
   };
 
   const commodities: StallInfo["commodities"] = {
     "00000000-0000-0000-4000-000000000001": {
       name: "Commodity 1",
       price: 100,
-      stock: 10,
+      stock: 10
     },
     "00000000-0000-0000-4000-000000000002": {
       name: "Commodity 2",
       price: 200,
-      stock: 10,
-    },
+      stock: 10
+    }
   };
 
   const setOrderStateMock = jest.fn();
@@ -55,7 +55,7 @@ describe("OrderCard", () => {
 
   test("should render dropdown menu when order status is pending", () => {
     const dropdownMenuElement = screen.getByRole("button", {
-      name: "More options",
+      name: "More options"
     });
     expect(dropdownMenuElement).toBeInTheDocument();
   });
@@ -74,7 +74,7 @@ describe("OrderCard", () => {
   test("should not throw error when order are broken", () => {
     const brokenOrder = {
       status: "pending",
-      receivedAmount: 100,
+      receivedAmount: 100
     };
     render(
       <OrderCard

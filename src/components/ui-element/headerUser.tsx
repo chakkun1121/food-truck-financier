@@ -1,15 +1,15 @@
 "use client";
-import { auth } from "@/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Button } from "../ui/button";
-import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { auth } from "@/firebase";
 import { useError } from "@/hooks/useError";
+import Link from "next/link";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Button } from "../ui/button";
 export default function HeaderUser() {
   const [user, loading, error] = useAuthState(auth);
   useError(error);

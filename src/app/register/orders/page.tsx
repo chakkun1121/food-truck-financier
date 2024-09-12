@@ -5,5 +5,5 @@ export default function OrdersPage() {
   return <Orders />;
 }
 export const metadata: Metadata = {
-  title: "注文一覧",
+  title: "注文一覧"
 };

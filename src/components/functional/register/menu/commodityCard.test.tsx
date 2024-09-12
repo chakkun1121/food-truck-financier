@@ -1,12 +1,12 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import CommodityCard from "./commodityCard";
 import { CommodityType } from "@/types/stallInfo";
+import { fireEvent, render, screen } from "@testing-library/react";
+import CommodityCard from "./commodityCard";
 
 describe("CommodityCard", () => {
   const commodity: CommodityType = {
     name: "Test Commodity",
     price: 10,
-    stock: 10,
+    stock: 10
   };
   test("should increase count when clicked on the commodity card", () => {
     const setCountMock = jest.fn();
