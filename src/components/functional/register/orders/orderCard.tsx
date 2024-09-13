@@ -100,7 +100,8 @@ export default function OrderCard({
             )
           )}
         </div>
-        <br className="border-w-full h-1 w-full border" />
+        <hr className="mt-2 w-full" />
+        {order?.note && <div className="opacity-60">{order.note}</div>}
         <div className="flex items-center justify-between">
           <p>
             計

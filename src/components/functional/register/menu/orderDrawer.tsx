@@ -40,12 +40,14 @@ export default function OrderDrawer({
   const [lastOrderInfo, setLastOrderInfo] = useState<
     { ticketId: string; sum: number } | undefined
   >();
+  const [note, setNote] = useState<string>("");
   async function order() {
     setMode("ordering");
     const lastSum = sum;
     const order = await handleOrder({
       commodities: currentOrder,
-      receivedAmount: receivedMoney
+      receivedAmount: receivedMoney,
+      note
     });
     setMode("finished");
     setLastOrderInfo({ ticketId: order.ticket, sum: lastSum });
@@ -100,6 +102,12 @@ export default function OrderDrawer({
                   <span>合計</span>
                   <span>¥{sum}(税込)</span>
                 </p>
+                <textarea
+                  className="h-24 w-full rounded-md border border-gray-300 p-2"
+                  placeholder="備考"
+                  value={note}
+                  onChange={e => setNote(e.target.value)}
+                />
               </div>
               <div className="mx-16 flex-none">
                 <KeyPad
@@ -137,7 +145,7 @@ export default function OrderDrawer({
             </div>
             <DrawerFooter className="flex-none p-4">
               <DrawerClose asChild>
-                <Button>閉じる </Button>
+                <Button>閉じる</Button>
               </DrawerClose>
             </DrawerFooter>
           </>
