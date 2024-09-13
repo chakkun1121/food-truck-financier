@@ -27,7 +27,9 @@ export default function OrderDrawer({
   setReceivedMoney(receivedMoney: number): void;
   commodities: StallInfo["commodities"];
   trigger: React.ReactNode;
-  handleOrder: () => Promise<OrderType>;
+  handleOrder: (
+    order: Omit<OrderType, "status" | "ticket">
+  ) => Promise<OrderType>;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
     const price = commodities?.[key as UUID]?.price || 0;
@@ -41,7 +43,10 @@ export default function OrderDrawer({
   async function order() {
     setMode("ordering");
     const lastSum = sum;
-    const order = await handleOrder();
+    const order = await handleOrder({
+      commodities: currentOrder,
+      receivedAmount: receivedMoney
+    });
     setMode("finished");
     setLastOrderInfo({ ticketId: order.ticket, sum: lastSum });
   }
