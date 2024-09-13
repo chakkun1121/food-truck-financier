@@ -8,6 +8,7 @@ import {
   DrawerHeader,
   DrawerTrigger
 } from "@/components/ui/drawer";
+import { Textarea } from "@/components/ui/textarea";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
@@ -88,21 +89,23 @@ export default function OrderDrawer({
           <>
             <DrawerHeader className="flex-none">金額入力</DrawerHeader>
             <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
-              <div className="flex-1">
-                <p className="flex justify-between text-xl">
-                  <span>点数:</span>
-                  <span>{}</span>
-                </p>
-                <p className="flex justify-between text-xl">
-                  <span>小計</span>
-                  <span>¥{sum}</span>
-                </p>
-                <br />
-                <p className="flex justify-between text-2xl">
-                  <span>合計</span>
-                  <span>¥{sum}(税込)</span>
-                </p>
-                <textarea
+              <div className="flex-1 space-y-2">
+                <div>
+                  <p className="flex justify-between text-xl">
+                    <span>点数:</span>
+                    <span>{}</span>
+                  </p>
+                  <p className="flex justify-between text-xl">
+                    <span>小計</span>
+                    <span>¥{sum}</span>
+                  </p>
+                  <br />
+                  <p className="flex justify-between text-2xl">
+                    <span>合計</span>
+                    <span>¥{sum}(税込)</span>
+                  </p>
+                </div>
+                <Textarea
                   className="h-24 w-full rounded-md border border-gray-300 p-2"
                   placeholder="備考"
                   value={note}

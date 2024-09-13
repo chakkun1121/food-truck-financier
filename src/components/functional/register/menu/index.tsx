@@ -55,7 +55,7 @@ export default function Register() {
       Object.entries(currentOrder).map(([key, value]) =>
         set(
           ref(db, `stalls/${userInfo.stallId}/commodities/${key}/stock`),
-          (commodities[key]?.stock??0) - value
+          (commodities[key]?.stock ?? 0) - value
         )
       )
     );
@@ -71,7 +71,7 @@ export default function Register() {
   }
   return (
     <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
-      <ResizablePanel className="!overflow-y-scroll p-4">
+      <ResizablePanel className="space-y-4 !overflow-y-scroll p-4">
         <Menu
           commodities={commodities}
           currentOrder={currentOrder}
