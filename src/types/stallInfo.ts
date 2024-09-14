@@ -28,4 +28,5 @@ export type OrderType = {
   status: "pending" | "ready" | "completed" | "cancelled";
   ticket: string;
   note?: string;
+  numberTag?: number;
 };

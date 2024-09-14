@@ -20,7 +20,7 @@ export default function Order({
   >;
   handleOrder: (
     order: Omit<OrderType, "status" | "ticket">
-  ) => Promise<OrderType>;
+  ) => Promise<OrderType & { id: UUID }>;
   stallId: string;
 }) {
   const [receivedMoney, setReceivedMoney] = useState(0);
