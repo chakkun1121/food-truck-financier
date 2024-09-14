@@ -26,6 +26,7 @@ export default function Menu({
       <div className="flex items-center gap-4">
         {CATEGORIES.map(c => (
           <CategoryCard
+            key={c.id}
             category={c}
             setCategory={setCategory}
             itemCount={
