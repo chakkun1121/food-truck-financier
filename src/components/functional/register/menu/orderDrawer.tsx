@@ -109,12 +109,25 @@ export default function OrderDrawer({
                     <span>¥{sum}(税込)</span>
                   </p>
                 </div>
-                <Textarea
-                  className="h-24 w-full rounded-md border border-gray-300 p-2"
-                  placeholder="備考"
-                  value={note}
-                  onChange={e => setNote(e.target.value)}
-                />
+                <div>
+                  <Textarea
+                    className="h-24 w-full rounded-md border border-gray-300 p-2"
+                    placeholder="備考"
+                    value={note}
+                    onChange={e => setNote(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-2">
+                    {["イートイン", "テイクアウト"].map(t => (
+                      <Button
+                        key={t}
+                        className="w-full"
+                        onClick={() => setNote(`${note} ${t}`)}
+                      >
+                        {t}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
               </div>
               <div className="mx-16 flex-none">
                 <KeyPad
