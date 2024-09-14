@@ -111,13 +111,17 @@ export default function OrderDrawer({
                 </div>
                 <div>
                   <Textarea
-                    className="h-24 w-full rounded-md border border-gray-300 p-2"
+                    className="my-4 h-24 w-full rounded-md border border-gray-300 p-2"
                     placeholder="備考"
                     value={note}
                     onChange={e => setNote(e.target.value)}
                   />
                   <div className="flex flex-wrap gap-2">
-                    {["イートイン", "テイクアウト"].map(t => (
+                    {[
+                      "イートイン",
+                      "テイクアウト",
+                      "orderページに表示しない"
+                    ].map(t => (
                       <Button
                         key={t}
                         className="w-full"
@@ -181,7 +185,7 @@ function Finished({
           </h2>
         </div>
         <div className="px-auto mx-16 flex-none space-y-2">
-          <h2>番号札</h2>
+          <h2 className="my-6 text-lg font-bold">番号札</h2>
           <KeyPad onChange={v => setNumberTag(v)} />
           <Button
             className="w-full"

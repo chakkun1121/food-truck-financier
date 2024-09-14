@@ -52,20 +52,23 @@ export default function Orders() {
         />
       </div>
       <div className="mx-auto max-w-7xl space-y-4 p-4">
-        {showOrders?.map(([id, order]) => (
-          <OrderCard
-            key={id}
-            order={{ ...order, id }}
-            commodities={commodities}
-            setOrderState={(status: OrderType["status"]) => {
-              set(
-                ref(db, `stalls/${userInfo.stallId}/orders/${id}/status`),
-                status
-              );
-              toast.success("注文ステータスを更新しました:" + order.ticket);
-            }}
-          />
-        ))}
+        {showOrders?.map(([id, order]) => {
+          if (order.note?.includes("orderページに表示しない")) return null;
+          return (
+            <OrderCard
+              key={id}
+              order={{ ...order, id }}
+              commodities={commodities}
+              setOrderState={(status: OrderType["status"]) => {
+                set(
+                  ref(db, `stalls/${userInfo.stallId}/orders/${id}/status`),
+                  status
+                );
+                toast.success("注文ステータスを更新しました:" + order.ticket);
+              }}
+            />
+          );
+        })}
         {showOrders.length == 0 && (
           <div className="text-center">条件を満たす注文情報がありません</div>
         )}
