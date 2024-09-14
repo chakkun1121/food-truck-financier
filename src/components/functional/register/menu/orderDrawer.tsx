@@ -34,7 +34,7 @@ export default function OrderDrawer({
   trigger: React.ReactNode;
   handleOrder: (
     order: Omit<OrderType, "status" | "ticket">
-  ) => Promise<OrderType>;
+  ) => Promise<OrderType & { id: UUID }>;
   stallId: string;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
@@ -44,7 +44,7 @@ export default function OrderDrawer({
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"input" | "ordering" | "finished">("input");
   const [lastOrderInfo, setLastOrderInfo] = useState<
-    (OrderType & { sum: number }) | undefined
+    (OrderType & { sum: number; id: UUID }) | undefined
   >();
   const [note, setNote] = useState<string>("");
   async function order() {
@@ -143,7 +143,7 @@ function Finished({
   lastOrderInfo,
   stallId
 }: {
-  lastOrderInfo: (OrderType & { sum: number }) | undefined;
+  lastOrderInfo: (OrderType & { sum: number; id: UUID }) | undefined;
   stallId: string;
 }) {
   const [numberTag, setNumberTag] = useState<number | undefined>();
@@ -177,7 +177,7 @@ function Finished({
               await set(
                 ref(
                   db,
-                  `stalls/${stallId}/orders/${lastOrderInfo?.ticket}/numberTag`
+                  `stalls/${stallId}/orders/${lastOrderInfo?.id}/numberTag`
                 ),
                 numberTag
               );
