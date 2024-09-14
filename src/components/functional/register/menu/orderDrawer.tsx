@@ -15,6 +15,7 @@ import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function OrderDrawer({
@@ -143,37 +144,55 @@ function Finished({
   stallId
 }: {
   lastOrderInfo: (OrderType & { sum: number }) | undefined;
-  stallId:string;
+  stallId: string;
 }) {
+  const [numberTag, setNumberTag] = useState<number | undefined>();
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   return (
     <>
-      <div className="flex-1 p-4">
-        <DrawerHeader>注文完了</DrawerHeader>
-        <CheckCircledIcon className="mx-auto h-48 w-48 text-primary" />
-        <h2 className="text-center text-2xl">
-          整理券:
-          <span className="text-3xl font-bold">{lastOrderInfo?.ticket}</span>
-        </h2>
-        <h2 className="text-center text-2xl">
-          お釣り:
-          <span className="text-3xl font-bold">
-            ¥{(lastOrderInfo?.receivedAmount ?? 0) - (lastOrderInfo?.sum ?? 0)}
-          </span>
-        </h2>
+      <div className="flex flex-1 gap-2 p-4">
+        <div className="flex-1">
+          <DrawerHeader>注文完了</DrawerHeader>
+          <CheckCircledIcon className="mx-auto h-48 w-48 text-primary" />
+          <h2 className="text-center text-2xl">
+            整理券:
+            <span className="text-3xl font-bold">{lastOrderInfo?.ticket}</span>
+          </h2>
+          <h2 className="text-center text-2xl">
+            お釣り:
+            <span className="text-3xl font-bold">
+              ¥
+              {(lastOrderInfo?.receivedAmount ?? 0) - (lastOrderInfo?.sum ?? 0)}
+            </span>
+          </h2>
+        </div>
+        <div className="px-auto mx-16 flex-none space-y-2">
+          <h2>番号札</h2>
+          <KeyPad onChange={v => setNumberTag(v)} />
+          <Button
+            className="w-full"
+            onClick={async () => {
+              setSaving(true);
+              await set(
+                ref(
+                  db,
+                  `stalls/${stallId}/orders/${lastOrderInfo?.ticket}/numberTag`
+                ),
+                numberTag
+              );
+              toast.info("番号札を登録しました");
+              setSaving(false);
+              setSaved(true);
+            }}
+            disabled={saving}
+          >
+            保存
+          </Button>
+        </div>
       </div>
-      <KeyPad
-        onSubmit={v => {
-          set(
-            ref(
-              db,
-              `stalls/${stallId}/orders/${lastOrderInfo?.ticket}/numberTag`
-            ),
-            v
-          );
-        }}
-      />
       <DrawerFooter className="flex-none p-4">
-        <DrawerClose asChild>
+        <DrawerClose asChild disabled={!!(numberTag && !saved)}>
           <Button>閉じる</Button>
         </DrawerClose>
       </DrawerFooter>
