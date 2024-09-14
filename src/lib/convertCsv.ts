@@ -27,7 +27,21 @@ export function convertCsv(
           "",
           order.status
         ].join(",")
-      )
+      ),
+    "",
+    ["商品名", "販売個数", "在庫数"],
+    ...Object.entries(commodities).map(
+      // @ts-ignore
+      ([id, commodity]: [id: UUID, commodity: CommodityType]) =>
+        [
+          commodity.name,
+          Object.values(orders).reduce(
+            (acc, order) => acc + (order.commodities[id] || 0),
+            0
+          ),
+          commodity.stock.toString()
+        ].join(",")
+    )
   ].join("\n");
   return csv;
 }
