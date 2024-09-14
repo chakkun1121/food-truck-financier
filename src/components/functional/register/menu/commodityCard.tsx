@@ -1,5 +1,5 @@
+import { CATEGORIES } from "@/components/common/constants";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { CommodityType } from "@/types/stallInfo";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
@@ -13,26 +13,51 @@ export default function CommodityCard({
   count: number;
   setCount(count: number): void;
 }) {
+  const style = CATEGORIES.find(c => c.id === commodity?.category)?.class ?? {
+    bg: "bg-primary",
+    text: "text-primary-foreground",
+    border: "border-primary"
+  };
   return (
-    <Card className="w-full max-w-xs">
-      <CardContent
-        className={cn("flex justify-between p-0", !commodity?.stock && "")}
-      >
+    <div
+      className={cn(
+        "h-40 w-48 rounded-md border-l-[6px] bg-[rgba(225,225,225,0.05)] px-2 py-6 outline outline-1 outline-border",
+        count > 0 && `${style?.bg} text-foreground dark:text-background`,
+        style?.border,
+        count >= (commodity?.stock ?? 0) && "opacity-50"
+      )}
+    >
+      <div className={"flex flex-col justify-between p-0"}>
         <div
-          className="flex-1 p-6"
+          className="flex-1"
           onClick={() =>
             (commodity?.stock ?? 0) - count > 0 && setCount(count + 1)
           }
         >
-          <h3 className="text-xl">{commodity?.name}</h3>
+          <h3 className="text-lg font-bold">{commodity?.name}</h3>
           <div className="mt-2 flex items-center justify-between">
-            <p className="ml-1">¥{commodity?.price}</p>
-            <p>在庫:{commodity?.stock}</p>
+            <p
+              className={cn(
+                "ml-1 font-semibold tracking-wide text-muted-foreground",
+                count > 0 && "text-foreground dark:text-background"
+              )}
+            >
+              {commodity?.price} 円
+            </p>
+            <p
+              className={cn(
+                "pr-2 text-sm text-muted-foreground",
+                count > 0 && "text-foreground dark:text-background",
+                (commodity?.stock ?? 0) <= 10 && "block text-destructive"
+              )}
+            >
+              在庫:{commodity?.stock}
+            </p>
           </div>
         </div>
-        <div className="flex flex-none items-center gap-2 py-6 pr-6">
+        <div className="flex flex-none items-center justify-end gap-2 py-6">
           <Button
-            className="relative z-10 rounded-full"
+            className="relative z-10 rounded-full bg-transparent"
             variant="outline"
             size="icon"
             onClick={e => {
@@ -46,7 +71,7 @@ export default function CommodityCard({
           </Button>
           <p className="w-8 text-center text-lg">{count}</p>
           <Button
-            className="rounded-full"
+            className="relative z-10 rounded-full bg-transparent"
             variant="outline"
             size="icon"
             onClick={() => setCount(count + 1)}
@@ -56,7 +81,7 @@ export default function CommodityCard({
             <PlusIcon />
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

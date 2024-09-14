@@ -1,6 +1,7 @@
 "use client";
 
 import AccessError from "@/components/accessError";
+import { CATEGORIES } from "@/components/common/constants";
 import EditStockDialog from "@/components/functional/register/stock/editStockDialog";
 import Loading from "@/components/ui-element/loading";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ export default function StockPage() {
     name: string;
     price: number;
     stock: number;
+    category?: string;
   }>[] = [
     {
       accessorKey: "name",
@@ -64,11 +66,36 @@ export default function StockPage() {
       )
     },
     {
+      accessorKey: "category",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="カテゴリ" />
+      ),
+      cell: ({ row }) => {
+        const c = CATEGORIES.find(
+          category => category.id === row.getValue("category")
+        );
+        if (!row.getValue("category") || row.getValue("category") === "none")
+          return <p>未設定</p>;
+        return (
+          <div
+            className={cn(
+              "inline-block rounded-full border px-2 py-1 text-xs",
+              c?.class.text,
+              c?.class.border
+            )}
+          >
+            {c?.name}
+          </div>
+        );
+      }
+    },
+    {
       id: "actions",
       cell: ({ row }) => (
         <EditStockDialog
           trigger={<Button>編集</Button>}
           stock={row.getValue("stock")}
+          category={row.getValue("category")}
           setStock={async stock => {
             await set(
               ref(
@@ -76,6 +103,15 @@ export default function StockPage() {
                 `stalls/${userInfo?.stallId}/commodities/${row.original.id}/stock`
               ),
               stock
+            );
+          }}
+          setCategory={async category => {
+            await set(
+              ref(
+                db,
+                `stalls/${userInfo?.stallId}/commodities/${row.original.id}/category`
+              ),
+              category
             );
           }}
         />
@@ -88,18 +124,23 @@ export default function StockPage() {
       id,
       name: commodity.name,
       price: commodity.price,
-      stock: commodity.stock
+      stock: commodity.stock,
+      category: commodity.category
     })
   );
   if (loading || userInfoLoading || commoditiesLoading) return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
   return (
-    <>
-      <h2 className="p-4 text-center text-2xl">在庫、商品管理</h2>
-      <div className="mx-auto max-w-7xl space-y-4 p-4">
+    <div className="mx-auto max-w-7xl p-4">
+      <h2 className="py-4 text-4xl font-semibold tracking-wide">商品管理</h2>
+      <p className="mb-6 text-sm leading-6 tracking-wider text-muted-foreground">
+        在庫数の管理と商品の追加が行えます
+        <br />※ 商品の名称、金額の編集は整合性が取れなくなるため行えません
+      </p>
+      <div className="space-y-4">
         <DataTable columns={columns} data={data} className="" />
         <AddCommodityDialog stallId={userInfo.stallId} />
       </div>
-    </>
+    </div>
   );
 }

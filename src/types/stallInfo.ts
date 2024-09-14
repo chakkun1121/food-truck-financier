@@ -14,6 +14,7 @@ export type CommodityType = {
   name: string;
   price: number;
   stock: number;
+  category?: string
 };
 export type OrderType = {
   commodities: { [commodityId: UUID]: number };

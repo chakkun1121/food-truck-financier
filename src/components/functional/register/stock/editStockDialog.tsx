@@ -2,18 +2,29 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -22,49 +33,101 @@ import { z } from "zod";
 export default function EditStockDialog({
   trigger,
   stock,
-  setStock
+  category,
+  setStock,
+  setCategory
 }: {
   trigger: ReactNode;
   stock: number;
+  category: string;
   setStock: (stock: number) => Promise<void>;
+  setCategory: (category: string) => Promise<void>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const formSchema = z.object({
-    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER)
+    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
+    category: z.string().optional()
   });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { stock }
+    defaultValues: { stock, category }
   });
+
   return (
     <Dialog open={isOpen} onOpenChange={o => setIsOpen(o)}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent>
-        <DialogHeader>在庫数を編集</DialogHeader>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>商品の編集</DialogTitle>
+          <DialogDescription>
+            在庫の編集とカテゴリの変更ができます
+            カテゴリはレジ画面での表示に影響します
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(v => setStock(v.stock))}>
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="在庫数"
-                      {...field}
-                      onChange={(event: any) =>
-                        field.onChange(+event.target.value)
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
+          <form
+            onSubmit={form.handleSubmit(v => {
+              setStock(v.stock);
+              setCategory(v.category ?? "");
+            })}
+          >
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="stock"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>在庫数</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="在庫数"
+                        {...field}
+                        onChange={(event: any) =>
+                          field.onChange(+event.target.value)
+                        }
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      在庫の数が把握できない場合は大きい数値を入力してください
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>カテゴリ</FormLabel>
+                    <Select onValueChange={field.onChange} {...field}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="未選択" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="none">未選択</SelectItem>
+                        <SelectItem value="pet">ペットボトル</SelectItem>
+                        <SelectItem value="food">フード</SelectItem>
+                        <SelectItem value="drink">ドリンク</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      商品数が多い場合にカテゴリを設定することを推奨します
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <DialogFooter className="mt-6">
+              <Button onClick={() => setIsOpen(false)} variant={"outline"}>
+                キャンセル
+              </Button>
               <Button type="submit">保存</Button>
-              <Button onClick={() => setIsOpen(false)}>キャンセル</Button>
             </DialogFooter>
           </form>
         </Form>
