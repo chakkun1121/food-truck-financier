@@ -41,7 +41,12 @@ export default function Menu({
       <div className="flex flex-wrap gap-4">
         {commodities &&
           Object.entries(commodities)
-            ?.filter(([key, value]) => value.category === category)
+            ?.filter(
+              ([key, value]) =>
+                value.category === category ||
+                value.category === null ||
+                value.category === "none"
+            )
             .map(([key, value]) => {
               return (
                 <CommodityCard
