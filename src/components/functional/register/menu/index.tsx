@@ -85,6 +85,7 @@ export default function Register() {
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
           handleOrder={handleOrder}
+          stallId={userInfo?.stallId!}
         />
       </ResizablePanel>
     </ResizablePanelGroup>

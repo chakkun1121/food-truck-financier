@@ -10,7 +10,8 @@ export default function Order({
   commodities,
   currentOrder,
   setCurrentOrder,
-  handleOrder
+  handleOrder,
+  stallId
 }: {
   commodities: StallInfo["commodities"];
   currentOrder: { [key: UUID]: number };
@@ -20,6 +21,7 @@ export default function Order({
   handleOrder: (
     order: Omit<OrderType, "status" | "ticket">
   ) => Promise<OrderType>;
+  stallId: string;
 }) {
   const [receivedMoney, setReceivedMoney] = useState(0);
 
@@ -88,6 +90,7 @@ export default function Order({
         commodities={commodities}
         handleOrder={handleOrder}
         trigger={<Button className="w-full">注文する</Button>}
+        stallId={stallId}
       />
     </>
   );

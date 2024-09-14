@@ -20,6 +20,7 @@ describe("Order", () => {
         currentOrder={currentOrder}
         setCurrentOrder={jest.fn()}
         handleOrder={jest.fn()}
+        stallId="test"
       />
     );
 
@@ -67,6 +68,7 @@ describe("Order", () => {
         currentOrder={{ "1": 2, "2": 1, "3": 1 } as { [key: string]: number }}
         setCurrentOrder={jest.fn()}
         handleOrder={jest.fn()}
+        stallId="test"
       />
     );
   });
