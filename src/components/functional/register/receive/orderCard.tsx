@@ -14,7 +14,9 @@ export default function OrderCard({
     <button className="max-w-52" onClick={() => setOrderState(id, "completed")}>
       <Card>
         <CardContent className="p-8">
-          <p className="text-center text-4xl font-bold">{order.ticket}</p>
+          <p className="text-center text-4xl font-bold">
+            {order.numberTag ?? order.ticket}
+          </p>
         </CardContent>
       </Card>
     </button>

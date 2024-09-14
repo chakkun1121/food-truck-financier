@@ -32,7 +32,9 @@ export default function OrderCard({
     <Card>
       <CardHeader className="flex flex-row items-center justify-between p-4">
         <div className="flex items-center gap-4">
-          <CardTitle className="text-xl">{order?.ticket}</CardTitle>
+          <CardTitle className="text-xl">
+            {order?.ticket} {order?.numberTag && `(${order.numberTag})`}
+          </CardTitle>
           <Badge variant="outline">{order?.status}</Badge>
           {order?.status &&
             (order.status == "pending" || order.status == "ready") && (

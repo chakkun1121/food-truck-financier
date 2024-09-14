@@ -9,10 +9,13 @@ import {
   DrawerTrigger
 } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/firebase";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
+import { ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function OrderDrawer({
@@ -21,7 +24,8 @@ export default function OrderDrawer({
   setReceivedMoney,
   commodities,
   trigger,
-  handleOrder
+  handleOrder,
+  stallId
 }: {
   currentOrder: { [key: UUID]: number };
   receivedMoney: number;
@@ -30,7 +34,8 @@ export default function OrderDrawer({
   trigger: React.ReactNode;
   handleOrder: (
     order: Omit<OrderType, "status" | "ticket">
-  ) => Promise<OrderType>;
+  ) => Promise<OrderType & { id: UUID }>;
+  stallId: string;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
     const price = commodities?.[key as UUID]?.price || 0;
@@ -39,19 +44,18 @@ export default function OrderDrawer({
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"input" | "ordering" | "finished">("input");
   const [lastOrderInfo, setLastOrderInfo] = useState<
-    { ticketId: string; sum: number } | undefined
+    (OrderType & { sum: number; id: UUID }) | undefined
   >();
   const [note, setNote] = useState<string>("");
   async function order() {
     setMode("ordering");
-    const lastSum = sum;
     const order = await handleOrder({
       commodities: currentOrder,
       receivedAmount: receivedMoney,
       note
     });
     setMode("finished");
-    setLastOrderInfo({ ticketId: order.ticket, sum: lastSum });
+    setLastOrderInfo({ ...order, sum });
   }
   const valueSchema = z.number().min(0).max(Number.MAX_SAFE_INTEGER);
   const [error, setError] = useState<string | null>(null);
@@ -105,12 +109,25 @@ export default function OrderDrawer({
                     <span>¥{sum}(税込)</span>
                   </p>
                 </div>
-                <Textarea
-                  className="h-24 w-full rounded-md border border-gray-300 p-2"
-                  placeholder="備考"
-                  value={note}
-                  onChange={e => setNote(e.target.value)}
-                />
+                <div>
+                  <Textarea
+                    className="h-24 w-full rounded-md border border-gray-300 p-2"
+                    placeholder="備考"
+                    value={note}
+                    onChange={e => setNote(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-2">
+                    {["イートイン", "テイクアウト"].map(t => (
+                      <Button
+                        key={t}
+                        className="w-full"
+                        onClick={() => setNote(`${note} ${t}`)}
+                      >
+                        {t}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
               </div>
               <div className="mx-16 flex-none">
                 <KeyPad
@@ -129,31 +146,69 @@ export default function OrderDrawer({
         )}
         {mode === "ordering" && <p className="p-4 text-center">注文を送信中</p>}
         {mode === "finished" && (
-          <>
-            <div className="flex-1 p-4">
-              <DrawerHeader>注文完了</DrawerHeader>
-              <CheckCircledIcon className="mx-auto h-48 w-48 text-primary" />
-              <h2 className="text-center text-2xl">
-                整理券:
-                <span className="text-3xl font-bold">
-                  {lastOrderInfo?.ticketId}
-                </span>
-              </h2>
-              <h2 className="text-center text-2xl">
-                お釣り:
-                <span className="text-3xl font-bold">
-                  ¥{receivedMoney - (lastOrderInfo?.sum ?? 0)}
-                </span>
-              </h2>
-            </div>
-            <DrawerFooter className="flex-none p-4">
-              <DrawerClose asChild>
-                <Button>閉じる</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </>
+          <Finished lastOrderInfo={lastOrderInfo} stallId={stallId} />
         )}
       </DrawerContent>
     </Drawer>
+  );
+}
+function Finished({
+  lastOrderInfo,
+  stallId
+}: {
+  lastOrderInfo: (OrderType & { sum: number; id: UUID }) | undefined;
+  stallId: string;
+}) {
+  const [numberTag, setNumberTag] = useState<number | undefined>();
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  return (
+    <>
+      <div className="flex flex-1 gap-2 p-4">
+        <div className="flex-1">
+          <DrawerHeader>注文完了</DrawerHeader>
+          <CheckCircledIcon className="mx-auto h-48 w-48 text-primary" />
+          <h2 className="text-center text-2xl">
+            整理券:
+            <span className="text-3xl font-bold">{lastOrderInfo?.ticket}</span>
+          </h2>
+          <h2 className="text-center text-2xl">
+            お釣り:
+            <span className="text-3xl font-bold">
+              ¥
+              {(lastOrderInfo?.receivedAmount ?? 0) - (lastOrderInfo?.sum ?? 0)}
+            </span>
+          </h2>
+        </div>
+        <div className="px-auto mx-16 flex-none space-y-2">
+          <h2>番号札</h2>
+          <KeyPad onChange={v => setNumberTag(v)} />
+          <Button
+            className="w-full"
+            onClick={async () => {
+              setSaving(true);
+              await set(
+                ref(
+                  db,
+                  `stalls/${stallId}/orders/${lastOrderInfo?.id}/numberTag`
+                ),
+                numberTag
+              );
+              toast.info("番号札を登録しました");
+              setSaving(false);
+              setSaved(true);
+            }}
+            disabled={saving}
+          >
+            保存
+          </Button>
+        </div>
+      </div>
+      <DrawerFooter className="flex-none p-4">
+        <DrawerClose asChild disabled={!!(numberTag && !saved)}>
+          <Button>閉じる</Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </>
   );
 }

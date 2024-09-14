@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { generateTickerId } from "./generateTickerId";
+import { UUID } from "crypto";
 
 export default function Register() {
   const [user, loading, error] = useAuthState(auth);
@@ -43,7 +44,7 @@ export default function Register() {
     return <p className="text-center">先に商品登録を行ってください</p>;
   async function handleOrder(
     order: Omit<OrderType, "status" | "ticket">
-  ): Promise<OrderType> {
+  ): Promise<OrderType&{id:UUID}> {
     if (!userInfo?.stallId || !commodities) throw new Error("No stall Info");
     const fullOrder: OrderType = {
       ...order,
@@ -67,7 +68,7 @@ export default function Register() {
       )
     ]);
     setCurrentOrder({});
-    return fullOrder;
+    return {...fullOrder,id:orderId};
   }
   return (
     <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
@@ -85,6 +86,7 @@ export default function Register() {
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
           handleOrder={handleOrder}
+          stallId={userInfo?.stallId!}
         />
       </ResizablePanel>
     </ResizablePanelGroup>
