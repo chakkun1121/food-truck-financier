@@ -75,6 +75,7 @@ export default function OrderDrawer({
       onOpenChange={o => {
         setOpen(o);
         if (!o) {
+          setNote("");
           setMode("input");
           setReceivedMoney(0);
           setLastOrderInfo(undefined);
