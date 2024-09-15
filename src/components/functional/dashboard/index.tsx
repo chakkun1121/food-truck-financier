@@ -13,7 +13,7 @@ import { StockSheet } from "./stockSheet";
 export default function Dashboard() {
   const [stalls, stallsLoading, stallsError] = useObjectVal<
     | {
-        [key: string]: StallInfo;
+        [key: string]: Partial<StallInfo> | null | undefined;
       }
     | undefined
   >(ref(db, "stalls"));

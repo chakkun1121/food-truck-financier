@@ -34,17 +34,17 @@ const columns: ColumnDef<Data>[] = [
 export function StockSheet({
   stalls
 }: {
-  stalls: { [key: string]: StallInfo } | undefined;
+  stalls: { [key: string]: Partial<StallInfo> | null | undefined } | undefined;
 }) {
   // 在庫数が10件以下のリスト
   const data: Data[] =
     (stalls &&
       Object.entries(stalls)
         .flatMap(([stallId, stall]) =>
-          Object.entries(stall.commodities ?? {}).map(
+          Object.entries(stall?.commodities ?? {}).map(
             ([commodityId, commodity]) => ({
               stallId,
-              storeName: stall.name,
+              storeName: stall?.name || "",
               commodityId,
               commodityName: commodity.name,
               stock: commodity.stock

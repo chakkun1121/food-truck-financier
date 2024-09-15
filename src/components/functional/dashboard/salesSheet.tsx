@@ -13,9 +13,10 @@ type Data = {
 export function SalesSheet({
   stalls
 }: {
-  stalls: { [key: string]: StallInfo } | undefined;
+  stalls: { [key: string]: Partial<StallInfo> | null | undefined } | undefined;
 }) {
-  function getSales(stall: StallInfo) {
+  function getSales(stall: Partial<StallInfo> | null | undefined) {
+    if (!stall) return 0;
     return Object.values(stall?.orders ?? {}).reduce(
       (acc, order) => acc + totalAmount(stall.commodities, order),
       0
@@ -25,7 +26,7 @@ export function SalesSheet({
     (stalls &&
       Object.entries(stalls).map(([stallId, stall]) => ({
         stallId: stallId,
-        storeName: stall.name,
+        storeName: stall?.name || "",
         sales: getSales(stall)
       }))) ||
     [];

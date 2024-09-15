@@ -9,7 +9,7 @@ import { dl, zip } from "@/lib/zip";
 export default function Export({
   stalls
 }: {
-  stalls: { [key: string]: StallInfo } | undefined;
+  stalls: { [key: string]: Partial<StallInfo> | null | undefined } | undefined;
 }) {
   const [loading, setLoading] = useState(false);
   async function download() {
@@ -19,7 +19,7 @@ export default function Export({
         (stalls &&
           Object.entries(stalls).map(([stallId, stall]) => ({
             id: stallId,
-            name: stall.name,
+            name: stall?.name,
             csv: convertCsv(stall?.commodities, stall?.orders!)
           }))) ??
         [];
