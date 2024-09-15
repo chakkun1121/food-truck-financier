@@ -47,6 +47,7 @@ export default function OrderDrawer({
     (OrderType & { sum: number; id: UUID }) | undefined
   >();
   const [note, setNote] = useState<string>("");
+
   async function order() {
     setMode("ordering");
     const order = await handleOrder({
@@ -54,6 +55,7 @@ export default function OrderDrawer({
       receivedAmount: receivedMoney,
       note
     });
+    setNote("");
     setMode("finished");
     setLastOrderInfo({ ...order, sum });
   }
