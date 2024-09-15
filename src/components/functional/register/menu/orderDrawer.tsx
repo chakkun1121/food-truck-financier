@@ -51,7 +51,9 @@ export default function OrderDrawer({
   async function order() {
     setMode("ordering");
     const order = await handleOrder({
-      commodities: currentOrder,
+      commodities: Object.fromEntries(
+        Object.entries(currentOrder).filter(([, value]) => value !== 0)
+      ),
       receivedAmount: receivedMoney,
       note
     });
