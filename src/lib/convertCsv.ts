@@ -5,8 +5,8 @@ import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
 
 export function convertCsv(
-  commodities: StallInfo["commodities"],
-  orders: { [key: UUID]: OrderType }
+  commodities: Partial<StallInfo["commodities"]>,
+  orders: { [key: UUID]: Partial<OrderType> | undefined | null }
 ) {
   if (!commodities || !orders) {
     return "";
@@ -36,7 +36,7 @@ export function convertCsv(
         [
           commodity.name,
           Object.values(orders).reduce(
-            (acc, order) => acc + (order.commodities[id] || 0),
+            (acc, order) => acc + (order?.commodities?.[id] || 0),
             0
           ),
           commodity.stock.toString()
