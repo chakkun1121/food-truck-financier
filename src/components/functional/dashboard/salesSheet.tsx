@@ -13,7 +13,7 @@ type Data = {
 export function SalesSheet({
   stalls
 }: {
-  stalls: { [key: string]: StallInfo };
+  stalls: { [key: string]: StallInfo } | undefined;
 }) {
   function getSales(stall: StallInfo) {
     return Object.values(stall?.orders ?? {}).reduce(
@@ -21,11 +21,14 @@ export function SalesSheet({
       0
     );
   }
-  const data: Data[] = Object.entries(stalls).map(([stallId, stall]) => ({
-    stallId: stallId,
-    storeName: stall.name,
-    sales: getSales(stall)
-  }));
+  const data: Data[] =
+    (stalls &&
+      Object.entries(stalls).map(([stallId, stall]) => ({
+        stallId: stallId,
+        storeName: stall.name,
+        sales: getSales(stall)
+      }))) ||
+    [];
   const columns: ColumnDef<Data>[] = [
     {
       accessorKey: "storeName",

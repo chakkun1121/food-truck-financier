@@ -9,17 +9,20 @@ import { dl, zip } from "@/lib/zip";
 export default function Export({
   stalls
 }: {
-  stalls: { [key: string]: StallInfo };
+  stalls: { [key: string]: StallInfo } | undefined;
 }) {
   const [loading, setLoading] = useState(false);
   async function download() {
     try {
       setLoading(true);
-      const data = Object.entries(stalls).map(([stallId, stall]) => ({
-        id: stallId,
-        name: stall.name,
-        csv: convertCsv(stall?.commodities, stall?.orders!)
-      }));
+      const data =
+        (stalls &&
+          Object.entries(stalls).map(([stallId, stall]) => ({
+            id: stallId,
+            name: stall.name,
+            csv: convertCsv(stall?.commodities, stall?.orders!)
+          }))) ??
+        [];
       const files = data.map(d => ({
         name: `${d.name}.csv`,
         buffer: new TextEncoder().encode(d.csv)
