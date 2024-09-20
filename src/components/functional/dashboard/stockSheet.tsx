@@ -34,22 +34,25 @@ const columns: ColumnDef<Data>[] = [
 export function StockSheet({
   stalls
 }: {
-  stalls: { [key: string]: StallInfo };
+  stalls: { [key: string]: Partial<StallInfo> | null | undefined } | undefined;
 }) {
   // 在庫数が10件以下のリスト
-  const data: Data[] = Object.entries(stalls)
-    .flatMap(([stallId, stall]) =>
-      Object.entries(stall.commodities ?? {}).map(
-        ([commodityId, commodity]) => ({
-          stallId,
-          storeName: stall.name,
-          commodityId,
-          commodityName: commodity.name,
-          stock: commodity.stock
-        })
-      )
-    )
-    .filter(d => d.stock <= 10);
+  const data: Data[] =
+    (stalls &&
+      Object.entries(stalls)
+        .flatMap(([stallId, stall]) =>
+          Object.entries(stall?.commodities ?? {}).map(
+            ([commodityId, commodity]) => ({
+              stallId,
+              storeName: stall?.name || "",
+              commodityId,
+              commodityName: commodity.name,
+              stock: commodity.stock
+            })
+          )
+        )
+        .filter(d => d.stock <= 10)) ||
+    [];
   return (
     <div className="space-y-2 p-4">
       <h2 className="text-center text-2xl">在庫10件以下の商品</h2>

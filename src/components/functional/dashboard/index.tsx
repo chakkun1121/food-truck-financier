@@ -11,17 +11,20 @@ import { SalesSheet } from "./salesSheet";
 import { StockSheet } from "./stockSheet";
 
 export default function Dashboard() {
-  const [stalls, stallsLoading, stallsError] = useObjectVal<{
-    [key: string]: StallInfo;
-  }>(ref(db, "stalls"));
+  const [stalls, stallsLoading, stallsError] = useObjectVal<
+    | {
+        [key: string]: Partial<StallInfo> | null | undefined;
+      }
+    | undefined
+  >(ref(db, "stalls"));
   useError(stallsError);
   if (stallsLoading) return <Loading />;
   return (
     <>
       <h1 className="text-2xl">ダッシュボード</h1>
-      <SalesSheet stalls={stalls!} />
-      <StockSheet stalls={stalls!} />
-      <Export stalls={stalls!} />
+      <SalesSheet stalls={stalls} />
+      <StockSheet stalls={stalls} />
+      <Export stalls={stalls} />
     </>
   );
 }

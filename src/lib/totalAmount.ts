@@ -3,12 +3,12 @@ import { OrderType, StallInfo } from "@/types/stallInfo";
 
 // 合計金額を出す関数
 export function totalAmount(
-  commodities: StallInfo["commodities"],
-  order: OrderType
+  commodities: Partial<StallInfo["commodities"]>,
+  order: Partial<OrderType>
 ) {
-  return Object.entries(order.commodities).reduce(
+  return Object.entries(order?.commodities || {}).reduce(
     (acc, [commodityId, quantity]) =>
-      acc + commodities?.[commodityId].price! * quantity,
+      acc + (commodities?.[commodityId]?.price ?? 0) * quantity,
     0
   );
 }

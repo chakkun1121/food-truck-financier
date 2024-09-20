@@ -5,8 +5,8 @@ import { OrderType, StallInfo } from "@/types/stallInfo";
 import { UUID } from "crypto";
 
 export function convertCsv(
-  commodities: StallInfo["commodities"],
-  orders: { [key: UUID]: OrderType }
+  commodities: Partial<StallInfo["commodities"]>,
+  orders: { [key: UUID]: Partial<OrderType> | undefined | null }
 ) {
   if (!commodities || !orders) {
     return "";
@@ -27,7 +27,21 @@ export function convertCsv(
           "",
           order.status
         ].join(",")
-      )
+      ),
+    "",
+    ["商品名", "販売個数", "在庫数"],
+    ...Object.entries(commodities).map(
+      // @ts-ignore
+      ([id, commodity]: [id: UUID, commodity: CommodityType]) =>
+        [
+          commodity.name,
+          Object.values(orders).reduce(
+            (acc, order) => acc + (order?.commodities?.[id] || 0),
+            0
+          ),
+          commodity.stock.toString()
+        ].join(",")
+    )
   ].join("\n");
   return csv;
 }
