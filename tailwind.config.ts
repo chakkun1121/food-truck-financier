@@ -74,20 +74,20 @@ const config = {
       },
       height: {
         // @ts-ignore
-        screen: ["100vh", "100dvh"],
+        screen: ["100vh", "100dvh"]
       },
       minHeight: {
         // @ts-ignore
-        screen: ["100vh", "100dvh"],
+        screen: ["100vh", "100dvh"]
       },
       maxHeight: {
         // @ts-ignore
-        screen: ["100vh", "100dvh"],
+        screen: ["100vh", "100dvh"]
       },
       fontFamily: {
-        sans: ['var(--font-poppins)', 'var(--font-noto-sans-jp)'],
-      },
-    },
+        sans: ["var(--font-poppins)", "var(--font-noto-sans-jp)"]
+      }
+    }
   },
   plugins: [require("tailwindcss-animate")]
 } satisfies Config;
