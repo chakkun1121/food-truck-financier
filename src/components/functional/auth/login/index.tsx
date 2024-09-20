@@ -34,7 +34,7 @@ const formSchema = z.object({
 });
 const emailDomain = process.env.NEXT_PUBLIC_EMAIL_DOMAIN;
 
-export function LoginForm() {
+export default function LoginForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [signInWithEmailAndPassword, user, _loginLoading, error] =

@@ -45,7 +45,6 @@ export default function RootLayout({
 }>) {
   if (typeof window !== "undefined") {
     window.addEventListener("beforeunload", () => {
-      // biome-ignore lint/suspicious/noConsoleLog: <explanation>
       console.log("Disconnecting from Firebase");
       firebase.database().goOffline();
     });
@@ -56,7 +55,8 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen select-none",
-          `${poppins.variable} ${notoSansJP.variable} font-sans`
+          notoSansJP.variable,
+          "font-sans"
         )}
       >
         <ThemeProvider

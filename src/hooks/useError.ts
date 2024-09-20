@@ -9,5 +9,5 @@ export function useError(...args: (undefined | Error)[]) {
         toast.error(arg.message);
       }
     }
-  }, args);
+  }, [args]);
 }
