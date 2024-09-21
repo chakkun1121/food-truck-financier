@@ -1,6 +1,6 @@
 import { FaCocktail } from "react-icons/fa";
 import { TbBottle, TbBurger } from "react-icons/tb";
-
+// Todo: データベースに移行してこのファイルを削除する
 const colors = {
   pastel: {
     green: "#CFDDDB",

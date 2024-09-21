@@ -9,6 +9,9 @@ export type StallInfo = {
   orders?: {
     [key: UUID]: OrderType;
   };
+  category: {
+    [key: string]: CategoryType;
+  };
 };
 export type CommodityType = {
   name: string;
@@ -30,4 +33,15 @@ export type OrderType = {
   ticket: string;
   note?: string;
   numberTag?: number;
+  category?: string | undefined;
+};
+
+export type CategoryType = {
+  name: string;
+  icon: string;
+  color?: {
+    bg: string; // #ffffff
+    text: string;
+    border: string;
+  };
 };

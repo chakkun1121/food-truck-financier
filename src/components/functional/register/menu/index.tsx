@@ -35,9 +35,18 @@ export default function Register() {
   const [currentOrder, setCurrentOrder] = useState<{
     [key: string]: number;
   }>({});
+  const [category, categoryLoading, categoryError] = useObjectVal<
+    StallInfo["category"]
+  >(ref(db, `stalls/${userInfo?.stallId}/category`));
   const [width] = useWindowSize();
-  useError(error, userInfoError, commoditiesError, prefixError);
-  if (loading || userInfoLoading || commoditiesLoading || prefixLoading)
+  useError(error, userInfoError, commoditiesError, prefixError, categoryError);
+  if (
+    loading ||
+    userInfoLoading ||
+    commoditiesLoading ||
+    prefixLoading ||
+    categoryLoading
+  )
     return <Loading />;
   if (!user) return <AccessError />;
   if (!commodities)
@@ -77,6 +86,13 @@ export default function Register() {
           commodities={commodities}
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
+          categories={{
+            all: {
+              name: "全て",
+              icon: ""
+            },
+            ...(category as StallInfo["category"])
+          }}
         />
       </ResizablePanel>
       <ResizableHandle />

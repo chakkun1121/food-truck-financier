@@ -1,6 +1,5 @@
 "use client";
 
-import { CATEGORIES } from "@/components/common/constants";
 import { Separator } from "@/components/ui/separator";
 import { StallInfo } from "@/types/stallInfo";
 import { useState } from "react";
@@ -10,31 +9,34 @@ import CommodityCard from "./commodityCard";
 export default function Menu({
   commodities,
   currentOrder,
-  setCurrentOrder
+  setCurrentOrder,
+  categories
 }: {
   commodities: StallInfo["commodities"];
   currentOrder: { [key: string]: number };
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: string]: number }>
   >;
+  categories?: StallInfo["category"];
 }) {
-  const [category, setCategory] = useState<string | null>(
-    Object.entries(commodities!)?.[0]?.[1].category ?? null
-  );
+  const [category, setCategory] = useState<string>("all");
   return (
     <>
       <div className="flex items-center gap-4">
-        {CATEGORIES.map(c => (
+        {Object.entries(categories ?? {}).map(([id, c]) => (
           <CategoryCard
-            key={c.id}
+            key={id}
             category={c}
             setCategory={setCategory}
             itemCount={
               (commodities &&
-                Object.entries(commodities).filter(
-                  ([key, value]) => value.category === c.id
-                ).length) as number
+                (id === "all"
+                  ? Object.entries(commodities).length
+                  : Object.entries(commodities).filter(
+                      ([_, value]) => value.category === id
+                    ).length)) as number
             }
+            id={id}
           />
         ))}
       </div>
@@ -43,7 +45,8 @@ export default function Menu({
         {commodities &&
           Object.entries(commodities)
             ?.filter(
-              ([key, value]) =>
+              ([_, value]) =>
+                category === "all" ||
                 value.category === category ||
                 value.category === null ||
                 value.category === "none"
