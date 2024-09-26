@@ -60,6 +60,7 @@ export default function Menu({
                   setCount={c => {
                     setCurrentOrder(o => ({ ...o, [key]: c }));
                   }}
+                  category={categories?.[value.category ?? "none"]}
                 />
               );
             })}

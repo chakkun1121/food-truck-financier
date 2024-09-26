@@ -1,22 +1,27 @@
-import { CATEGORIES } from "@/components/common/constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CommodityType } from "@/types/stallInfo";
+import { CategoryType, CommodityType } from "@/types/stallInfo";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 
 export default function CommodityCard({
   commodity,
   count,
-  setCount
+  setCount,
+  category
 }: {
   commodity: Partial<CommodityType>;
   count: number;
   setCount(count: number): void;
+  category?: CategoryType;
 }) {
-  const style = CATEGORIES.find(c => c.id === commodity?.category)?.class ?? {
-    bg: "bg-primary",
-    text: "text-primary-foreground",
-    border: "border-primary"
+  const style = {
+    bg: category?.color?.bg ? `bg-[${category?.color?.bg}]` : "bg-primary",
+    text: category?.color?.text
+      ? `text-[${category?.color?.text}]`
+      : "text-primary-foreground",
+    border: category?.color?.border
+      ? `border-[${category?.color?.border}]`
+      : "border-primary"
   };
   return (
     <div
