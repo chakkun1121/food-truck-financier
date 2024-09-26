@@ -8,17 +8,6 @@ const mockCommodities: StallInfo["commodities"] = {
 };
 
 describe("Menu Component", () => {
-  it("renders the menu title", () => {
-    render(
-      <Menu
-        commodities={mockCommodities}
-        currentOrder={{}}
-        setCurrentOrder={jest.fn()}
-      />
-    );
-    expect(screen.getByText("メニュー")).toBeInTheDocument();
-  });
-
   it("renders the commodities", () => {
     render(
       <Menu

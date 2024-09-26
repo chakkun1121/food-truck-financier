@@ -9,7 +9,7 @@ export type StallInfo = {
   orders?: {
     [key: UUID]: OrderType;
   };
-  category: {
+  category?: {
     [key: string]: CategoryType;
   };
 };
