@@ -16,7 +16,7 @@ export default function CategoryCard({
   return (
     <div
       className={cn(
-        "h-32 w-48 rounded-md p-4 text-foreground dark:text-background",
+        "aspect-video h-32 rounded-md p-4 text-foreground dark:text-background",
         "bg-primary",
         category?.color?.bg ? `bg-[${category?.color?.bg}]` : ""
       )}
