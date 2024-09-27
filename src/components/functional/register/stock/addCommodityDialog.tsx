@@ -9,14 +9,23 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { db } from "@/firebase";
 import { createUUID } from "@/lib/uuid";
+import { StallInfo } from "@/types/stallInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { ref, set } from "firebase/database";
@@ -25,13 +34,20 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export default function AddCommodityDialog({ stallId }: { stallId: string }) {
+export default function AddCommodityDialog({
+  stallId,
+  categories
+}: {
+  stallId: string;
+  categories: StallInfo["category"];
+}) {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const formSchema = z.object({
     name: z.string(),
     price: z.number().int().min(0).max(10000),
-    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER)
+    stock: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
+    category: z.string().optional()
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -116,6 +132,36 @@ export default function AddCommodityDialog({ stallId }: { stallId: string }) {
                       }
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>カテゴリ</FormLabel>
+                  <Select onValueChange={field.onChange} {...field}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="未選択" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="none">未選択</SelectItem>
+                      {Object.entries(categories || {}).map(
+                        ([id, category]) => (
+                          <SelectItem key={id} value={id}>
+                            {category.name}
+                          </SelectItem>
+                        )
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    商品数が多い場合にカテゴリを設定することを推奨します
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { StallInfo } from "@/types/stallInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,12 +33,16 @@ import { z } from "zod";
 
 export default function EditStockDialog({
   trigger,
+  name,
+  categories,
   stock,
   category,
   setStock,
   setCategory
 }: {
   trigger: ReactNode;
+  name: string;
+  categories: StallInfo["category"];
   stock: number;
   category: string;
   setStock: (stock: number) => Promise<void>;
@@ -65,6 +70,9 @@ export default function EditStockDialog({
             カテゴリはレジ画面での表示に影響します
           </DialogDescription>
         </DialogHeader>
+        <div>
+          <p>{name}</p>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(v => {
@@ -110,9 +118,13 @@ export default function EditStockDialog({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="none">未選択</SelectItem>
-                        <SelectItem value="pet">ペットボトル</SelectItem>
-                        <SelectItem value="food">フード</SelectItem>
-                        <SelectItem value="drink">ドリンク</SelectItem>
+                        {Object.entries(categories || {}).map(
+                          ([id, category]) => (
+                            <SelectItem key={id} value={id}>
+                              {category.name}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                     <FormDescription>

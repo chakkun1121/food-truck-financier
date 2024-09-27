@@ -1,7 +1,6 @@
 "use client";
 
 import AccessError from "@/components/accessError";
-import { CATEGORIES } from "@/components/common/constants";
 import EditStockDialog from "@/components/functional/register/stock/editStockDialog";
 import Loading from "@/components/ui-element/loading";
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,11 @@ export default function StockPage() {
   const [commodities, commoditiesLoading, commoditiesError] = useObjectVal<
     StallInfo["commodities"]
   >(ref(db, `stalls/${userInfo?.stallId}/commodities`));
-  useError(error, userInfoError, commoditiesError);
+  const [categories, categoriesLoading, categoriesError] = useObjectVal<
+    StallInfo["category"]
+  >(ref(db, `stalls/${userInfo?.stallId}/category`));
+  console.log(categories);
+  useError(error, userInfoError, commoditiesError, categoriesError);
   const columns: ColumnDef<{
     id: string;
     name: string;
@@ -71,17 +74,18 @@ export default function StockPage() {
         <DataTableColumnHeader column={column} title="カテゴリ" />
       ),
       cell: ({ row }) => {
-        const c = CATEGORIES.find(
-          category => category.id === row.getValue("category")
-        );
+        const c = Object.entries(
+          (categories as StallInfo["category"]) || {}
+        ).find(([id]) => id === row.getValue("category"))?.[1];
+        console.log(row.getValue("category"), c);
         if (!row.getValue("category") || row.getValue("category") === "none")
           return <p>未設定</p>;
         return (
           <div
             className={cn(
               "inline-block rounded-full border px-2 py-1 text-xs",
-              c?.class.text,
-              c?.class.border
+              c?.color?.text ? `text-[${c?.color.text}]` : "text-black",
+              c?.color?.border ? `border-[${c?.color.border}]` : "border-black"
             )}
           >
             {c?.name}
@@ -94,8 +98,10 @@ export default function StockPage() {
       cell: ({ row }) => (
         <EditStockDialog
           trigger={<Button>編集</Button>}
+          name={row.getValue("name")}
           stock={row.getValue("stock")}
           category={row.getValue("category")}
+          categories={categories}
           setStock={async stock => {
             await set(
               ref(
@@ -128,7 +134,8 @@ export default function StockPage() {
       category: commodity.category
     })
   );
-  if (loading || userInfoLoading || commoditiesLoading) return <Loading />;
+  if (loading || userInfoLoading || commoditiesLoading || categoriesLoading)
+    return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
   return (
     <div className="mx-auto max-w-7xl p-4">
@@ -139,7 +146,10 @@ export default function StockPage() {
       </p>
       <div className="space-y-4">
         <DataTable columns={columns} data={data} className="" />
-        <AddCommodityDialog stallId={userInfo.stallId} />
+        <AddCommodityDialog
+          stallId={userInfo.stallId}
+          categories={categories}
+        />
       </div>
     </div>
   );

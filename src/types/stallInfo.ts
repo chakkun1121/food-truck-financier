@@ -40,8 +40,8 @@ export type CategoryType = {
   name: string;
   icon: string;
   color?: {
-    bg: string; // #ffffff
-    text: string;
-    border: string;
+    bg?: string; // #ffffff
+    text?: string;
+    border?: string;
   };
 };

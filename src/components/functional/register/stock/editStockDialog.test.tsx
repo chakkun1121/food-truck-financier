@@ -6,8 +6,12 @@ describe("EditStockDialog", () => {
     render(
       <EditStockDialog
         trigger={<button>Open Dialog</button>}
+        name=""
         stock={0}
         setStock={jest.fn()}
+        category=""
+        categories={{}}
+        setCategory={jest.fn()}
       />
     );
 
@@ -24,6 +28,10 @@ describe("EditStockDialog", () => {
         trigger={<button>Open Dialog</button>}
         stock={0}
         setStock={jest.fn()}
+        name=""
+        category=""
+        categories={{}}
+        setCategory={jest.fn()}
       />
     );
 
@@ -44,13 +52,17 @@ describe("EditStockDialog", () => {
         trigger={<button>Open Dialog</button>}
         stock={0}
         setStock={setStockMock}
+        name=""
+        category=""
+        categories={{}}
+        setCategory={jest.fn()}
       />
     );
 
     const triggerElement = screen.getByText("Open Dialog");
     fireEvent.click(triggerElement);
 
-    const inputElement = screen.getByPlaceholderText("在庫数を入力");
+    const inputElement = screen.getByPlaceholderText("在庫数");
     fireEvent.change(inputElement, { target: { value: "10" } });
 
     const saveButtonElement = screen.getByText("保存");
