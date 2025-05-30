@@ -74,7 +74,7 @@ export default function AddCommodityDialog({
   }
   return (
     <Dialog onOpenChange={o => setOpen(o)} open={open}>
-      <DialogTrigger className="mx-auto">
+      <DialogTrigger className="mx-auto" asChild>
         <Button>
           <PlusIcon />
           商品を追加
