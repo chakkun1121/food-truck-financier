@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
 import {
@@ -80,7 +81,9 @@ export default function AddCommodityDialog({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>商品追加</DialogHeader>
+        <DialogHeader>
+          <DialogTitle>商品追加</DialogTitle>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField

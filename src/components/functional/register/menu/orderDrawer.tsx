@@ -6,6 +6,7 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
+  DrawerTitle,
   DrawerTrigger
 } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
@@ -93,10 +94,12 @@ export default function OrderDrawer({
       >
         {trigger}
       </DrawerTrigger>
-      <DrawerContent className="left-auto right-0 flex h-full w-full max-w-4xl flex-col overflow-x-hidden overflow-y-scroll">
+      <DrawerContent className="right-0 left-auto flex h-full w-full max-w-4xl flex-col overflow-x-hidden overflow-y-scroll">
         {mode === "input" && (
           <>
-            <DrawerHeader className="flex-none">金額入力</DrawerHeader>
+            <DrawerHeader className="flex-none">
+              <DrawerTitle>金額入力</DrawerTitle>
+            </DrawerHeader>
             <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
               <div className="flex-1 space-y-2">
                 <div>
@@ -176,7 +179,7 @@ function Finished({
       <div className="flex flex-1 gap-2 p-4">
         <div className="flex-1">
           <DrawerHeader>注文完了</DrawerHeader>
-          <CheckCircledIcon className="mx-auto h-48 w-48 text-primary" />
+          <CheckCircledIcon className="text-primary mx-auto h-48 w-48" />
           <h2 className="text-center text-2xl">
             整理券:
             <span className="text-3xl font-bold">{lastOrderInfo?.ticket}</span>
