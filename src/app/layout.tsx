@@ -51,7 +51,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen select-none",
