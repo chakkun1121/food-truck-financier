@@ -23,7 +23,7 @@ import { clientFirebase } from "@/firebase/client";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -45,9 +45,19 @@ export default function LoginForm() {
     router.push("/");
   }
 
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    disabled: isLoading
+    disabled: isLoading,
+    defaultValues: {
+      id: "",
+      password: ""
+    }
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -65,7 +75,6 @@ export default function LoginForm() {
       });
       return;
     }
-    router.push("/");
     setIsLoading(false);
   };
 
