@@ -41,9 +41,6 @@ export default function LoginForm() {
     useSignInWithEmailAndPassword(clientFirebase.auth);
 
   const router = useRouter();
-  if (user) {
-    router.push("/");
-  }
 
   useEffect(() => {
     if (user) {
