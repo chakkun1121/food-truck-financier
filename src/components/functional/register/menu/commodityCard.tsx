@@ -26,7 +26,7 @@ export default function CommodityCard({
   return (
     <div
       className={cn(
-        "aspect-video h-40 rounded-md border-l-[6px] bg-[rgba(225,225,225,0.05)] px-2 py-6 outline outline-1 outline-border",
+        "aspect-video h-40 rounded-md border-l-[6px] bg-[rgba(225,225,225,0.05)] px-2 py-6 outline outline-border",
         count > 0 && `${style?.bg} text-foreground dark:text-background`,
         style?.border,
         count >= (commodity?.stock ?? 0) && "opacity-50"

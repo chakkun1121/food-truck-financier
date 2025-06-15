@@ -12,7 +12,6 @@ export default function Logout() {
     signOut().then(() => {
       router.push("/login");
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <div>ログアウト中...</div>;
 }
