@@ -23,9 +23,12 @@ export default function Orders() {
   const [commodities, commoditiesLoading, commoditiesError] = useObjectVal<
     StallInfo["commodities"]
   >(ref(db, `stalls/${userInfo?.stallId}/commodities`));
+  const ordersRef = userInfo?.stallId
+    ? ref(db, `stalls/${userInfo.stallId}/orders`)
+    : null;
   const [orders, ordersLoading, ordersError] = useObjectVal<{
     [key: UUID]: OrderType;
-  }>(ref(db, `stalls/${userInfo?.stallId}/orders`));
+  }>(ordersRef);
   const [orderStatus, setOrderStatus] = useState<OrderStatus>("pending");
   useError(error, userInfoError, commoditiesError, ordersError);
   if (loading || userInfoLoading || ordersLoading || commoditiesLoading)
@@ -33,13 +36,13 @@ export default function Orders() {
   if (!orders) return <p className="text-center">注文情報がありません</p>;
   if (!user || !userInfo?.stallId) return <AccessError />;
 
-  const showOrders = Object.entries(orders)
+  const showOrders: [UUID, OrderType][] = Object.entries(orders)
     .reverse()
-    // @ts-ignore
-    .filter(([_, o]: [_: any, o: OrderType]) => {
-      if (orderStatus == "all") return true;
-      return o.status == orderStatus;
-    }) as [id: UUID, order: OrderType][];
+    .filter(
+      ([, o]) =>
+        orderStatus === "all" || (o as OrderType)?.status === orderStatus
+    )
+    .map(([id, o]) => [id as UUID, o] as [UUID, OrderType]);
   return (
     <>
       <div className="flex justify-between p-4">

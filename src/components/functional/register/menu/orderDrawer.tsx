@@ -36,7 +36,7 @@ export default function OrderDrawer({
   handleOrder: (
     order: Omit<OrderType, "status" | "ticket">
   ) => Promise<OrderType & { id: UUID }>;
-  stallId: string;
+  stallId: string | undefined;
 }) {
   const sum = Object.entries(currentOrder).reduce((sum, [key, value]) => {
     const price = commodities?.[key as UUID]?.price || 0;
@@ -169,7 +169,7 @@ function Finished({
   stallId
 }: {
   lastOrderInfo: (OrderType & { sum: number; id: UUID }) | undefined;
-  stallId: string;
+  stallId: string | undefined;
 }) {
   const [numberTag, setNumberTag] = useState<number | undefined>();
   const [saving, setSaving] = useState(false);

@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/select";
 import { StallInfo } from "@/types/stallInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -92,7 +92,7 @@ export default function EditStockDialog({
                         type="number"
                         placeholder="在庫数"
                         {...field}
-                        onChange={(event: any) =>
+                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
                           field.onChange(+event.target.value)
                         }
                       />

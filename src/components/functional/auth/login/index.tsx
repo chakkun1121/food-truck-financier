@@ -20,12 +20,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { clientFirebase } from "@/firebase/client";
-import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -35,9 +35,8 @@ const formSchema = z.object({
 const emailDomain = process.env.NEXT_PUBLIC_EMAIL_DOMAIN;
 
 export default function LoginForm() {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [signInWithEmailAndPassword, user, _loginLoading, error] =
+  const [signInWithEmailAndPassword, user, , error] =
     useSignInWithEmailAndPassword(clientFirebase.auth);
 
   const router = useRouter();
@@ -65,9 +64,7 @@ export default function LoginForm() {
     );
     if (!user) {
       setIsLoading(false);
-      toast({
-        variant: "destructive",
-        title: "ログインに失敗しました",
+      toast("ログインに失敗しました", {
         description: "ID と パスワードを確認してください"
       });
       return;

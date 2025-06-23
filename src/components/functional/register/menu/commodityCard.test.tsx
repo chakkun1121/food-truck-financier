@@ -150,7 +150,7 @@ describe("CommodityCard", () => {
   test("minus button should be disabled when count is 0", () => {
     render(<CommodityCard commodity={commodity} count={0} setCount={mock()} />);
     const minusButton = screen.getByLabelText("Minus");
-    expect(minusButton.disabled).toBe(true);
+    expect(minusButton).toHaveProperty("disabled", true);
   });
 
   test("plus button should be disabled when count is equal to stock", () => {
@@ -158,7 +158,7 @@ describe("CommodityCard", () => {
       <CommodityCard commodity={commodity} count={10} setCount={mock()} />
     );
     const plusButton = screen.getByLabelText("Plus");
-    expect(plusButton.disabled).toBe(true);
+    expect(plusButton).toHaveProperty("disabled", true);
   });
 
   test("should not increase count by clicking card when count is equal to stock", () => {
@@ -186,7 +186,8 @@ describe("CommodityCard", () => {
     const category = {
       id: "cat1",
       name: "Drinks",
-      color: { bg: "#0000ff", text: "#ffffff", border: "#0000ff" }
+      color: { bg: "#0000ff", text: "#ffffff", border: "#0000ff" },
+      icon: "48"
     };
     const { container } = render(
       <CommodityCard
@@ -221,7 +222,7 @@ describe("when commodity stock is undefined", () => {
       />
     );
     const plusButton = screen.getByLabelText("Plus");
-    expect(plusButton.disabled).toBe(true);
+    expect(plusButton).toHaveProperty("disabled", true);
   });
 
   test("should not increase count when card is clicked", () => {

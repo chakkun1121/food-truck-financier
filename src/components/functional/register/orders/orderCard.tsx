@@ -23,7 +23,7 @@ export default function OrderCard({
 }) {
   const timestamp = (() => {
     try {
-      return UUIDv7GetTimestamp(order?.id!);
+      return UUIDv7GetTimestamp(order.id);
     } catch {
       return new Date();
     }
@@ -90,13 +90,12 @@ export default function OrderCard({
       <CardContent className="p-4 pt-0">
         <div>
           {Object.entries(order?.commodities || {}).map(
-            // @ts-ignore // なぜかcommodityIdがstringとなるため踏み倒す
-            ([commodityId, amount]: [commodityId: UUID, amount: number]) => (
+            ([commodityId, amount]) => (
               <div
                 key={commodityId}
                 className="flex items-center justify-between"
               >
-                <span>{commodities?.[commodityId]?.name}</span>
+                <span>{commodities?.[commodityId as UUID]?.name}</span>
                 <span className="text-lg">{amount}</span>
               </div>
             )

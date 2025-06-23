@@ -30,7 +30,7 @@ import { StallInfo } from "@/types/stallInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { ref, set } from "firebase/database";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -110,7 +110,7 @@ export default function AddCommodityDialog({
                       type="number"
                       placeholder="値段"
                       {...field}
-                      onChange={(event: any) =>
+                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
                         field.onChange(+event.target.value)
                       }
                     />
@@ -130,7 +130,7 @@ export default function AddCommodityDialog({
                       type="number"
                       placeholder="在庫数"
                       {...field}
-                      onChange={(event: any) =>
+                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
                         field.onChange(+event.target.value)
                       }
                     />

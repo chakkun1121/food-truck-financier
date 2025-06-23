@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { convertCsv } from "@/lib/convertCsv";
+import { dl, zip } from "@/lib/zip.mjs";
 import { StallInfo } from "@/types/stallInfo";
 import { useState } from "react";
 import { toast } from "sonner";
-// @ts-ignore
-import { dl, zip } from "@/lib/zip";
 
 export default function Export({
   stalls
@@ -20,7 +19,7 @@ export default function Export({
           Object.entries(stalls).map(([stallId, stall]) => ({
             id: stallId,
             name: stall?.name,
-            csv: convertCsv(stall?.commodities, stall?.orders!)
+            csv: convertCsv(stall?.commodities, stall?.orders ?? {})
           }))) ??
         [];
       const files = data.map(d => ({
@@ -28,9 +27,10 @@ export default function Export({
         buffer: new TextEncoder().encode(d.csv)
       }));
       dl({ name: "stalls.zip", buffer: await zip(files) });
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      toast.error(`エクスポートに失敗しました: ${e.message}`);
+      const msg = e instanceof Error ? e.message : String(e);
+      toast.error(`エクスポートに失敗しました: ${msg}`);
     } finally {
       setLoading(false);
     }

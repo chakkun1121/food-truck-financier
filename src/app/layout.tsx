@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans_JP, Poppins } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -9,14 +9,6 @@ import firebase from "firebase/compat/app";
 import "@/lib/customErrorMap";
 
 import "./globals.css";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  adjustFontFallback: false,
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
-});
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],

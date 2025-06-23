@@ -124,23 +124,33 @@ export default function StockPage() {
       )
     }
   ];
-  const data = Object.entries(commodities || {}).map(
-    // @ts-ignore
-    ([id, commodity]: [id: string, commodity: CommodityType]) => ({
-      id,
-      name: commodity.name,
-      price: commodity.price,
-      stock: commodity.stock,
-      category: commodity.category
+  const data = Object.entries(commodities || {})
+    .filter((entry): entry is [string, CommodityType] => {
+      const [, value] = entry;
+      return (
+        typeof value === "object" &&
+        value !== null &&
+        "name" in value &&
+        "price" in value &&
+        "stock" in value
+      );
     })
-  );
+    .map(([id, commodity]) => {
+      return {
+        id,
+        name: commodity.name,
+        price: commodity.price,
+        stock: commodity.stock,
+        category: commodity.category
+      };
+    });
   if (loading || userInfoLoading || commoditiesLoading || categoriesLoading)
     return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
   return (
     <div className="mx-auto max-w-7xl p-4">
       <h2 className="py-4 text-4xl font-semibold tracking-wide">商品管理</h2>
-      <p className="mb-6 text-sm leading-6 tracking-wider text-muted-foreground">
+      <p className="text-muted-foreground mb-6 text-sm leading-6 tracking-wider">
         在庫数の管理と商品の追加が行えます
         <br />※ 商品の名称、金額の編集は整合性が取れなくなるため行えません
       </p>

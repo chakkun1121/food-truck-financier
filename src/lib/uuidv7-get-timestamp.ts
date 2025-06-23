@@ -6,8 +6,7 @@ export function UUIDv7GetTimestamp(uuid: string) {
     new Uint8Array(UUID.parse(uuid).bytes.buffer.slice(0, 6)),
     2
   );
-  // @ts-ignore
-  const timestampMs = new DataView(timestampBytes.buffer).getBigUint64();
+  const timestampMs = new DataView(timestampBytes.buffer).getBigUint64(0);
 
   return new Date(Number(timestampMs));
 }

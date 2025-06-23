@@ -33,7 +33,7 @@ export default function Menu({
                 (id === "all"
                   ? Object.entries(commodities).length
                   : Object.entries(commodities).filter(
-                      ([_, value]) => value.category === id
+                      ([, value]) => value.category === id
                     ).length)) as number
             }
             id={id}
@@ -45,7 +45,7 @@ export default function Menu({
         {commodities &&
           Object.entries(commodities)
             ?.filter(
-              ([_, value]) =>
+              ([, value]) =>
                 category === "all" ||
                 value.category === category ||
                 value.category === null ||

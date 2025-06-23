@@ -17,6 +17,7 @@ import {
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import { OrderStatus } from ".";
+import type { Dispatch, SetStateAction } from "react";
 
 export default function OrdersHeaderButtons({
   orderStatus,
@@ -25,7 +26,7 @@ export default function OrdersHeaderButtons({
   orders
 }: {
   orderStatus: OrderStatus;
-  setOrderStatus: any;
+  setOrderStatus: Dispatch<SetStateAction<OrderStatus>>;
   commodities: StallInfo["commodities"];
   orders: { [key: UUID]: OrderType };
 }) {
@@ -41,7 +42,7 @@ export default function OrdersHeaderButtons({
   }
   return (
     <div className="fixed right-0 flex">
-      <Select value={orderStatus} onValueChange={(v: any) => setOrderStatus(v)}>
+      <Select value={orderStatus} onValueChange={(v: OrderStatus) => setOrderStatus(v)}>
         <SelectTrigger className="w-36 bg-background">
           <SelectValue placeholder="絞り込み" />
         </SelectTrigger>

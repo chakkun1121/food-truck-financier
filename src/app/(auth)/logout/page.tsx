@@ -12,6 +12,6 @@ export default function Logout() {
     signOut().then(() => {
       router.push("/login");
     });
-  }, []);
+  }, [signOut, router]);
   return <div>ログアウト中...</div>;
 }

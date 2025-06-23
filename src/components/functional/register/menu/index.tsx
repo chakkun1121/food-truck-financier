@@ -48,7 +48,7 @@ export default function Register() {
     categoryLoading
   )
     return <Loading />;
-  if (!user) return <AccessError />;
+  if (!user || !userInfo) return <AccessError />;
   if (!commodities)
     return <p className="text-center">先に商品登録を行ってください</p>;
   async function handleOrder(
@@ -102,7 +102,7 @@ export default function Register() {
           currentOrder={currentOrder}
           setCurrentOrder={setCurrentOrder}
           handleOrder={handleOrder}
-          stallId={userInfo?.stallId!}
+          stallId={userInfo.stallId}
         />
       </ResizablePanel>
     </ResizablePanelGroup>

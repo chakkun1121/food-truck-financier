@@ -21,7 +21,7 @@ export default function Order({
   handleOrder: (
     order: Omit<OrderType, "status" | "ticket">
   ) => Promise<OrderType & { id: UUID }>;
-  stallId: string;
+  stallId: string | undefined;
 }) {
   const [receivedMoney, setReceivedMoney] = useState(0);
 
@@ -43,7 +43,7 @@ export default function Order({
       </div>
       <div className="space-y-2">
         {Object.entries(currentOrder)
-          .filter(([_, value]) => value)
+          .filter(([, value]) => value)
           .map(([key, value]) => (
             <Card key={key}>
               <CardContent className="p-2">

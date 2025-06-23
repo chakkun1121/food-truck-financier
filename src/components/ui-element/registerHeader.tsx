@@ -14,8 +14,14 @@ export default function Header() {
     ref(db, `stalls/${userInfo?.stallId}/name`)
   );
   const router = useRouter();
+
+  if (error || userInfoError || stallInfoError) {
+    console.error("Error fetching data:", error, userInfoError, stallInfoError);
+    return <p className="text-red-500">データの取得に失敗しました</p>;
+  }
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex h-12 w-full items-center justify-between bg-background bg-opacity-50 p-2">
+    <header className="bg-background bg-opacity-50 fixed inset-x-0 top-0 z-50 flex h-12 w-full items-center justify-between p-2">
       <h1
         className="text-2xl"
         onDoubleClick={() => router.push("/")}

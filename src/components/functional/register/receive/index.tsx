@@ -29,9 +29,12 @@ export default function Receive() {
   const receive = Object.entries(orders)
     .reverse()
     .filter(
-      // @ts-ignore
-      ([_, o]: [_: any, o: OrderType]) => o.status == "ready"
-    ) as unknown as [UUID, OrderType][];
+      ([, o]) =>
+        typeof o === "object" &&
+        o !== null &&
+        "status" in o &&
+        o.status === "ready"
+    ) as [UUID, OrderType][];
 
   return (
     <>
