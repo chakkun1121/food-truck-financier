@@ -15,7 +15,7 @@ describe("generateTickerId", () => {
 
   it("should generate ticker ID with email character and lastTicket when userNumber is undefined", () => {
     const prefix = "T";
-    const userInfo = { lastTicket: 45,  };
+    const userInfo = { lastTicket: 45 };
     const user = { email: "test-1@example.com" } as User;
 
     const result = generateTickerId(prefix, userInfo, user);
@@ -105,7 +105,7 @@ describe("generateTickerId", () => {
 
   it("should handle email with empty local part", () => {
     const prefix = "T";
-    const userInfo = {  };
+    const userInfo = {};
     const user = { email: "@example.com" } as User;
 
     const result = generateTickerId(prefix, userInfo, user);
@@ -115,11 +115,80 @@ describe("generateTickerId", () => {
 
   it("should handle email without an @ symbol", () => {
     const prefix = "T";
-    const userInfo = {  };
+    const userInfo = {};
     const user = { email: "testuser" } as User;
 
     const result = generateTickerId(prefix, userInfo, user);
 
     expect(result).toBe("T-r001");
+  });
+
+  it("should handle an empty string prefix", () => {
+    const prefix = "";
+    const userInfo = { userNumber: 1, lastTicket: 45 };
+    const user = null;
+
+    const result = generateTickerId(prefix, userInfo, user);
+
+    expect(result).toBe("-1046");
+  });
+
+  it("should handle a null prefix", () => {
+    const prefix = null;
+    const userInfo = { userNumber: 1, lastTicket: 45 };
+    const user = null;
+
+    const result = generateTickerId(prefix, userInfo, user);
+
+    expect(result).toBe("null-1046");
+  });
+
+  it("should use email when userInfo.userNumber is null", () => {
+    const prefix = "T";
+    const userInfo = { userNumber: null, lastTicket: 45 };
+    const user = { email: "test-a@example.com" } as User;
+
+    const result = generateTickerId(prefix, userInfo, user);
+
+    expect(result).toBe("T-a046");
+  });
+
+  it("should use default lastTicket when userInfo.lastTicket is null", () => {
+    const prefix = "T";
+    const userInfo = { userNumber: 1, lastTicket: null };
+    const user = null;
+
+    const result = generateTickerId(prefix, userInfo, user);
+    expect(result).toBe("T-1001");
+  });
+
+  it("should handle email with a single character local part", () => {
+    const prefix = "T";
+    const userInfo = {};
+    const user = { email: "a@example.com" } as User;
+
+    const result = generateTickerId(prefix, userInfo, user);
+
+    expect(result).toBe("T-a001");
+  });
+
+  it("should handle email with a '+' in the local part", () => {
+    const prefix = "T";
+    const userInfo = {};
+    const user = { email: "test+alias@example.com" } as User;
+
+    const result = generateTickerId(prefix, userInfo, user);
+
+    expect(result).toBe("T-s001");
+  });
+
+  it("should correctly handle ticket number greater than 1000", () => {
+    const prefix = "T";
+    const userInfo = { userNumber: 1, lastTicket: 1234 };
+    const user = null;
+
+    const result = generateTickerId(prefix, userInfo, user);
+
+    expect(result).toBe("T-1235");
   });
 });
