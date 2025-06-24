@@ -202,16 +202,10 @@ describe("CommodityCard", () => {
     expect(cardElement.className).toContain("bg-[#0000ff]");
     expect(cardElement.className).toContain("border-[#0000ff]");
   });
-});
-describe("when commodity stock is undefined", () => {
   const commodityWithoutStock = {
     name: "Stock undefined commodity",
     price: 100
   };
-
-  afterEach(() => {
-    cleanup();
-  });
 
   test("plus button should be disabled", () => {
     render(
@@ -237,6 +231,79 @@ describe("when commodity stock is undefined", () => {
     const card = screen.getByText("Stock undefined commodity");
     fireEvent.click(card);
 
+    expect(setCountMock).not.toHaveBeenCalled();
+  });
+
+  test("should use default styles when category has no color property", () => {
+    const categoryWithoutColor = {
+      id: "cat2",
+      name: "Snacks",
+      icon: "49"
+    };
+    const { container } = render(
+      <CommodityCard
+        commodity={commodity}
+        count={1}
+        setCount={mock()}
+        category={categoryWithoutColor}
+      />
+    );
+    const cardElement = container.firstChild as HTMLElement;
+    expect(cardElement.className).toContain("bg-primary");
+    expect(cardElement.className).toContain("border-primary");
+  });
+
+  test("should use default for missing color properties and custom for existing ones", () => {
+    const categoryWithPartialColor = {
+      id: "cat3",
+      name: "Etc",
+      color: { border: "#ff0000" }, // bgとtextは無い
+      icon: "50"
+    };
+    const { container } = render(
+      <CommodityCard
+        commodity={commodity}
+        count={1}
+        setCount={mock()}
+        category={categoryWithPartialColor}
+      />
+    );
+    const cardElement = container.firstChild as HTMLElement;
+    expect(cardElement.className).toContain("bg-primary"); // bgはデフォルト
+    expect(cardElement.className).toContain("border-[#ff0000]"); // borderはカスタム
+  });
+
+  test("should not increase count by card click when stock is exactly 0", () => {
+    const setCountMock = mock();
+    render(
+      <CommodityCard
+        commodity={{ name: "Test Commodity", price: 10, stock: 0 }}
+        count={0}
+        setCount={setCountMock}
+      />
+    );
+    const commodityCard = screen.getByText("Test Commodity");
+    fireEvent.click(commodityCard);
+    expect(setCountMock).not.toHaveBeenCalled();
+
+    const plusButton = screen.getByLabelText("Plus");
+    expect(plusButton).toHaveProperty("disabled", true);
+  });
+
+  test("should render correctly disabled states if initial count exceeds stock", () => {
+    const setCountMock = mock();
+    const { container } = render(
+      <CommodityCard commodity={commodity} count={11} setCount={setCountMock} />
+    );
+
+    const plusButton = screen.getByLabelText("Plus");
+    expect(plusButton).toHaveProperty("disabled", true);
+
+    const cardElement = container.firstChild as HTMLElement;
+    expect(cardElement.className).toContain("opacity-50");
+
+    const commodityCard = screen.getByText("Test Commodity");
+    fireEvent.click(commodityCard);
     expect(setCountMock).not.toHaveBeenCalled();
   });
 });
