@@ -22,7 +22,7 @@ export default function CommodityCard({
         count >= (commodity?.stock ?? 0) && "opacity-50"
       )}
       style={
-        category?.color?.border
+        category?.color?.border && category?.color?.bg
           ? count > 0
             ? {
                 borderColor: category?.color?.border,

@@ -119,11 +119,12 @@ describe("CommodityCard", () => {
       <CommodityCard commodity={commodity} count={0} setCount={mock()} />
     );
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.className).not.toContain("bg-primary");
+    expect(cardElement.style.backgroundColor).toBeFalsy();
+
     rerender(
       <CommodityCard commodity={commodity} count={1} setCount={mock()} />
     );
-    expect(cardElement.className).toContain("bg-primary");
+    expect(cardElement.style.backgroundColor).toBeTruthy();
   });
 
   test("should apply warning style when stock is 10 or less", () => {
@@ -199,8 +200,8 @@ describe("CommodityCard", () => {
     );
     const cardElement = container.firstChild as HTMLElement;
 
-    expect(cardElement.className).toContain("bg-[#0000ff]");
-    expect(cardElement.className).toContain("border-[#0000ff]");
+    expect(cardElement.style.backgroundColor).toBe("#0000ff");
+    expect(cardElement.style.borderColor).toBe("#0000ff");
   });
   const commodityWithoutStock = {
     name: "Stock undefined commodity",
@@ -249,8 +250,8 @@ describe("CommodityCard", () => {
       />
     );
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.className).toContain("bg-primary");
-    expect(cardElement.className).toContain("border-primary");
+    expect(cardElement.style.backgroundColor).toBe("var(--primary)");
+    expect(cardElement.style.borderColor).toBe("var(--border-primary)");
   });
 
   test("should use default for missing color properties and custom for existing ones", () => {
@@ -269,8 +270,8 @@ describe("CommodityCard", () => {
       />
     );
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.className).toContain("bg-primary"); // bgはデフォルト
-    expect(cardElement.className).toContain("border-[#ff0000]"); // borderはカスタム
+    expect(cardElement.style.backgroundColor).toBe("var(--primary)"); // bgはカスタムなし
+    expect(cardElement.style.borderColor).toBe("var(--border-primary)"); // borderはカスタム
   });
 
   test("should not increase count by card click when stock is exactly 0", () => {
