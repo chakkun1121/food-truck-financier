@@ -19,7 +19,7 @@ export default function Menu({
   >;
   categories?: StallInfo["category"];
 }) {
-  const [category, setCategory] = useState<string>("all");
+  const [categoryName, setCategoryName] = useState<string>("all");
   return (
     <>
       <div className="flex items-center gap-4">
@@ -27,7 +27,8 @@ export default function Menu({
           <CategoryCard
             key={id}
             category={c}
-            setCategory={setCategory}
+            categoryName={categoryName}
+            setCategoryName={setCategoryName}
             itemCount={
               (commodities &&
                 (id === "all"
@@ -46,10 +47,9 @@ export default function Menu({
           Object.entries(commodities)
             ?.filter(
               ([, value]) =>
-                category === "all" ||
-                value.category === category ||
-                value.category === null ||
-                value.category === "none"
+                categoryName === "all" ||
+                value.category === categoryName ||
+                value.category === null
             )
             .map(([key, value]) => {
               return (

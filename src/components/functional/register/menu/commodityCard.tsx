@@ -14,23 +14,34 @@ export default function CommodityCard({
   setCount(count: number): void;
   category?: CategoryType;
 }) {
-  const style = {
-    bg: category?.color?.bg ? `bg-[${category?.color?.bg}]` : "bg-primary",
-    text: category?.color?.text
-      ? `text-[${category?.color?.text}]`
-      : "text-primary-foreground",
-    border: category?.color?.border
-      ? `border-[${category?.color?.border}]`
-      : "border-primary"
-  };
   return (
     <div
       className={cn(
-        "aspect-video h-40 rounded-md border-l-[6px] bg-[rgba(225,225,225,0.05)] px-2 py-6 outline outline-border",
-        count > 0 && `${style?.bg} text-foreground dark:text-background`,
-        style?.border,
+        "outline-border aspect-video h-40 rounded-md border-l-[6px] bg-[rgba(225,225,225,0.05)] px-2 py-6 outline",
+        count > 0 && "text-foreground dark:text-background",
         count >= (commodity?.stock ?? 0) && "opacity-50"
       )}
+      style={
+        category?.color?.border
+          ? count > 0
+            ? {
+                borderColor: category?.color?.border,
+                backgroundColor: category?.color?.bg
+              }
+            : {
+                borderColor: category?.color?.border,
+                color: category?.color?.text
+              }
+          : count > 0
+            ? {
+                borderColor: "var(--border-primary)",
+                backgroundColor: "var(--primary)"
+              }
+            : {
+                borderColor: "var(--border-primary)",
+                color: "var(--text-primary-foreground)"
+              }
+      }
     >
       <div className={"flex flex-col justify-between p-0"}>
         <div
@@ -43,7 +54,7 @@ export default function CommodityCard({
           <div className="mt-2 flex items-center justify-between">
             <p
               className={cn(
-                "ml-1 font-semibold tracking-wide text-muted-foreground",
+                "text-muted-foreground ml-1 font-semibold tracking-wide",
                 count > 0 && "text-foreground dark:text-background"
               )}
             >
@@ -51,9 +62,9 @@ export default function CommodityCard({
             </p>
             <p
               className={cn(
-                "pr-2 text-sm text-muted-foreground",
+                "text-muted-foreground pr-2 text-sm",
                 count > 0 && "text-foreground dark:text-background",
-                (commodity?.stock ?? 0) <= 10 && "block text-destructive"
+                (commodity?.stock ?? 0) <= 10 && "text-destructive block"
               )}
             >
               在庫:{commodity?.stock}
