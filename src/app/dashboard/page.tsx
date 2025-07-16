@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <>
       <Header />
-      <main className="mx-auto h-screen max-w-7xl space-y-4 p-4 pt-12">
+      <main className="mx-auto h-dvh max-w-7xl space-y-4 p-4 pt-12">
         <Dashboard />
       </main>
     </>

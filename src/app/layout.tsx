@@ -46,7 +46,7 @@ export default function RootLayout({
     <html lang="ja" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen select-none",
+          "min-h-dvh select-none",
           notoSansJP.variable,
           "font-sans"
         )}
