@@ -1,10 +1,25 @@
 "use client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { auth, db } from "@/firebase";
 import { ref } from "firebase/database";
+import { Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import Loading from "./loading";
+
 export default function Header() {
   const [user, loading, error] = useAuthState(auth);
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
@@ -14,6 +29,17 @@ export default function Header() {
     ref(db, `stalls/${userInfo?.stallId}/name`)
   );
   const router = useRouter();
+  const [magnification, setMagnification] = useState<number>(0);
+  const [enableSound, setEnableSound] = useState(false);
+
+  useEffect(() => {
+    const stored = Number(localStorage.getItem("magnification")) || 0;
+    setMagnification(stored);
+  }, []);
+  useEffect(() => {
+    const stored = localStorage.getItem("enableSound");
+    setEnableSound(stored === "true");
+  }, []);
 
   if (error || userInfoError || stallInfoError) {
     console.error("Error fetching data:", error, userInfoError, stallInfoError);
@@ -29,7 +55,7 @@ export default function Header() {
       >
         FoodTruck Financier
       </h1>
-      <div>
+      <div className="flex items-center gap-2">
         {loading || userInfoLoading || stallInfoLoading ? (
           <Loading className="text-start" />
         ) : stallName ? (
@@ -37,6 +63,47 @@ export default function Header() {
         ) : (
           <p>未所属</p>
         )}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Settings />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>設定</DialogTitle>
+              <DialogDescription>ここで設定を変更できます</DialogDescription>
+            </DialogHeader>
+            <Separator />
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <p>拡大率</p>
+                <Slider
+                  value={[magnification]}
+                  min={-5}
+                  max={5}
+                  step={1}
+                  onValueChange={value => {
+                    setMagnification(value[0]);
+                    localStorage.setItem("magnification", value[0].toString());
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="useSound"
+                  checked={enableSound}
+                  onCheckedChange={value => {
+                    setEnableSound(value);
+                    localStorage.setItem(
+                      "enableSound",
+                      value ? "true" : "false"
+                    );
+                  }}
+                />
+                <Label htmlFor="useSound">音を鳴らす機能</Label>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </header>
   );

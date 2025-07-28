@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -83,6 +84,9 @@ export default function AddCommodityDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>商品追加</DialogTitle>
+          <DialogDescription>
+            商品の情報を入力してください
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">

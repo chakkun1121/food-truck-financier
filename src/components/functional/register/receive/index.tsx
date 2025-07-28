@@ -31,27 +31,31 @@ export default function Receive() {
         "status" in o &&
         o.status === "ready"
     ) as [UUID, OrderType][];
-
+  const [localStorageSoundSetting, setLocalStorageSoundSetting] = useState(false);
+  useEffect(() => {
+    const stored = localStorage.getItem("enableSound");
+    setLocalStorageSoundSetting(stored === "true");
+  }, []);
   const [enableSound, setEnableSound] = useState(false);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const prevCountRef = useRef(0);
 
   useEffect(() => {
-    if (!enableSound) {
+    if (localStorageSoundSetting && !enableSound) {
       toast("音を鳴らす機能を使用しますか?", {
         action: {
           label: "使用する",
           onClick: () => {
             setEnableSound(true);
           }
-        }
+        },
+        position: "top-center",
       });
     }
     if (typeof Audio !== "undefined") {
       audioRef.current = new Audio("/receive.mp3");
     }
-  }, [enableSound]);
+  }, [localStorageSoundSetting, enableSound]);
 
   useEffect(() => {
     if (enableSound && receive.length > prevCountRef.current) {
@@ -67,6 +71,7 @@ export default function Receive() {
   if (loading || userInfoLoading || ordersLoading || !orders)
     return <Loading />;
   if (!user || !userInfo?.stallId) return <AccessError />;
+
   function setOrderState(id: string, status: OrderType["status"]) {
     set(ref(db, `stalls/${userInfo?.stallId}/orders/${id}/status`), status);
   }
