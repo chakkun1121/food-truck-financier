@@ -31,7 +31,8 @@ export default function Receive() {
         "status" in o &&
         o.status === "ready"
     ) as [UUID, OrderType][];
-  const [localStorageSoundSetting, setLocalStorageSoundSetting] = useState(false);
+  const [localStorageSoundSetting, setLocalStorageSoundSetting] =
+    useState(false);
   useEffect(() => {
     const stored = localStorage.getItem("enableSound");
     setLocalStorageSoundSetting(stored === "true");
@@ -49,7 +50,7 @@ export default function Receive() {
             setEnableSound(true);
           }
         },
-        position: "top-center",
+        position: "top-center"
       });
     }
     if (typeof Audio !== "undefined") {

@@ -29,17 +29,26 @@ export default function Header() {
     ref(db, `stalls/${userInfo?.stallId}/name`)
   );
   const router = useRouter();
-  const [magnification, setMagnification] = useState<number>(0);
+  const [magnification, setMagnification] = useState<number>(1);
   const [enableSound, setEnableSound] = useState(false);
 
   useEffect(() => {
-    const stored = Number(localStorage.getItem("magnification")) || 0;
+    const stored = Number(localStorage.getItem("magnification")) || 1;
     setMagnification(stored);
   }, []);
   useEffect(() => {
     const stored = localStorage.getItem("enableSound");
     setEnableSound(stored === "true");
   }, []);
+
+  useEffect(() => {
+    const fontSize = magnification * 100;
+    document.documentElement.style.fontSize = `${fontSize}%`;
+    localStorage.setItem("magnification", String(magnification));
+  }, [magnification]);
+  useEffect(() => {
+    localStorage.setItem("enableSound", String(enableSound));
+  }, [enableSound]);
 
   if (error || userInfoError || stallInfoError) {
     console.error("Error fetching data:", error, userInfoError, stallInfoError);
@@ -75,18 +84,18 @@ export default function Header() {
             <Separator />
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <p>拡大率</p>
+                <div className="flex items-center justify-between">
+                  <p>拡大率</p>
+                  <p>{Math.floor(magnification * 100)}%</p>
+                </div>
                 <Slider
                   value={[magnification]}
-                  min={-5}
-                  max={5}
-                  step={1}
+                  min={0.5}
+                  max={2}
+                  step={0.1}
                   onValueChange={value => {
                     const v = value[0];
                     setMagnification(v);
-                    localStorage.setItem("magnification", v.toString());
-                    const fontSize = v > 0 ? v * 20 + 100 : v * 10 + 100;
-                    document.documentElement.style.fontSize = `${fontSize}%`;
                   }}
                 />
               </div>
@@ -96,10 +105,6 @@ export default function Header() {
                   checked={enableSound}
                   onCheckedChange={value => {
                     setEnableSound(value);
-                    localStorage.setItem(
-                      "enableSound",
-                      value ? "true" : "false"
-                    );
                   }}
                 />
                 <Label htmlFor="useSound">音を鳴らす機能</Label>
