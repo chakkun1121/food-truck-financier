@@ -82,8 +82,11 @@ export default function Header() {
                   max={5}
                   step={1}
                   onValueChange={value => {
-                    setMagnification(value[0]);
-                    localStorage.setItem("magnification", value[0].toString());
+                    const v = value[0];
+                    setMagnification(v);
+                    localStorage.setItem("magnification", v.toString());
+                    const fontSize = v > 0 ? v * 20 + 100 : v * 10 + 100;
+                    document.documentElement.style.fontSize = `${fontSize}%`;
                   }}
                 />
               </div>
