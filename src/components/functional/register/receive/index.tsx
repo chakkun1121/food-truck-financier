@@ -48,7 +48,11 @@ export default function Receive() {
           label: "はい",
           onClick: () => {
             setEnableSound(true);
-            toast.success("サウンドを有効にしました");
+            audioRef.current?.play();
+            toast.success(
+              "サウンドを有効にしましました。テストで音を鳴らします。鳴らなかった場合はブラウザの設定を確認してください。",
+              { position: "top-center", duration: 5000 }
+            );
           }
         },
         cancel: {
@@ -64,13 +68,13 @@ export default function Receive() {
     if (typeof Audio !== "undefined") {
       audioRef.current = new Audio("/receive.mp3");
     }
-  }, [isSettingLoaded, enableSound]);
+  }, [isSettingLoaded, enableSound, isSoundAllowed, setSoundAllowed]);
 
   useEffect(() => {
     if (enableSound && receive.length > prevCountRef.current) {
       audioRef.current?.play().catch(() => {
         toast.error(
-          "音を鳴らすことができませんでした。ブラウザの設定を確認してください。"
+          "エラーが発生し、音を鳴らすことができませんでした。ページを再度読み込んでください。"
         );
       });
     }
