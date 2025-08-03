@@ -13,11 +13,12 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { auth, db } from "@/firebase";
 import { ref } from "firebase/database";
-import { Settings } from "lucide-react";
+import { Play, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
+import { toast } from "sonner";
 import Loading from "./loading";
 
 export default function Header() {
@@ -31,6 +32,7 @@ export default function Header() {
   const router = useRouter();
   const [magnification, setMagnification] = useState<number>(1);
   const [enableSound, setEnableSound] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const stored = Number(localStorage.getItem("magnification")) || 1;
@@ -99,15 +101,28 @@ export default function Header() {
                   }}
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <Switch
-                  id="useSound"
-                  checked={enableSound}
-                  onCheckedChange={value => {
-                    setEnableSound(value);
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="useSound"
+                    checked={enableSound}
+                    onCheckedChange={value => {
+                      setEnableSound(value);
+                    }}
+                  />
+                  <Label htmlFor="useSound">音を鳴らす機能</Label>
+                </div>
+                <Play
+                  onClick={() => {
+                    audioRef.current = new Audio("/receive.mp3");
+                    audioRef.current?.play().catch(() => {
+                      toast.error(
+                        "音を鳴らすことができませんでした。ブラウザの設定を確認してください。"
+                      );
+                    });
                   }}
+                  aria-label="テストで音を鳴らす"
                 />
-                <Label htmlFor="useSound">音を鳴らす機能</Label>
               </div>
             </div>
           </DialogContent>
