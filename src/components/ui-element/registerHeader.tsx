@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { auth, db } from "@/firebase";
+import { useSoundSetting } from "@/hooks/useSoundSetting";
 import { ref } from "firebase/database";
 import { Play, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -31,16 +32,13 @@ export default function Header() {
   );
   const router = useRouter();
   const [magnification, setMagnification] = useState<number>(1);
-  const [enableSound, setEnableSound] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { isSoundEnabled, setSoundEnabled, isSettingLoaded } =
+    useSoundSetting();
 
   useEffect(() => {
     const stored = Number(localStorage.getItem("magnification")) || 1;
     setMagnification(stored);
-  }, []);
-  useEffect(() => {
-    const stored = localStorage.getItem("enableSound");
-    setEnableSound(stored === "true");
   }, []);
 
   useEffect(() => {
@@ -48,9 +46,6 @@ export default function Header() {
     document.documentElement.style.fontSize = `${fontSize}%`;
     localStorage.setItem("magnification", String(magnification));
   }, [magnification]);
-  useEffect(() => {
-    localStorage.setItem("enableSound", String(enableSound));
-  }, [enableSound]);
 
   if (error || userInfoError || stallInfoError) {
     console.error("Error fetching data:", error, userInfoError, stallInfoError);
@@ -105,9 +100,9 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <Switch
                     id="useSound"
-                    checked={enableSound}
+                    checked={isSoundEnabled}
                     onCheckedChange={value => {
-                      setEnableSound(value);
+                      setSoundEnabled(value);
                     }}
                   />
                   <Label htmlFor="useSound">音を鳴らす機能</Label>

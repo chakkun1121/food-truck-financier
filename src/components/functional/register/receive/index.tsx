@@ -4,6 +4,7 @@ import AccessError from "@/components/accessError";
 import Loading from "@/components/ui-element/loading";
 import { auth, db } from "@/firebase";
 import { useError } from "@/hooks/useError";
+import { useSoundSetting } from "@/hooks/useSoundSetting";
 import { OrderType } from "@/types/stallInfo";
 import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
@@ -31,23 +32,30 @@ export default function Receive() {
         "status" in o &&
         o.status === "ready"
     ) as [UUID, OrderType][];
-  const [localStorageSoundSetting, setLocalStorageSoundSetting] =
-    useState(false);
-  useEffect(() => {
-    const stored = localStorage.getItem("enableSound");
-    setLocalStorageSoundSetting(stored === "true");
-  }, []);
-  const [enableSound, setEnableSound] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const prevCountRef = useRef(0);
+  const {
+    isSoundEnabled: isSoundAllowed,
+    setSoundEnabled: setSoundAllowed,
+    isSettingLoaded
+  } = useSoundSetting();
+  const [enableSound, setEnableSound] = useState(false);
 
   useEffect(() => {
-    if (localStorageSoundSetting && !enableSound) {
-      toast("音を鳴らす機能を使用しますか?", {
+    if (isSettingLoaded && isSoundAllowed && !enableSound) {
+      toast("この画面で音を鳴らしますか?", {
         action: {
-          label: "使用する",
+          label: "はい",
           onClick: () => {
             setEnableSound(true);
+            toast.success("サウンドを有効にしました");
+          }
+        },
+        cancel: {
+          label: "いいえ",
+          onClick: () => {
+            setSoundAllowed(false);
+            toast.info("サウンドを無効にしました");
           }
         },
         position: "top-center"
@@ -56,7 +64,7 @@ export default function Receive() {
     if (typeof Audio !== "undefined") {
       audioRef.current = new Audio("/receive.mp3");
     }
-  }, [localStorageSoundSetting, enableSound]);
+  }, [isSettingLoaded, enableSound]);
 
   useEffect(() => {
     if (enableSound && receive.length > prevCountRef.current) {
