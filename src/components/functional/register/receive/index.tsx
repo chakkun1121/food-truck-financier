@@ -49,10 +49,12 @@ export default function Receive() {
           onClick: () => {
             setEnableSound(true);
             audioRef.current?.play();
-            toast.success(
-              "サウンドを有効にしましました。テストで音を鳴らします。鳴らなかった場合はブラウザの設定を確認してください。",
-              { position: "top-center", duration: 5000 }
-            );
+            toast.success("サウンドを有効にしましました。", {
+              position: "top-center",
+              duration: 5000,
+              description:
+                "テストで音を鳴らします。鳴らなかった場合はブラウザの設定を確認してください。"
+            });
           }
         },
         cancel: {
