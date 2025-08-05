@@ -29,7 +29,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  id: z.string().max(20),
+  id: z.string(),
   password: z.string()
 });
 const emailDomain = process.env.NEXT_PUBLIC_EMAIL_DOMAIN;
