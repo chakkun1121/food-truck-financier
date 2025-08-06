@@ -1,3 +1,4 @@
+import Loading from "@/components/ui-element/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,10 +8,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { auth, db } from "@/firebase";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 import { OrderType, StallInfo } from "@/types/stallInfo";
+import { UserInfo } from "@/types/userInfo";
 import { CheckIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
+import { ref, set } from "firebase/database";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useObjectVal } from "react-firebase-hooks/database";
 
 export default function OrderCard({
   order,
@@ -28,6 +34,26 @@ export default function OrderCard({
       return new Date();
     }
   })();
+
+  const [user, loading, error] = useAuthState(auth);
+  const [userInfo, userInfoLoading, userInfoError] = useObjectVal<UserInfo>(
+    ref(db, `users/${user?.uid}`)
+  );
+  if (loading || userInfoLoading) return <Loading />;
+  if (!user || !userInfo)
+    return <p>エラーが発生しました。再度読み込んで下さい。</p>;
+  if (error || userInfoError)
+    return <p>エラーが発生しました。再度読み込んで下さい。</p>;
+  function cancelOrder() {
+    setOrderState("cancelled");
+    Object.entries(order.commodities).forEach(([commodityId, amount]) =>
+      set(
+        ref(db, `stalls/${userInfo!.stallId}/commodities/${commodityId}/stock`),
+        (commodities?.[commodityId]?.stock ?? 0) + amount
+      )
+    );
+  }
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between p-4">
@@ -75,11 +101,7 @@ export default function OrderCard({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setOrderState("completed");
-                    }}
-                  >
+                  <DropdownMenuItem onClick={cancelOrder}>
                     キャンセル
                   </DropdownMenuItem>
                 </DropdownMenuContent>
