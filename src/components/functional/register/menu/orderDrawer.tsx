@@ -71,9 +71,13 @@ export default function OrderDrawer({
     } else {
       setError(null);
     }
+  }, [receivedMoney, valueSchema]);
+  useEffect(() => {
+    if (open && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, [open]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [receivedMoney]);
   return (
     <Drawer
       direction="right"
