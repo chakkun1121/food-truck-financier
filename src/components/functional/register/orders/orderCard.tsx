@@ -54,6 +54,24 @@ export default function OrderCard({
       )
     );
   }
+  function completeOrder(e?: { shiftKey: boolean }) {
+    if (e?.shiftKey) {
+      setOrderState("completed");
+      return;
+    }
+    toast("本当に受け取りを完了としますか?", {
+      action: {
+        label: "はい",
+        onClick: () => setOrderState("completed")
+      },
+      cancel: {
+        label: "いいえ",
+        onClick: () => {}
+      },
+      position: "top-center",
+      description: "Shift + 「受取完了」でこの確認をスキップできます"
+    });
+  }
 
   return (
     <Card>
@@ -66,21 +84,11 @@ export default function OrderCard({
           {order?.status &&
             (order.status == "pending" || order.status == "ready") && (
               <Button
-                onClick={() => {
+                onClick={e => {
                   if (order.status === "pending") {
                     setOrderState("ready");
                   } else {
-                    toast("本当に受け取りを完了としますか?", {
-                      action: {
-                        label: "はい",
-                        onClick: () => setOrderState("completed")
-                      },
-                      cancel: {
-                        label: "いいえ",
-                        onClick: () => {}
-                      },
-                      position: "top-center"
-                    });
+                    completeOrder(e);
                   }
                 }}
                 aria-label={`make as ${
