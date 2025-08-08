@@ -14,7 +14,7 @@ import { db } from "@/firebase";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
-import { ref, set } from "firebase/database";
+import { off, onValue, ref, set, type DataSnapshot } from "firebase/database";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -178,6 +178,39 @@ function Finished({
   const [numberTag, setNumberTag] = useState<number | undefined>();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [usedTags, setUsedTags] = useState<Set<number>>(new Set());
+  const [duplicate, setDuplicate] = useState(false);
+
+  useEffect(() => {
+    if (!stallId) return;
+    const ordersRef = ref(db, `stalls/${stallId}/orders`);
+    const callback = (snapshot: DataSnapshot) => {
+      const val = snapshot.val() as Record<
+        string,
+        Partial<OrderType> & { numberTag?: number }
+      > | null;
+      const tags = val
+        ? Object.entries(val)
+            .filter(
+              ([id, o]) =>
+                id !== lastOrderInfo?.id &&
+                o &&
+                o.status !== "cancelled" &&
+                o.status !== "completed" &&
+                typeof o.numberTag === "number"
+            )
+            .map(([, o]) => o.numberTag as number)
+        : [];
+      setUsedTags(new Set(tags));
+    };
+    onValue(ordersRef, callback);
+    return () => off(ordersRef, "value", callback);
+  }, [stallId, lastOrderInfo?.id]);
+
+  useEffect(() => {
+    setDuplicate(typeof numberTag === "number" && usedTags.has(numberTag));
+  }, [numberTag, usedTags]);
+
   return (
     <>
       <div className="flex flex-1 gap-2 p-4">
@@ -218,6 +251,13 @@ function Finished({
           >
             保存
           </Button>
+          {duplicate && (
+            <p className="text-red-500">
+              この番号札は既に使用されています。
+              <br />
+              他の番号札を使用することを推奨します。
+            </p>
+          )}
         </div>
       </div>
       <DrawerFooter className="flex-none p-4">
