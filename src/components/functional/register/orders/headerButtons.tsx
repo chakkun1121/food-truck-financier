@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -8,16 +14,10 @@ import {
 } from "@/components/ui/select";
 import { convertCsv } from "@/lib/convertCsv";
 import { OrderType, StallInfo } from "@/types/stallInfo";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@radix-ui/react-dropdown-menu";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
-import { OrderStatus } from ".";
 import type { Dispatch, SetStateAction } from "react";
+import { OrderStatus } from ".";
 
 export default function OrdersHeaderButtons({
   orderStatus,
@@ -42,8 +42,11 @@ export default function OrdersHeaderButtons({
   }
   return (
     <div className="fixed right-0 flex">
-      <Select value={orderStatus} onValueChange={(v: OrderStatus) => setOrderStatus(v)}>
-        <SelectTrigger className="w-36 bg-background">
+      <Select
+        value={orderStatus}
+        onValueChange={(v: OrderStatus) => setOrderStatus(v)}
+      >
+        <SelectTrigger className="bg-background w-36">
           <SelectValue placeholder="絞り込み" />
         </SelectTrigger>
         <SelectContent>

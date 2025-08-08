@@ -17,6 +17,7 @@ import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
+import { toast } from "sonner";
 
 export default function OrderCard({
   order,
@@ -66,9 +67,21 @@ export default function OrderCard({
             (order.status == "pending" || order.status == "ready") && (
               <Button
                 onClick={() => {
-                  setOrderState(
-                    order.status == "pending" ? "ready" : "completed"
-                  );
+                  if (order.status === "pending") {
+                    setOrderState("ready");
+                  } else {
+                    toast("本当に受け取りを完了としますか?", {
+                      action: {
+                        label: "はい",
+                        onClick: () => setOrderState("completed")
+                      },
+                      cancel: {
+                        label: "いいえ",
+                        onClick: () => {}
+                      },
+                      position: "top-center"
+                    });
+                  }
                 }}
                 aria-label={`make as ${
                   order.status == "pending" ? "ready" : "completed"
