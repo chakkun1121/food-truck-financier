@@ -41,7 +41,7 @@ export default function OrdersHeaderButtons({
     URL.revokeObjectURL(url);
   }
   return (
-    <div className="fixed right-0 flex">
+    <div className="fixed right-0 z-10 flex">
       <Select
         value={orderStatus}
         onValueChange={(v: OrderStatus) => setOrderStatus(v)}
