@@ -132,8 +132,8 @@ export default function OrderCard({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex flex-1 flex-col gap-2">
+        <div className="flex content-center justify-between gap-2">
+          <div className="my-auto flex flex-1 flex-col gap-2">
             {Object.entries(order?.commodities || {}).map(
               ([commodityId, amount]) => (
                 <div key={commodityId} className="flex items-center gap-4">
@@ -148,8 +148,8 @@ export default function OrderCard({
             )}
           </div>
           <Separator orientation="vertical" />
-          <div className="flex-none">
-            <p className="text-xl">
+          <div className="my-auto flex flex-none flex-col items-end">
+            <p className="text-lg">
               計
               {Object.values(order?.commodities || {}).reduce(
                 (prev, current) => prev + current,
@@ -157,6 +157,7 @@ export default function OrderCard({
               )}
               点
             </p>
+            <p className="text-xs">{order?.receivedAmount}円</p>
           </div>
         </div>
         {order?.note && (
