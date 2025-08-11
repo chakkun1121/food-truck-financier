@@ -119,12 +119,12 @@ describe("CommodityCard", () => {
       <CommodityCard commodity={commodity} count={0} setCount={mock()} />
     );
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.style.backgroundColor).toBeFalsy();
+    expect(cardElement.className).not.toInclude("bg-primary");
 
     rerender(
       <CommodityCard commodity={commodity} count={1} setCount={mock()} />
     );
-    expect(cardElement.style.backgroundColor).toBeTruthy();
+    expect(cardElement.className).toInclude("bg-primary");
   });
 
   test("should apply warning style when stock is 10 or less", () => {
@@ -187,8 +187,7 @@ describe("CommodityCard", () => {
     const category = {
       id: "cat1",
       name: "Drinks",
-      color: { bg: "#0000ff", text: "#ffffff", border: "#0000ff" },
-      icon: "48"
+      color: "red" as const
     };
     const { container } = render(
       <CommodityCard
@@ -200,8 +199,8 @@ describe("CommodityCard", () => {
     );
     const cardElement = container.firstChild as HTMLElement;
 
-    expect(cardElement.style.backgroundColor).toBe("#0000ff");
-    expect(cardElement.style.borderColor).toBe("#0000ff");
+    expect(cardElement.className).toInclude("bg-red-400");
+    expect(cardElement.className).toInclude("border-red-800");
   });
   const commodityWithoutStock = {
     name: "Stock undefined commodity",
@@ -238,8 +237,7 @@ describe("CommodityCard", () => {
   test("should use default styles when category has no color property", () => {
     const categoryWithoutColor = {
       id: "cat2",
-      name: "Snacks",
-      icon: "49"
+      name: "Snacks"
     };
     const { container } = render(
       <CommodityCard
@@ -250,28 +248,8 @@ describe("CommodityCard", () => {
       />
     );
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.style.backgroundColor).toBe("var(--primary)");
-    expect(cardElement.style.borderColor).toBe("var(--border-primary)");
-  });
-
-  test("should use default for missing color properties and custom for existing ones", () => {
-    const categoryWithPartialColor = {
-      id: "cat3",
-      name: "Etc",
-      color: { border: "#ff0000" }, // bgとtextは無い
-      icon: "50"
-    };
-    const { container } = render(
-      <CommodityCard
-        commodity={commodity}
-        count={1}
-        setCount={mock()}
-        category={categoryWithPartialColor}
-      />
-    );
-    const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.style.backgroundColor).toBe("var(--primary)"); // bgはカスタムなし
-    expect(cardElement.style.borderColor).toBe("var(--border-primary)"); // borderはカスタム
+    expect(cardElement.className).toInclude("bg-primary");
+    expect(cardElement.className).toInclude("border-primary");
   });
 
   test("should not increase count by card click when stock is exactly 0", () => {
