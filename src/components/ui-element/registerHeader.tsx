@@ -33,8 +33,7 @@ export default function Header() {
   const router = useRouter();
   const [magnification, setMagnification] = useState<number>(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { isSoundEnabled, setSoundEnabled, isSettingLoaded } =
-    useSoundSetting();
+  const { isSoundEnabled, setSoundEnabled } = useSoundSetting();
 
   useEffect(() => {
     const stored = Number(localStorage.getItem("magnification")) || 1;
@@ -50,9 +49,6 @@ export default function Header() {
   if (error || userInfoError || stallInfoError) {
     console.error("Error fetching data:", error, userInfoError, stallInfoError);
     return <p className="text-red-500">データの取得に失敗しました</p>;
-  }
-  if (isSettingLoaded) {
-    return <Loading className="text-start" />;
   }
 
   return (
