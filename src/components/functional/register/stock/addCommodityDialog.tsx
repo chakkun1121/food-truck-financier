@@ -31,7 +31,7 @@ import { StallInfo } from "@/types/stallInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { ref, set } from "firebase/database";
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -53,10 +53,15 @@ export default function AddCommodityDialog({
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    disabled: saving
+    disabled: saving,
+    defaultValues: {
+      name: "",
+      price: 0,
+      stock: 0,
+      category: ""
+    }
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     setSaving(true);
     try {
       const commodityId = createUUID();
@@ -75,7 +80,7 @@ export default function AddCommodityDialog({
   }
   return (
     <Dialog onOpenChange={o => setOpen(o)} open={open}>
-      <DialogTrigger className="mx-auto" asChild>
+      <DialogTrigger asChild>
         <Button>
           <PlusIcon />
           商品を追加
@@ -84,9 +89,7 @@ export default function AddCommodityDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>商品追加</DialogTitle>
-          <DialogDescription>
-            商品の情報を入力してください
-          </DialogDescription>
+          <DialogDescription>商品の情報を入力してください</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">

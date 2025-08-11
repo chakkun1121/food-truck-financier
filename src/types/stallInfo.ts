@@ -38,10 +38,24 @@ export type OrderType = {
 
 export type CategoryType = {
   name: string;
-  icon: string;
-  color?: {
-    bg?: string; // #ffffff
-    text?: string;
-    border?: string;
-  };
+  color?:
+    | "red"
+    | "yellow"
+    | "lime"
+    | "green"
+    | "emerald"
+    | "teal"
+    | "cyan"
+    | "sky"
+    | "blue"
+    | "violet"
+    | "purple"
+    | "fuchsia"
+    | "pink"
+    | "rose"
+    | "stone"
+    | "neutral"
+    | "zinc"
+    | "gray"
+    | "slate";
 };

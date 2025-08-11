@@ -1,6 +1,8 @@
 "use client";
 
 import AccessError from "@/components/accessError";
+import AddCommodityDialog from "@/components/functional/register/stock/addCommodityDialog";
+import EditCategoryDialog from "@/components/functional/register/stock/editCategoryDialog";
 import EditStockDialog from "@/components/functional/register/stock/editStockDialog";
 import Loading from "@/components/ui-element/loading";
 import { Button } from "@/components/ui/button";
@@ -14,7 +16,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
-import AddCommodityDialog from "../../../components/functional/register/stock/addCommodityDialog";
 
 export default function StockPage() {
   const [user, loading, error] = useAuthState(auth);
@@ -27,7 +28,6 @@ export default function StockPage() {
   const [categories, categoriesLoading, categoriesError] = useObjectVal<
     StallInfo["category"]
   >(ref(db, `stalls/${userInfo?.stallId}/category`));
-  console.log(categories);
   useError(error, userInfoError, commoditiesError, categoriesError);
   const columns: ColumnDef<{
     id: string;
@@ -77,7 +77,6 @@ export default function StockPage() {
         const c = Object.entries(
           (categories as StallInfo["category"]) || {}
         ).find(([id]) => id === row.getValue("category"))?.[1];
-        console.log(row.getValue("category"), c);
         if (!row.getValue("category") || row.getValue("category") === "none")
           return <p>未設定</p>;
         return (
@@ -156,10 +155,16 @@ export default function StockPage() {
       </p>
       <div className="space-y-4">
         <DataTable columns={columns} data={data} className="" />
-        <AddCommodityDialog
-          stallId={userInfo.stallId}
-          categories={categories}
-        />
+        <div className="algin-left flex items-center gap-2">
+          <AddCommodityDialog
+            stallId={userInfo.stallId}
+            categories={categories}
+          />
+          <EditCategoryDialog
+            stallId={userInfo.stallId}
+            categories={categories}
+          />
+        </div>
       </div>
     </div>
   );

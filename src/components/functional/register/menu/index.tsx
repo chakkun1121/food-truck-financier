@@ -89,7 +89,6 @@ export default function Register() {
           categories={{
             all: {
               name: "全て",
-              icon: ""
             },
             ...(category as StallInfo["category"])
           }}

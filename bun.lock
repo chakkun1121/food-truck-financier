@@ -46,10 +46,10 @@
       "devDependencies": {
         "@happy-dom/global-registrator": "^18.0.1",
         "@types/bun": "^1.2.19",
-        "@types/node": "^22.17.0",
+        "@types/node": "^22.17.1",
         "@types/react": "^19.1.9",
         "@types/react-dom": "^19.1.7",
-        "eslint": "^9.32.0",
+        "eslint": "^9.33.0",
         "eslint-config-next": "15.4.0-canary.51",
         "eslint-config-prettier": "^10.1.8",
         "postcss": "^8.5.6",
