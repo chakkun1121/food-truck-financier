@@ -51,6 +51,9 @@ export default function Header() {
     console.error("Error fetching data:", error, userInfoError, stallInfoError);
     return <p className="text-red-500">データの取得に失敗しました</p>;
   }
+  if (isSettingLoaded) {
+    return <Loading className="text-start" />;
+  }
 
   return (
     <header className="bg-background bg-opacity-50 fixed inset-x-0 top-0 z-50 flex h-12 w-full items-center justify-between p-2">

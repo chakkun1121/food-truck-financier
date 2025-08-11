@@ -83,8 +83,50 @@ export default function StockPage() {
           <div
             className={cn(
               "inline-block rounded-full border px-2 py-1 text-xs",
-              c?.color?.text ? `text-[${c?.color.text}]` : "text-black",
-              c?.color?.border ? `border-[${c?.color.border}]` : "border-black"
+              (() => {
+                switch (c?.color) {
+                  case "red":
+                    return "border-red-800 bg-red-400";
+                  case "yellow":
+                    return "border-yellow-800 bg-yellow-400";
+                  case "lime":
+                    return "border-lime-800 bg-lime-400";
+                  case "green":
+                    return "border-green-800 bg-green-400";
+                  case "emerald":
+                    return "border-emerald-800 bg-emerald-400";
+                  case "teal":
+                    return "border-teal-800 bg-teal-400";
+                  case "cyan":
+                    return "border-cyan-800 bg-cyan-400";
+                  case "sky":
+                    return "border-sky-800 bg-sky-400";
+                  case "blue":
+                    return "border-blue-800 bg-blue-400";
+                  case "violet":
+                    return "border-violet-800 bg-violet-400";
+                  case "purple":
+                    return "border-purple-800 bg-purple-400";
+                  case "fuchsia":
+                    return "border-fuchsia-800 bg-fuchsia-400";
+                  case "pink":
+                    return "border-pink-800 bg-pink-400";
+                  case "rose":
+                    return "border-rose-800 bg-rose-400";
+                  case "stone":
+                    return "border-stone-800 bg-stone-400";
+                  case "neutral":
+                    return "border-neutral-800 bg-neutral-400";
+                  case "zinc":
+                    return "border-zinc-800 bg-zinc-400";
+                  case "gray":
+                    return "border-gray-800 bg-gray-400";
+                  case "slate":
+                    return "border-slate-800 bg-slate-400";
+                  default:
+                    return "border-black text-black";
+                }
+              })()
             )}
           >
             {c?.name}
