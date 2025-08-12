@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/components/ui-element/loading";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +21,6 @@ import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { toast } from "sonner";
-import Loading from "./loading";
 
 export default function Header() {
   const [user, loading, error] = useAuthState(auth);
@@ -51,7 +51,7 @@ export default function Header() {
     console.error("Error fetching data:", error, userInfoError, stallInfoError);
     return <p className="text-red-500">データの取得に失敗しました</p>;
   }
-  if (isSettingLoaded) {
+  if (!isSettingLoaded) {
     return <Loading className="text-start" />;
   }
 
