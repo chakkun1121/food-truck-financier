@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/color-radio";
 import {
   Dialog,
   DialogContent,
@@ -17,13 +18,6 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
 import { db } from "@/firebase";
 import { createUUID } from "@/lib/uuid";
 import { StallInfo } from "@/types/stallInfo";
@@ -168,15 +162,12 @@ export default function AddCategoryDialog({
                   <FormItem>
                     <FormLabel>カテゴリー色</FormLabel>
                     <FormControl>
-                      <Select
+                      <RadioGroup
+                        value={field.value}
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
                       >
-                        <SelectTrigger>
-                          <SelectValue placeholder="カラーを選択" />
-                        </SelectTrigger>
-                        <SelectContent id="colorSelect">
-                          {[
+                        {(
+                          [
                             "red",
                             "yellow",
                             "lime",
@@ -196,13 +187,11 @@ export default function AddCategoryDialog({
                             "zinc",
                             "gray",
                             "slate"
-                          ].map(color => (
-                            <SelectItem key={color} value={color}>
-                              {color}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                          ] as const
+                        ).map(color => (
+                          <RadioGroupItem key={color} value={color} />
+                        ))}
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
