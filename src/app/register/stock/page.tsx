@@ -74,11 +74,12 @@ export default function StockPage() {
         <DataTableColumnHeader column={column} title="カテゴリ" />
       ),
       cell: ({ row }) => {
-        const c = Object.entries(
-          (categories as StallInfo["category"]) || {}
-        ).find(([id]) => id === row.getValue("category"))?.[1];
-        if (!row.getValue("category") || row.getValue("category") === "none")
-          return <p>未設定</p>;
+        const categoryId = row.getValue("category") as string | undefined;
+        const c = categoryId
+          ? ((categories as StallInfo["category"]) || {})[categoryId]
+          : undefined;
+        console.log(categoryId);
+        if (!categoryId || categoryId === "none" || !c) return <p>未設定</p>;
         return (
           <div
             className={cn(
@@ -196,7 +197,7 @@ export default function StockPage() {
         <br />※ 商品の名称、金額の編集は整合性が取れなくなるため行えません
       </p>
       <div className="space-y-4">
-        <DataTable columns={columns} data={data} className="" />
+        <DataTable columns={columns} data={data} />
         <div className="algin-left flex items-center gap-2">
           <AddCommodityDialog
             stallId={userInfo.stallId}
