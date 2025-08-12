@@ -25,17 +25,17 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { db } from "@/firebase";
+import { createUUID } from "@/lib/uuid";
 import { StallInfo } from "@/types/stallInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ref, set } from "firebase/database";
 import { Pencil } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  key: z.string(),
   name: z.string(),
   color: z.optional(
     z.enum([
@@ -75,18 +75,30 @@ export default function AddCategoryDialog({
     resolver: zodResolver(formSchema),
     defaultValues: categoryId
       ? {
-          key: categoryId,
           name: categories?.[categoryId]?.name || "",
           color: categories?.[categoryId]?.color
         }
       : {
-          key: "",
           name: "",
           color: undefined
         }
   });
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (categoryId && categories?.[categoryId]) {
+      form.reset({
+        name: categories[categoryId].name,
+        color: categories[categoryId].color
+      });
+    } else {
+      form.reset({
+        name: "",
+        color: undefined
+      });
+    }
+  }, [categories, categoryId, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setSaving(true);
@@ -95,7 +107,14 @@ export default function AddCategoryDialog({
         name: values.name,
         ...(values.color && { color: values.color })
       };
-      await set(ref(db, `stalls/${stallId}/category/${values.key}`), payload);
+      if (categoryId) {
+        await set(ref(db, `stalls/${stallId}/category/${categoryId}`), payload);
+      } else {
+        await set(
+          ref(db, `stalls/${stallId}/category/${createUUID()}`),
+          payload
+        );
+      }
       form.reset();
       setOpen(false);
     } catch (error) {
@@ -105,6 +124,7 @@ export default function AddCategoryDialog({
       setSaving(false);
     }
   }
+  console.log(categories);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -128,22 +148,6 @@ export default function AddCategoryDialog({
             className="flex flex-col gap-4"
           >
             <div className="flex flex-col gap-2">
-              <FormField
-                control={form.control}
-                name="key"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>カテゴリーのキー</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="アルファベットでキーを入力"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="name"
@@ -206,7 +210,7 @@ export default function AddCategoryDialog({
               />
             </div>
             <Button type="submit" disabled={saving}>
-              {saving ? "保存中..." : "追加"}
+              {saving ? "保存中..." : categoryId ? "更新" : "追加"}
             </Button>
           </form>
         </Form>
