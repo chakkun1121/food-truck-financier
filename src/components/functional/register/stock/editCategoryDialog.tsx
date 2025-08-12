@@ -9,7 +9,9 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import { db } from "@/firebase";
 import { StallInfo } from "@/types/stallInfo";
+import { ref, set } from "firebase/database";
 import { Trash } from "lucide-react";
 
 export default function EditCategoryDialog({
@@ -26,6 +28,11 @@ export default function EditCategoryDialog({
       color: value.color
     })
   );
+
+  function removeCategory(categoryId: string) {
+    set(ref(db, `stalls/${stallId}/category/${categoryId}`), {});
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -48,7 +55,10 @@ export default function EditCategoryDialog({
                 stallId={stallId}
                 categoryId={category.id}
               />
-              <Button className="flex-none p-2">
+              <Button
+                className="flex-none p-2"
+                onClick={() => removeCategory(category.id)}
+              >
                 <Trash size={16} />
               </Button>
             </div>
