@@ -22,7 +22,7 @@ export default function Menu({
   const [categoryName, setCategoryName] = useState<string>("all");
   return (
     <>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 overflow-x-scroll">
         {Object.entries(categories ?? {}).map(([id, c]) => (
           <CategoryCard
             key={id}
