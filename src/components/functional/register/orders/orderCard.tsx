@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
 import { auth, db } from "@/firebase";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 import { OrderType, StallInfo } from "@/types/stallInfo";
@@ -131,41 +130,37 @@ export default function OrderCard({
             )}
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="flex content-center justify-between gap-2">
-          <div className="my-auto flex flex-1 flex-col gap-2">
-            {Object.entries(order?.commodities || {}).map(
-              ([commodityId, amount]) => (
-                <div key={commodityId} className="flex items-center gap-4">
-                  <span className="text-3xl font-bold">
-                    {commodities?.[commodityId as UUID]?.name}
-                  </span>
-                  <span className="text-xl">
-                    x<span className="font-bold">{amount}</span>
-                  </span>
-                </div>
-              )
-            )}
-          </div>
-          <Separator orientation="vertical" />
-          <div className="my-auto flex flex-none flex-col items-end">
-            <p className="text-lg">
-              計
+      <CardContent className="p-4 pt-0">
+        <div>
+          {Object.entries(order?.commodities || {}).map(
+            ([commodityId, amount]) => (
+              <div
+                key={commodityId}
+                className="flex items-center justify-between"
+              >
+                <span className="text-3xl font-bold">
+                  {commodities?.[commodityId as UUID]?.name}
+                </span>
+                <span className="text-xl font-bold">{amount}</span>
+              </div>
+            )
+          )}
+        </div>
+        <hr className="mt-2 w-full" />
+        {order?.note && <div className="opacity-60">{order.note}</div>}
+        <div className="flex items-center justify-between">
+          <p>
+            計
+            <span className="text-lg font-bold">
               {Object.values(order?.commodities || {}).reduce(
                 (prev, current) => prev + current,
                 0
               )}
-              点
-            </p>
-            <p className="text-xs">{order?.receivedAmount}円</p>
-          </div>
+            </span>
+            点
+          </p>
+          <p className="text-lg">{order?.receivedAmount}円</p>
         </div>
-        {order?.note && (
-          <>
-            <Separator className="my-2" />
-            <div className="opacity-60">{order.note}</div>
-          </>
-        )}
       </CardContent>
     </Card>
   );
