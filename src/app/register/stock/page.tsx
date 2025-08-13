@@ -2,7 +2,6 @@
 
 import AccessError from "@/components/accessError";
 import AddCommodityDialog from "@/components/functional/register/stock/addCommodityDialog";
-import AddStockDialog from "@/components/functional/register/stock/addStockDialog";
 import EditCategoryDialog from "@/components/functional/register/stock/editCategoryDialog";
 import EditStockDialog from "@/components/functional/register/stock/editStockDialog";
 import Loading from "@/components/ui-element/loading";
@@ -137,7 +136,7 @@ export default function StockPage() {
       }
     },
     {
-      id: "editStock",
+      id: "actions",
       cell: ({ row }) => (
         <EditStockDialog
           trigger={<Button>編集</Button>}
@@ -161,25 +160,6 @@ export default function StockPage() {
                 `stalls/${userInfo?.stallId}/commodities/${row.original.id}/category`
               ),
               category
-            );
-          }}
-        />
-      )
-    },
-    {
-      id: "addStock",
-      cell: ({ row }) => (
-        <AddStockDialog
-          trigger={<Button>在庫追加</Button>}
-          name={row.getValue("name")}
-          stock={row.getValue("stock")}
-          setStock={async stock => {
-            await set(
-              ref(
-                db,
-                `stalls/${userInfo?.stallId}/commodities/${row.original.id}/stock`
-              ),
-              stock
             );
           }}
         />
