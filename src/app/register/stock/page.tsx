@@ -78,7 +78,6 @@ export default function StockPage() {
         const c = categoryId
           ? ((categories as StallInfo["category"]) || {})[categoryId]
           : undefined;
-        console.log(categoryId);
         if (!categoryId || categoryId === "none" || !c) return <p>未設定</p>;
         return (
           <div

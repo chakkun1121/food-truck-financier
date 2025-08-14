@@ -21,7 +21,6 @@ export default function CommodityCard({
         count > 0 && "text-foreground dark:text-background",
         count >= (commodity?.stock ?? 0) && "opacity-50",
         (() => {
-          console.log(category?.color);
           if (count > 0) {
             switch (category?.color) {
               case "red":
