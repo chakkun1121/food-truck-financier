@@ -8,13 +8,13 @@ Basic 認証のアカウント名、パスワードは`test`です。デモ用�
 
 ## スクリーンショット
 
-![レジ画面](/public/register/menu/1.png)
+![レジ画面](/docs/images/register/menu/1.webp)
 
-![注文管理画面](/public/register/orders/1.png)
+![注文管理画面](/docs/images/register/orders/1.webp)
 
-![商品受け取り画面](/public/register/recieve/1.png)
+![商品受け取り画面](/docs/images/register/recieve/1.webp)
 
-![在庫、商品管理画面](/public/register/stock/1.png)
+![在庫、商品管理画面](/docs/images/register/stock/1.webp)
 
 ## 使い方
 

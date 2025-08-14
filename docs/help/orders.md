@@ -2,7 +2,7 @@
 
 この画面は屋台で商品を準備する裏向けの画面となっています。
 
-![1](/public/register/orders/1.png)
+![1](/docs/images/register/orders/1.webp)
 
 ## 1.注文を確認して商品を準備する
 
@@ -16,4 +16,4 @@
 
 すべての注文を確認するには右上の未完了のところのドロップダウンメニューからすべてを選択することで表示できます。
 
-![2](/public/register/orders/2.png)
+![2](/docs/images/register/orders/2.webp)

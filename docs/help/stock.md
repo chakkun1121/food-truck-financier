@@ -1,16 +1,23 @@
 # 在庫管理ページの使い方
 
-![1](/public/register/stock/1.png)
+![1](/docs/images/register/stock/1.webp)
 
 ## 在庫、カテゴリーの編集方法
 
-1. 編集したい商品の横にある編集ボタンを押す ![2](/public/register/stock/2.png)
+1. 編集したい商品の横にある編集ボタンを押す
+   ![2](/docs/images/register/stock/2.webp)
 2. 在庫数、カテゴリーを入力して完了ボタンを押す
+
+### 在庫の追加方法
+
+1. 追加したい商品の横にある編集ボタンを押す
+   ![3](/docs/images/register/stock/3.webp)
+2. 追加個数を入力して完了ボタンを押す
 
 ## 商品の追加方法
 
 1. 商品を追加ボタンを押す
-2. 商品の情報を入力する ![3](/public/register/stock/3.png)
+2. 商品の情報を入力する ![4](/docs/images/register/stock/4.webp)
 3. 完了ボタンを押す
 
 ## 商品名、値段の変更方法
