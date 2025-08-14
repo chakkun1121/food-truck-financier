@@ -30,7 +30,7 @@ export default function EditCategoryDialog({
   );
 
   function removeCategory(categoryId: string) {
-    set(ref(db, `stalls/${stallId}/category/${categoryId}`), {});
+    set(ref(db, `stalls/${stallId}/category/${categoryId}`), null);
   }
 
   return (

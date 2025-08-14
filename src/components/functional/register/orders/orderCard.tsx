@@ -1,4 +1,3 @@
-import Loading from "@/components/ui-element/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,25 +7,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { auth, db } from "@/firebase";
+import { db } from "@/firebase";
 import { UUIDv7GetTimestamp } from "@/lib/uuidv7-get-timestamp";
 import { OrderType, StallInfo } from "@/types/stallInfo";
-import { UserInfo } from "@/types/userInfo";
 import { CheckIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
 import { ref, set } from "firebase/database";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useObjectVal } from "react-firebase-hooks/database";
 import { toast } from "sonner";
 
 export default function OrderCard({
   order,
   commodities,
-  setOrderState
+  setOrderState,
+  userInfo
 }: {
   order: OrderType & { id: UUID };
   commodities: StallInfo["commodities"];
   setOrderState: (state: OrderType["status"]) => void;
+  userInfo: { stallId?: string };
 }) {
   const timestamp = (() => {
     try {
@@ -36,15 +34,6 @@ export default function OrderCard({
     }
   })();
 
-  const [user, loading, error] = useAuthState(auth);
-  const [userInfo, userInfoLoading, userInfoError] = useObjectVal<UserInfo>(
-    ref(db, `users/${user?.uid}`)
-  );
-  if (loading || userInfoLoading) return <Loading />;
-  if (!user || !userInfo)
-    return <p>エラーが発生しました。再度読み込んで下さい。</p>;
-  if (error || userInfoError)
-    return <p>エラーが発生しました。再度読み込んで下さい。</p>;
   function cancelOrder() {
     setOrderState("cancelled");
     Object.entries(order.commodities).forEach(([commodityId, amount]) =>
