@@ -30,7 +30,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(1, "カテゴリー名を入力して下さい"),
+  name: z.string().min(1, "カテゴリー名を入力してください"),
   color: z.optional(
     z.enum([
       "red",
