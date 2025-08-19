@@ -1,6 +1,6 @@
 # 受取管理画面について
 
-![1](/docs/images/register/recieve/1.webp)
+![受取管理画面](/docs/images/register/recieve/1.webp)
 
 この画面は受取準備が終わった整理番号を表示する画面です。
 
