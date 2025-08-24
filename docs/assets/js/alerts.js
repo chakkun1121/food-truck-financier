@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const p = quote.querySelector("p");
     if (!p) return;
 
-    const text = p.innerHTML.trim();
+    const text = p.innerHTML.trim().replace(/<br\s*\/?>/g, " ");
 
     const match = text.match(/^\[!WARNING\]/);
 
