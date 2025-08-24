@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const content = text
           .substring(match[0].length)
           .trim()
-          .replace(/<br\s*\/?>/g, " ");
 
         // 新しい警告ボックスのHTMLを生成
         const newAlert = document.createElement("div");

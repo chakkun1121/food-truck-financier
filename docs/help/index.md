@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Food Truck Financierの使い方
+title: FoodTruck Financierの使い方
 ---
 
 - [ログイン](login.md)

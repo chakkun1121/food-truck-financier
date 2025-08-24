@@ -1,4 +1,4 @@
-# Food Truck Financier
+# FoodTruck Financier
 
 このアプリは屋台の総合会計アプリです。レジ打ち、注文管理、在庫管理、売上管理などができます。
 
