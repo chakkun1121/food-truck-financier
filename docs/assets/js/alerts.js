@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const text = p.innerHTML.trim();
 
     // [!WARNING]のパターンをチェック
-    const match = text.match(/^\\[!(WARNING)\\]/);
+    const match = text.match(/^\[!(WARNING)\]/);
 
     if (match) {
       const type = match[1]; // "WARNING"
