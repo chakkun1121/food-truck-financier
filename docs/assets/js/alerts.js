@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       titleElement.textContent = `${titleIcon} ${newTitle}`;
 
       const contentElement = document.createElement("p");
-      contentElement.textContent = contentText;
+      contentElement.innerHTML = contentText;
 
       newAlert.appendChild(titleElement);
       newAlert.appendChild(contentElement);
