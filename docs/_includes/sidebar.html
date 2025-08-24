@@ -4,7 +4,11 @@
   <ul>
     {% for item in site.sidebar_nav %}
     <li>
-      <a href="{{ item.url | relative_url }}" class="{% if page.url == item.url %}active{% endif %}"> {{ item.title }} </a>
+      <a
+        href="{{ item.url | relative_url }}"
+        class="{% if page.url == item.url %}active{% endif %}"
+        >{{ item.title }}</a
+      >
     </li>
     {% endfor %}
   </ul>

@@ -1,5 +1,7 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
   line-height: 1.6;
   margin: 0;
   background-color: #f8f9fa;
@@ -51,7 +53,7 @@ aside {
   position: fixed;
   top: 65px;
   left: 0;
-  height: calc(100vh-65px);
+  height: calc(100vh - 65px);
   overflow-y: auto;
   z-index: 999;
   width: 240px;

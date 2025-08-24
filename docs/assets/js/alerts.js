@@ -3,18 +3,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // すべての引用ブロックを取得
   const blockquotes = document.querySelectorAll("blockquote");
 
-  blockquotes.forEach((quote) => {
+  blockquotes.forEach(quote => {
     // 引用内の最初の段落のテキストを取得
     const p = quote.querySelector("p");
     if (!p) return;
 
     const text = p.innerHTML.trim();
 
-    // [!WARNING] や [!NOTE] などのパターンをチェック
-    const match = text.match(/^\[!(WARNING|NOTE|IMPORTANT)\]/);
+    // [!WARNING]のパターンをチェック
+    const match = text.match(/^\\[!(WARNING)\\]/);
 
     if (match) {
-      const type = match[1]; // "WARNING", "NOTE", "IMPORTANT"
+      const type = match[1]; // "WARNING"
 
       // 対応するCSSクラスとタイトルを決定
       let newClass = "";
