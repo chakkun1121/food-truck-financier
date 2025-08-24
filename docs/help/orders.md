@@ -1,8 +1,11 @@
-# 注文情報画面の使い方
+---
+layout: default
+title: 注文情報画面の使い方
+---
 
 この画面は屋台で商品を準備する裏向けの画面となっています。
 
-![注文情報 未完了を表示](/docs/images/register/orders/1.webp)
+![注文情報 未完了を表示](../images/register/orders/1.webp)
 
 ## 1.注文を確認して商品を準備する
 
@@ -18,4 +21,4 @@
 
 すべての注文を確認するには右上の未完了のところのドロップダウンメニューからすべてを選択することで表示できます。
 
-![注文情報 すべてを表示](/docs/images/register/orders/2.webp)
+![注文情報 すべてを表示](../images/register/orders/2.webp)

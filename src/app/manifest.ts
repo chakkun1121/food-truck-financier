@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Food Truck Financier",
+    name: "FoodTruck Financier",
     start_url: "/",
     display: "fullscreen",
     icons: [
