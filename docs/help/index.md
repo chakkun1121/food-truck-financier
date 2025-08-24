@@ -1,4 +1,7 @@
-# Food Truck Financier の使い方
+---
+layout: default
+title: Food Truck Financierの使い方
+---
 
 - [ログイン](login.md)
 - [ログアウト](logout.md)

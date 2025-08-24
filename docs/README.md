@@ -1,4 +1,4 @@
-# FoodTruck Financier
+# Food Truck Financier
 
 このアプリは屋台の総合会計アプリです。レジ打ち、注文管理、在庫管理、売上管理などができます。
 
@@ -8,13 +8,13 @@ Basic 認証のアカウント名、パスワードは`test`です。デモ用�
 
 ## スクリーンショット
 
-![レジ画面](/docs/images/register/menu/1.webp)
+![レジ画面](./images/register/menu/1.webp)
 
-![注文管理画面](/docs/images/register/orders/1.webp)
+![注文管理画面](./images/register/orders/1.webp)
 
-![商品受け取り画面](/docs/images/register/recieve/1.webp)
+![商品受け取り画面](./images/register/recieve/1.webp)
 
-![在庫、商品管理画面](/docs/images/register/stock/1.webp)
+![在庫、商品管理画面](./images/register/stock/1.webp)
 
 ## 使い方
 

@@ -1,0 +1,20 @@
+# _config.yml
+title: FoodTruck Financier Docs
+description: "FoodTruck Financierの公式ドキュメントサイトです。"
+
+# サイドバーナビゲーション
+sidebar_nav:
+  - title: "ログイン"
+    url: "/help/login.html"
+  - title: "ログアウト"
+    url: "/help/logout.html"
+  - title: "レジ"
+    url: "/help/menu.html"
+  - title: "注文情報"
+    url: "/help/orders.html"
+  - title: "受取管理"
+    url: "/help/receive.html"
+  - title: "在庫、商品管理"
+    url: "/help/stock.html"
+  - title: "ユーザー情報"
+    url: "/help/users.html"

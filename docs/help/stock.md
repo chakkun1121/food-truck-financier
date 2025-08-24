@@ -1,6 +1,9 @@
-# 在庫管理ページの使い方
+---
+layout: default
+title: 在庫、商品管理ページの使い方
+---
 
-![在庫管理トップ](/docs/images/register/stock/1.webp)
+![在庫、商品管理トップ](../images/register/stock/1.webp)
 
 この画面では、商品の追加、在庫数の変更、カテゴリーの追加、編集等ができます。
 
@@ -9,36 +12,36 @@
 在庫を追加したいという場合は、以下の「在庫の追加方法」を参照してください。
 
 1. 編集したい商品の横にある編集ボタンを押す
-   ![在庫管理 商品編集](/docs/images/register/stock/2.webp)
+   ![在庫、商品管理 商品編集](../images/register/stock/2.webp)
 2. 在庫数、カテゴリーを入力して完了ボタンを押す
 
 ### 在庫の追加方法
 
 1. 追加したい商品の横にある編集ボタンを押す
-   ![在庫管理 在庫追加](/docs/images/register/stock/3.webp)
+   ![在庫、商品管理 在庫追加](../images/register/stock/3.webp)
 2. 追加個数を入力して完了ボタンを押す
 
 ## 商品の追加方法
 
-1. 商品を追加ボタンを押す ![在庫管理 商品追加](/docs/images/register/stock/4.webp)
+1. 商品を追加ボタンを押す ![在庫、商品管理 商品追加](../images/register/stock/4.webp)
 2. 商品の情報を入力して完了ボタンを押す
 
 ## カテゴリーの追加方法
 
-1. カテゴリーを編集ボタンを押す ![在庫管理 カテゴリーを編集](/docs/images/register/stock/5.webp)
-2. カテゴリーを追加ボタンを押す ![在庫管理 カテゴリー追加](/docs/images/register/stock/6.webp)
+1. カテゴリーを編集ボタンを押す ![在庫、商品管理 カテゴリーを編集](../images/register/stock/5.webp)
+2. カテゴリーを追加ボタンを押す ![在庫、商品管理 カテゴリー追加](../images/register/stock/6.webp)
 3. カテゴリー名、カテゴリー色(任意)を入力し、追加ボタンを押す
 
 ## カテゴリーの編集方法
 
-1. カテゴリーを編集ボタンを押す ![在庫管理 カテゴリーを編集](/docs/images/register/stock/5.webp)
+1. カテゴリーを編集ボタンを押す ![在庫、商品管理 カテゴリーを編集](../images/register/stock/5.webp)
 2. 編集したいカテゴリーの右にあるペンボタンを押す
-   ![在庫管理 カテゴリー情報編集](/docs/images/register/stock/7.webp)
+   ![在庫、商品管理 カテゴリー情報編集](../images/register/stock/7.webp)
 3. カテゴリー名、カテゴリー色を変更し、更新ボタンを押す
 
 ## カテゴリーの削除方法
 
-1. カテゴリーを編集ボタンを押す ![在庫管理 カテゴリーを編集](/docs/images/register/stock/5.webp)
+1. カテゴリーを編集ボタンを押す ![在庫、商品管理 カテゴリーを編集](../images/register/stock/5.webp)
 2. 削除したいカテゴリーの右にあるゴミ箱ボタンを押す
 
 ## 商品名、値段の変更方法
