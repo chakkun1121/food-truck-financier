@@ -1,12 +1,9 @@
-<!-- _layouts/default.html -->
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- ページのタイトルを動的に設定 -->
     <title>{{ page.title }} - {{ site.title }}</title>
-    <!-- CSSファイルを読み込む -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   </head>
   <body>
@@ -17,7 +14,6 @@
 
       <main>
         <article>
-          <!-- ここに各Markdownファイルの内容が挿入される -->
           {{ content }}
         </article>
 

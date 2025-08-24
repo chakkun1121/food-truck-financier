@@ -1,41 +1,22 @@
-// assets/js/alerts.js
 document.addEventListener("DOMContentLoaded", () => {
-  // すべての引用ブロックを取得
   const blockquotes = document.querySelectorAll("blockquote");
 
   blockquotes.forEach(quote => {
-    // 引用内の最初の段落のテキストを取得
     const p = quote.querySelector("p");
     if (!p) return;
 
     const text = p.innerHTML.trim();
 
-    // [!WARNING]のパターンをチェック
-    const match = text.match(/^\[!(WARNING)\]/);
+    const match = text.match(/^\[!WARNING\]/);
 
     if (match) {
-      const type = match[1]; // "WARNING"
-
-      // 対応するCSSクラスとタイトルを決定
-      let newClass = "";
-      let newTitle = "";
-      let titleIcon = "";
-
-      switch (type) {
-        case "WARNING":
-          newClass = "warning";
-          titleIcon = "⚠️";
-          newTitle = "Warning";
-          break;
-      }
+      const newClass = "WARNING";
+      const newTitle = "⚠️";
+      const titleIcon = "Warning";
 
       if (newClass) {
-        // [!WARNING] というテキストを削除
-        const content = text
-          .substring(match[0].length)
-          .trim()
+        const content = text.substring(match[0].length).trim();
 
-        // 新しい警告ボックスのHTMLを生成
         const newAlert = document.createElement("div");
         newAlert.className = newClass;
         newAlert.innerHTML = `
@@ -43,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${content}</p>
         `;
 
-        // 元の引用ブロックを新しい警告ボックスに置き換える
         quote.parentNode.replaceChild(newAlert, quote);
       }
     }
