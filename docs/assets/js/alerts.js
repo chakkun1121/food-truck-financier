@@ -14,18 +14,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const newTitle = "Warning";
       const titleIcon = "⚠️";
 
-      if (newClass) {
-        const content = text.substring(match[0].length).trim();
+      const contentText = text.substring(match[0].length).trim();
 
-        const newAlert = document.createElement("div");
-        newAlert.className = newClass;
-        newAlert.innerHTML = `
-          <p class="${newClass}-title">${titleIcon} ${newTitle}</p>
-          <p>${content}</p>
-        `;
+      const newAlert = document.createElement("div");
+      newAlert.className = newClass;
 
-        quote.parentNode.replaceChild(newAlert, quote);
-      }
+      const titleElement = document.createElement("p");
+      titleElement.className = `${newClass}-title`;
+      titleElement.textContent = `${titleIcon} ${newTitle}`;
+
+      const contentElement = document.createElement("p");
+      contentElement.textContent = contentText;
+
+      newAlert.appendChild(titleElement);
+      newAlert.appendChild(contentElement);
+
+      quote.parentNode.replaceChild(newAlert, quote);
     }
   });
 });
