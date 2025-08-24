@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const match = text.match(/^\[!WARNING\]/);
 
     if (match) {
-      const newClass = "WARNING";
-      const newTitle = "⚠️";
-      const titleIcon = "Warning";
+      const newClass = "warning";
+      const newTitle = "Warning";
+      const titleIcon = "⚠️";
 
       if (newClass) {
         const content = text.substring(match[0].length).trim();
