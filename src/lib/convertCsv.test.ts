@@ -1,6 +1,6 @@
 import { OrderType, StallInfo } from "@/types/stallInfo";
-import { convertCsv } from "./convertCsv";
 import { describe, expect, test } from "bun:test";
+import { convertCsv } from "./convertCsv";
 
 describe("convertCsv", () => {
   test("should return the correct CSV string", () => {
@@ -39,9 +39,30 @@ describe("convertCsv", () => {
     };
 
     const expectedCsv = [
-      ["注文番号", "合計金額", "注文日時", "受取日時", "ステータス"],
-      ["T-0001", "800", "2024/9/2 16:21:58", "", "pending"],
-      ["order-2", "500", "2024/9/2 16:22:07", "", "completed"],
+      [
+        "注文番号",
+        "合計金額",
+        "注文日時",
+        "受取日時",
+        "ステータス",
+        "注文商品"
+      ],
+      [
+        "T-0001",
+        "800",
+        "2024/9/2 16:21:58",
+        "",
+        "pending",
+        "test1 test1 test2 test2 test2"
+      ],
+      [
+        "order-2",
+        "500",
+        "2024/9/2 16:22:07",
+        "",
+        "completed",
+        "test1 test2 test2"
+      ],
       [],
       ["商品名", "販売個数", "在庫数"],
       ["test1", "3", "10"],

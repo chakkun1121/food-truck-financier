@@ -13,7 +13,7 @@ export function convertCsv(
   }
   // 注文番号 合計金額 注文日時 受取日時 ステータス
   const csv = [
-    ["注文番号", "合計金額", "注文日時", "受取日時", "ステータス"],
+    ["注文番号", "合計金額", "注文日時", "受取日時", "ステータス", "注文商品"],
     ...Object.entries(orders).map(([id, order]) =>
       [
         order?.ticket,
@@ -22,7 +22,14 @@ export function convertCsv(
           timeZone: "Asia/Tokyo"
         }),
         "",
-        order?.status
+        order?.status,
+        Object.entries(order?.commodities || {})
+          .map(([id, quantity]) =>
+            Array.from({ length: quantity }, () => commodities[id]?.name).join(
+              " "
+            )
+          )
+          .join(" ")
       ].join(",")
     ),
     "",
