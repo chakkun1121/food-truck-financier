@@ -1,6 +1,7 @@
 ---
 layout: default
-title: 在庫、商品管理ページの使い方
+title: 在庫、商品管理の使い方
+description: FoodTruck Financier における、在庫、商品管理の使い方を解説するページです。
 ---
 
 ![在庫、商品管理トップ](../images/register/stock/1.webp)

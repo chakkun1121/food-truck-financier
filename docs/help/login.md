@@ -1,6 +1,7 @@
 ---
 layout: default
 title: ログインページの使い方
+description: FoodTruck Financier における、ログインの方法を解説するページです。
 ---
 
 ![ログインページ](../images/auth/login/1.webp)

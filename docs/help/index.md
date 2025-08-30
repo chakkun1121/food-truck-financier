@@ -1,6 +1,7 @@
 ---
 layout: default
 title: FoodTruck Financierの使い方
+description: FoodTruck Financier の各機能の使い方へのリンクをまとめたページです。
 ---
 
 - [ログイン](login.md)

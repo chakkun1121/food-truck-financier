@@ -1,6 +1,7 @@
 ---
 layout: default
 title: メニューページ(レジ)の使い方
+description: FoodTruck Financier における、メニューページ(レジ)の使い方を解説するページです。
 ---
 
 ![トップ](../images/register/menu/1.webp)

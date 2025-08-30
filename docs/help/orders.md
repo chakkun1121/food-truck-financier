@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 注文情報画面の使い方
+description: FoodTruck Financier における、注文画面の使い方を解説するページです。
 ---
 
 この画面は屋台で商品を準備する裏向けの画面となっています。

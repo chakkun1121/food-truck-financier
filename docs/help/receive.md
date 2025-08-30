@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 受取管理画面の使い方
+description: FoodTruck Financier における、受取管理画面の使い方を解説するページです。
 ---
 
 ![受取管理画面](../images/register/recieve/1.webp)

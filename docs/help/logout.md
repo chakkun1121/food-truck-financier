@@ -1,6 +1,7 @@
 ---
 layout: default
 title: ログアウトの方法
+description: FoodTruck Financier における、ログアウトの方法を解説するページです。
 ---
 
 ユーザーのメールアドレス → ログアウトから、ログアウトをすることができます。
