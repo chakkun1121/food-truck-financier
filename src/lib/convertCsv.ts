@@ -26,7 +26,7 @@ export function convertCsv(
         Object.entries(order?.commodities || {})
           .map(([id, quantity]) => {
             const processedName =
-              commodities[id]?.name?.replace(/[ ,]/g, "_") || "";
+              commodities[id]?.name?.replace(/[ ,]+/g, "_") || "";
             return Array(quantity).fill(processedName).join(" ");
           })
           .join(" ")
@@ -38,7 +38,7 @@ export function convertCsv(
       .filter((entry): entry is [string, CommodityType] => !!entry[1])
       .map(([id, commodity]) =>
         [
-          commodity.name.replace(/[ ,]/g, "_"),
+          commodity.name.replace(/[ ,]+/g, "_"),
           Object.values(orders).reduce(
             (acc, order) => acc + (order?.commodities?.[id as UUID] || 0),
             0

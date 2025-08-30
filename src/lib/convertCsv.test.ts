@@ -117,12 +117,12 @@ describe("convertCsv", () => {
         "2024/9/2 16:21:58",
         "",
         "pending",
-        "test_1 test_1 test__2 test__2 test__2"
+        "test_1 test_1 test_2 test_2 test_2"
       ],
       [],
       ["商品名", "販売個数", "在庫数"],
       ["test_1", "2", "10"],
-      ["test__2", "3", "20"]
+      ["test_2", "3", "20"]
     ]
       .map(row => row.join(","))
       .join("\n");
