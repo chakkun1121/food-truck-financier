@@ -11,7 +11,7 @@ export function convertCsv(
   if (!commodities || !orders) {
     return "";
   }
-  // 注文番号 合計金額 注文日時 受取日時 ステータス
+  // 注文番号 合計金額 注文日時 受取日時 ステータス 注文商品
   const csv = [
     ["注文番号", "合計金額", "注文日時", "受取日時", "ステータス", "注文商品"],
     ...Object.entries(orders).map(([id, order]) =>
@@ -24,11 +24,14 @@ export function convertCsv(
         "",
         order?.status,
         Object.entries(order?.commodities || {})
-          .map(([id, quantity]) =>
-            Array.from({ length: quantity }, () => commodities[id]?.name).join(
+          .map(([id, quantity]) => {
+            const processedName =
+              commodities[id]?.name?.replace(/ /g, "_").replace(/,/g, "_") ||
+              "";
+            return Array.from({ length: quantity }, () => processedName).join(
               " "
-            )
-          )
+            );
+          })
           .join(" ")
       ].join(",")
     ),
@@ -38,7 +41,7 @@ export function convertCsv(
       .filter((entry): entry is [string, CommodityType] => !!entry[1])
       .map(([id, commodity]) =>
         [
-          commodity.name,
+          commodity.name.replace(/ /g, "_").replace(/,/g, "_"),
           Object.values(orders).reduce(
             (acc, order) => acc + (order?.commodities?.[id as UUID] || 0),
             0
