@@ -1,8 +1,9 @@
 ---
-name: "機能要望 (Feature Request)"
-description: "新しい機能や改善点を提案する"
-labels: ["enhancement", "feature-request"]
-assignees: ''
+name: 機能要望 (Feature Request)
+about: 新しい機能や改善点を提案する
+title: ''
+labels: enhancement
+assignees: chakkun1121
 
 ---
 

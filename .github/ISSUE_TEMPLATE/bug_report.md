@@ -1,7 +1,8 @@
 ---
-name: "バグ報告 (Bug Report)"
-description: "バグや不具合を発見した場合の報告はこちら"
-labels: ["bug", "triage"]
+name: バグ報告 (Bug Report)
+about: バグや不具合を発見した場合の報告はこちら
+title: ''
+labels: bug, enhancement
 assignees: ''
 
 ---
