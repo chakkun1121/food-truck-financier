@@ -151,7 +151,11 @@ export default function EditStockDialog({
                   />
                 </div>
                 <DialogFooter className="mt-6">
-                  <Button onClick={() => setIsOpen(false)} variant={"outline"}>
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    variant={"outline"}
+                    type="button"
+                  >
                     キャンセル
                   </Button>
                   <Button type="submit">保存</Button>
@@ -190,7 +194,11 @@ export default function EditStockDialog({
                   )}
                 />
                 <DialogFooter className="mt-6">
-                  <Button onClick={() => setIsOpen(false)} variant={"outline"}>
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    variant={"outline"}
+                    type="button"
+                  >
                     キャンセル
                   </Button>
                   <Button type="submit">保存</Button>
