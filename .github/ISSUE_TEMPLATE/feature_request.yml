@@ -1,0 +1,51 @@
+# .github/ISSUE_TEMPLATE/feature_request.yml
+name: "機能要望 (Feature Request)"
+description: "新しい機能のアイデアや改善案の提案はこちらからお願いします。"
+title: "[FEATURE] "
+labels: ["enhancement", "feature-request"]
+assignees:
+  - chakkun1121 # ← あなたのGitHubユーザー名に修正
+body:
+  - type: markdown
+    attributes:
+      value: |
+        素晴らしいアイデアのご提案ありがとうございます！
+        このフォームに沿って、どのような機能が欲しいか具体的に教えてください。
+        注意: issueの内容はネット上で公開されます。個人情報などは絶対に含めないでください。
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: この機能はどのような問題を解決しますか？
+      description: "現状のどのような点が不便で、それをどのように改善したいですか？"
+      placeholder: "例：現状、日別の売上集計しか見られないため、時間帯別の売上も確認できるようになり、ピークタイムの分析をしたい。"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: どのような解決策を考えていますか？
+      description: "どのような機能や画面があればその問題が解決できるか、具体的に説明してください。UIのイメージなどがあれば、ここに画像を貼り付けることもできます。"
+      placeholder: "ダッシュボードに新しいセクションを追加し、時間帯ごとの売上グラフを表示する機能が欲しいです。"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: この機能の重要度
+      description: "あなたにとって、この機能はどのくらい重要ですか？"
+      options:
+        - "★★☆ あると嬉しい（利便性の向上）"
+        - "★★★ 無いと困る（基本的な要件）"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 他に検討した代替案はありますか？
+      description: "もしあれば、他に検討した解決策や機能案について記述してください。"
+    validations:
+      required: false
