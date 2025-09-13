@@ -36,7 +36,6 @@ export function StockSheet({
 }: {
   stalls: { [key: string]: Partial<StallInfo> | null | undefined } | undefined;
 }) {
-  // 在庫数が10件以下のリスト
   const data: Data[] =
     (stalls &&
       Object.entries(stalls)
@@ -51,11 +50,11 @@ export function StockSheet({
             })
           )
         )
-        .filter(d => d.stock <= 10)) ||
+        .sort((a, b) => a.stock - b.stock)) ||
     [];
   return (
     <div className="space-y-2 p-4">
-      <h2 className="text-center text-2xl">在庫10件以下の商品</h2>
+      <h2 className="text-center text-2xl">商品の在庫一覧</h2>
       <DataTable columns={columns} data={data} />
     </div>
   );
