@@ -88,14 +88,17 @@ export default function Register() {
           setCurrentOrder={setCurrentOrder}
           categories={{
             all: {
-              name: "全て",
+              name: "全て"
             },
             ...(category as StallInfo["category"])
           }}
         />
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel className="space-y-4 p-4" defaultSize={25}>
+      <ResizablePanel
+        className="space-y-4 !overflow-y-scroll p-4"
+        defaultSize={25}
+      >
         <Order
           commodities={commodities}
           currentOrder={currentOrder}
