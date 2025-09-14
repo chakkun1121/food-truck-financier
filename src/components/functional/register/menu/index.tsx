@@ -96,6 +96,7 @@ export default function Register() {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel
+        // overflow-y-scrollは!をつけないと動かない
         className="space-y-4 !overflow-y-scroll p-4"
         defaultSize={25}
       >
