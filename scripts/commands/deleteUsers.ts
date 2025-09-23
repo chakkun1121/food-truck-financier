@@ -22,6 +22,13 @@ async function main() {
       process.exit(1);
     }
 
+    // ファイルの拡張子チェック（警告のみ）
+    if (!tsvPath.endsWith(".tsv")) {
+      console.warn("Warning: File does not have .tsv extension");
+    }
+
+    console.log(`Reading TSV file: ${tsvPath}`);
+
     // TSVファイルを読み込み
     let tsvContent: string;
     try {
@@ -38,6 +45,8 @@ async function main() {
       process.exit(1);
     }
 
+    console.log("Starting user deletion process...");
+
     try {
       const result = await deleteUser(tsvContent);
 
@@ -51,7 +60,7 @@ async function main() {
       console.error(`✗ Failed to delete user:`, error);
     }
 
-    console.log("User deletion completed");
+    console.log("User deletion completed successfully");
     process.exit(0);
   } catch (error) {
     console.error("Error processing TSV file:", error);

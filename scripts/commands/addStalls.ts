@@ -24,6 +24,13 @@ async function main() {
       process.exit(1);
     }
 
+    // ファイルの拡張子チェック（警告のみ）
+    if (!tsvPath.endsWith(".tsv")) {
+      console.warn("Warning: File does not have .tsv extension");
+    }
+
+    console.log(`Reading TSV file: ${tsvPath}`);
+
     // TSVファイルを読み込み
     let tsvContent: string;
     try {
@@ -39,6 +46,8 @@ async function main() {
       console.error("TSV file is empty");
       process.exit(1);
     }
+
+    console.log("Starting stall creation process...");
 
     try {
       const result = await addStall(tsvContent);
@@ -65,7 +74,7 @@ async function main() {
       console.error(`✗ Failed to add stall:`, error);
     }
 
-    console.log(`Stall import completed`);
+    console.log(`Stall import completed successfully`);
     process.exit(0);
   } catch (error) {
     console.error("Error processing TSV file:", error);
