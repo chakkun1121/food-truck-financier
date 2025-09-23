@@ -29,10 +29,40 @@ export async function addUser(tsv: string): Promise<CreateUserResult> {
         throw new Error(`行「${line}」：必須パラメータが不足しています。`);
       }
 
+      // emailの形式チェック
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        throw new Error(`行「${line}」：無効なメールアドレス形式です。`);
+      }
+
+      // passwordの長さチェック
+      if (password.length < 6) {
+        throw new Error(
+          `行「${line}」：パスワードは6文字以上である必要があります。`
+        );
+      }
+
       if (!stalls || !stalls[stallId]) {
         throw new Error(
           `行「${line}」：店舗が見つかりません。店舗の登録を行ってからアカウントの追加を行ってください。`
         );
+      }
+
+      // すでに同じemailが存在するか確認
+      try {
+        await auth.getUserByEmail(email);
+        throw new Error(
+          `行「${line}」：このメールアドレスは既に使用されています。`
+        );
+      } catch (error) {
+        if (
+          error &&
+          typeof error === "object" &&
+          "code" in error &&
+          error.code !== "auth/user-not-found"
+        ) {
+          throw error;
+        }
       }
 
       const userRecord = await auth.createUser({

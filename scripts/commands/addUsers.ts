@@ -14,13 +14,22 @@ async function main() {
     }
 
     // TSVファイルのパスを取得
-    const tsvPath = path.join(__dirname, args[0]);
+    const tsvPath = path.isAbsolute(args[0])
+      ? args[0]
+      : path.join(process.cwd(), args[0]);
 
     // TSVファイルが存在するかチェック
     if (!fs.existsSync(tsvPath)) {
       console.error("TSV file not found:", tsvPath);
       process.exit(1);
     }
+
+    // ファイルの拡張子チェック（警告のみ）
+    if (!tsvPath.endsWith(".tsv")) {
+      console.warn("Warning: File does not have .tsv extension");
+    }
+
+    console.log(`Reading TSV file: ${tsvPath}`);
 
     // TSVファイルを読み込み
     let tsvContent: string;
@@ -38,6 +47,8 @@ async function main() {
       process.exit(1);
     }
 
+    console.log("Starting user creation process...");
+
     try {
       const result = await addUser(tsvContent);
 
@@ -53,7 +64,7 @@ async function main() {
             uid: string;
             stallId: string;
           }) => {
-            console.log(`  -  ${email}: ${uid}(stallId: ${stallId})`);
+            console.log(`  -  ${email} (UID: ${uid}), stallId: ${stallId}`);
           }
         );
       } else {
@@ -63,7 +74,7 @@ async function main() {
       console.error(`✗ Failed to add user:`, error);
     }
 
-    console.log("User import completed");
+    console.log("User import completed successfully");
     process.exit(0);
   } catch (error) {
     console.error("Error processing TSV file:", error);
