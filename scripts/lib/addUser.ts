@@ -23,14 +23,15 @@ export async function addUser(tsv: string): Promise<CreateUserResult> {
       const email = columns[0];
       const password = columns[1];
       const stallId = columns[2];
+
       // 入力値の基本的なバリデーション
       if (!email || !password || !stallId) {
-        throw new Error("必須パラメータが不足しています。");
+        throw new Error(`行「${line}」：必須パラメータが不足しています。`);
       }
 
       if (!stalls || !stalls[stallId]) {
         throw new Error(
-          "店舗が見つかりません。店舗の登録を行ってからアカウントの追加を行ってください。"
+          `行「${line}」：店舗が見つかりません。店舗の登録を行ってからアカウントの追加を行ってください。`
         );
       }
 

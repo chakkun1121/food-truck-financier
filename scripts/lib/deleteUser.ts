@@ -19,7 +19,7 @@ export async function deleteUser(tsv: string): Promise<DeleteUserResult> {
       const email = columns[0];
       // 入力値の基本的なバリデーション
       if (!email) {
-        throw new Error("必須パラメータが不足しています。");
+        throw new Error(`行「${line}」：必須パラメータが不足しています。`);
       }
 
       // メールアドレスからユーザーを取得
