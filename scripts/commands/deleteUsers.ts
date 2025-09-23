@@ -18,23 +18,37 @@ async function main() {
 
     // TSVファイルが存在するかチェック
     if (!fs.existsSync(tsvPath)) {
-      console.error("userData.tsv file not found");
+      console.error("TSV file not found:", tsvPath);
       process.exit(1);
     }
 
     // TSVファイルを読み込み
-    const tsvContent = fs.readFileSync(tsvPath, "utf-8");
+    let tsvContent: string;
+    try {
+      tsvContent = fs.readFileSync(tsvPath, "utf-8");
+    } catch (error) {
+      console.error("Error reading TSV file:", tsvPath);
+      console.error(error);
+      process.exit(1);
+    }
+
+    // TSVファイルが空でないかチェック
+    if (!tsvContent.trim()) {
+      console.error("TSV file is empty");
+      process.exit(1);
+    }
 
     try {
       const result = await deleteUser(tsvContent);
-      
+
       if (result.success) {
+        console.log(`✓ ${result.results?.length} users deleted successfully:`);
         result.results?.forEach(({ email }: { email: string }) => {
-          console.log(`✓ Deleted user: ${email}`);
+          console.log(`  - ${email}`);
         });
       }
     } catch (error) {
-      console.error(`✗ Failed to delete user: `, error);
+      console.error(`✗ Failed to delete user:`, error);
     }
 
     console.log("User deletion completed");

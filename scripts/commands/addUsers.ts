@@ -18,17 +18,31 @@ async function main() {
 
     // TSVファイルが存在するかチェック
     if (!fs.existsSync(tsvPath)) {
-      console.error("userData.tsv file not found");
+      console.error("TSV file not found:", tsvPath);
       process.exit(1);
     }
 
     // TSVファイルを読み込み
-    const tsvContent = fs.readFileSync(tsvPath, "utf-8");
+    let tsvContent: string;
+    try {
+      tsvContent = fs.readFileSync(tsvPath, "utf-8");
+    } catch (error) {
+      console.error("Error reading TSV file:", tsvPath);
+      console.error(error);
+      process.exit(1);
+    }
+
+    // TSVファイルが空でないかチェック
+    if (!tsvContent.trim()) {
+      console.error("TSV file is empty");
+      process.exit(1);
+    }
 
     try {
       const result = await addUser(tsvContent);
 
       if (result.success) {
+        console.log(`✓ ${result.results?.length} users added successfully:`);
         result.results?.forEach(
           ({
             email,
@@ -39,14 +53,14 @@ async function main() {
             uid: string;
             stallId: string;
           }) => {
-            console.log(`✓ Added user: ${email}, ${uid}, ${stallId}`);
+            console.log(`  -  ${email}: ${uid}(stallId: ${stallId})`);
           }
         );
       } else {
-        console.error(`✗ Failed to add user: `, result.error);
+        console.error(`✗ Failed to add user:`, result.error);
       }
     } catch (error) {
-      console.error(`✗ Failed to add user: `, error);
+      console.error(`✗ Failed to add user:`, error);
     }
 
     console.log("User import completed");

@@ -49,7 +49,7 @@ export async function addUser(tsv: string): Promise<CreateUserResult> {
       results
     };
   } catch (error) {
-    console.error("Error creating new user:", error);
+    console.error("Error adding user:", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : String(error)

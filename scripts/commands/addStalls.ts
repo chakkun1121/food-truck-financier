@@ -55,7 +55,7 @@ async function main() {
             name: string;
             prefix: string;
           }) => {
-            console.log(` - ${stallId}: ${name} (prefix: ${prefix})`);
+            console.log(`  - ${stallId}: ${name} (prefix: ${prefix})`);
           }
         );
       } else {
@@ -68,7 +68,7 @@ async function main() {
     console.log(`Stall import completed`);
     process.exit(0);
   } catch (error) {
-    console.error("Error reading or parsing file:", error);
+    console.error("Error processing TSV file:", error);
     process.exit(1);
   }
 }
