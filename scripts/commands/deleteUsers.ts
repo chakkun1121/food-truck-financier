@@ -14,7 +14,9 @@ async function main() {
     }
 
     // TSVファイルのパスを取得
-    const tsvPath = path.join(__dirname, args[0]);
+    const tsvPath = path.isAbsolute(args[0])
+      ? args[0]
+      : path.join(process.cwd(), args[0]);
 
     // TSVファイルが存在するかチェック
     if (!fs.existsSync(tsvPath)) {
@@ -55,9 +57,13 @@ async function main() {
         result.results?.forEach(({ email }: { email: string }) => {
           console.log(`  - ${email}`);
         });
+      } else {
+        console.error(`✗ User to delete users: ${result.error}`);
+        process.exit(1);
       }
     } catch (error) {
       console.error(`✗ Failed to delete user:`, error);
+      process.exit(1);
     }
 
     console.log("User deletion completed successfully");

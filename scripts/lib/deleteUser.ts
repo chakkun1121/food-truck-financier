@@ -17,13 +17,26 @@ export async function deleteUser(tsv: string): Promise<DeleteUserResult> {
     for (const line of lines) {
       const columns = line.split("\t");
       const email = columns[0];
+
       // 入力値の基本的なバリデーション
       if (!email) {
         throw new Error(`行「${line}」：必須パラメータが不足しています。`);
       }
 
+      // emailの形式チェック
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        throw new Error(`行「${line}」：無効なメールアドレス形式です。`);
+      }
+
       // メールアドレスからユーザーを取得
-      const userRecord = await auth.getUserByEmail(email);
+      let userRecord;
+      try {
+        userRecord = await auth.getUserByEmail(email);
+      } catch (error) {
+        console.error(`Error fetching user by email (${email}):`, error);
+        throw new Error(`ユーザーが見つかりません: ${email}`);
+      }
       const uid = userRecord.uid;
 
       // ユーザーを削除
