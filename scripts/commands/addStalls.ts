@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { addStallFromTSV } from "../lib/addStallFromTSV";
+import { addStallsFromTSV } from "../lib/addStallsFromTSV";
 
 async function main() {
   try {
@@ -49,7 +49,7 @@ async function main() {
 
     console.log("Starting stall creation process...");
 
-    const result = await addStallFromTSV(tsvContent);
+    const result = await addStallsFromTSV(tsvContent);
 
     if (result.success) {
       console.log(`✓ ${result.results?.length} stalls added successfully:`);

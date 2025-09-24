@@ -6,7 +6,7 @@ type AddStallResult = {
   results?: { stallId: string; name: string; prefix: string }[];
 };
 
-export async function addStallFromTSV(tsv: string): Promise<AddStallResult> {
+export async function addStallsFromTSV(tsv: string): Promise<AddStallResult> {
   try {
     const lines = tsv.trim().split("\n");
     const results: { stallId: string; name: string; prefix: string }[] = [];
