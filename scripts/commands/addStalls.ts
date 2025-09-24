@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { addStall } from "../lib/addStall";
+import { addStallFromTSV } from "../lib/addStallFromTSV";
 
 async function main() {
   try {
@@ -49,33 +49,29 @@ async function main() {
 
     console.log("Starting stall creation process...");
 
-    try {
-      const result = await addStall(tsvContent);
+    const result = await addStallFromTSV(tsvContent);
 
-      if (result.success) {
-        console.log(`✓ ${result.results?.length} stalls added successfully:`);
-        result.results?.forEach(
-          ({
-            stallId,
-            name,
-            prefix
-          }: {
-            stallId: string;
-            name: string;
-            prefix: string;
-          }) => {
-            console.log(`  - ${stallId}: ${name} (prefix: ${prefix})`);
-          }
-        );
-      } else {
-        console.error(`✗ Failed to add stall:`, result.error);
-      }
-    } catch (error) {
-      console.error(`✗ Failed to add stall:`, error);
+    if (result.success) {
+      console.log(`✓ ${result.results?.length} stalls added successfully:`);
+      result.results?.forEach(
+        ({
+          stallId,
+          name,
+          prefix
+        }: {
+          stallId: string;
+          name: string;
+          prefix: string;
+        }) => {
+          console.log(`  - ${stallId}: ${name} (prefix: ${prefix})`);
+        }
+      );
+      console.log("Stall import completed successfully");
+      process.exit(0);
+    } else {
+      console.error(`✗ Failed to add stall:`, result.error);
+      process.exit(1);
     }
-
-    console.log(`Stall import completed successfully`);
-    process.exit(0);
   } catch (error) {
     console.error("Error processing TSV file:", error);
     process.exit(1);
