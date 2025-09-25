@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { addUser } from "../lib/addUser";
+import { addUsersFromTSV } from "../lib/addUsersFromTSV";
 
 async function main() {
   try {
@@ -20,13 +20,13 @@ async function main() {
 
     // TSVファイルが存在するかチェック
     if (!fs.existsSync(tsvPath)) {
-      console.error("TSV file not found:", tsvPath);
+      console.error(`✗ TSV file not found: ${tsvPath}`);
       process.exit(1);
     }
 
     // ファイルの拡張子チェック（警告のみ）
     if (!tsvPath.endsWith(".tsv")) {
-      console.warn("Warning: File does not have .tsv extension");
+      console.warn(`⚠ Warning: File does not have .tsv extension`);
     }
 
     console.log(`Reading TSV file: ${tsvPath}`);
@@ -36,48 +36,43 @@ async function main() {
     try {
       tsvContent = fs.readFileSync(tsvPath, "utf-8");
     } catch (error) {
-      console.error("Error reading TSV file:", tsvPath);
+      console.error("✗ Error reading TSV file:", tsvPath);
       console.error(error);
       process.exit(1);
     }
 
     // TSVファイルが空でないかチェック
     if (!tsvContent.trim()) {
-      console.error("TSV file is empty");
+      console.error("✗ TSV file is empty");
       process.exit(1);
     }
 
     console.log("Starting user creation process...");
 
-    try {
-      const result = await addUser(tsvContent);
+    const result = await addUsersFromTSV(tsvContent);
 
-      if (result.success) {
-        console.log(`✓ ${result.results?.length} users added successfully:`);
-        result.results?.forEach(
-          ({
-            email,
-            uid,
-            stallId
-          }: {
-            email: string;
-            uid: string;
-            stallId: string;
-          }) => {
-            console.log(`  -  ${email} (UID: ${uid}), stallId: ${stallId}`);
-          }
-        );
-      } else {
-        console.error(`✗ Failed to add user:`, result.error);
-      }
-    } catch (error) {
-      console.error(`✗ Failed to add user:`, error);
+    if (result.success && result.results) {
+      console.log(`✓ ${result.results?.length} users added successfully:`);
+      result.results?.forEach(
+        ({
+          email,
+          uid,
+          stallId
+        }: {
+          email: string;
+          uid: string;
+          stallId: string;
+        }) => {
+          console.log(`  -  ${email} (UID: ${uid}), stallId: ${stallId}`);
+        }
+      );
+      console.log("User import completed successfully");
+      process.exit(0);
+    } else {
+      console.error(`✗ Failed to add user: ${result.error}`);
     }
-
-    console.log("User import completed successfully");
-    process.exit(0);
   } catch (error) {
-    console.error("Error processing TSV file:", error);
+    console.error(`✗ Error processing TSV file: ${error}`);
     process.exit(1);
   }
 }
