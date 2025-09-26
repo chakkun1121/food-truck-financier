@@ -1,60 +1,75 @@
 import { serverFirebase } from "@/firebase/server";
 
+type DeleteUserParams = {
+  email: string;
+};
 type DeleteUserResult = {
   success: boolean;
   error?: string;
-  results?: { email: string }[];
 };
 
-export async function deleteUser(tsv: string): Promise<DeleteUserResult> {
+export async function deleteUser({
+  email
+}: DeleteUserParams): Promise<DeleteUserResult> {
   const auth = serverFirebase.auth;
   const db = serverFirebase.db;
 
-  try {
-    const lines = tsv.trim().split("\n");
-    const results: DeleteUserResult["results"] = [];
-
-    for (const line of lines) {
-      const columns = line.split("\t");
-      const email = columns[0];
-
-      // 入力値の基本的なバリデーション
-      if (!email) {
-        throw new Error(`行「${line}」：必須パラメータが不足しています。`);
-      }
-
-      // emailの形式チェック
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        throw new Error(`行「${line}」：無効なメールアドレス形式です。`);
-      }
-
-      // メールアドレスからユーザーを取得
-      let userRecord;
-      try {
-        userRecord = await auth.getUserByEmail(email);
-      } catch (error) {
-        console.error(`Error fetching user by email (${email}):`, error);
-        throw new Error(`ユーザーが見つかりません: ${email}`);
-      }
-      const uid = userRecord.uid;
-
-      // ユーザーを削除
-      await auth.deleteUser(uid);
-
-      // ユーザーデータをデータベースから削除
-      await db.ref(`users/${uid}`).remove();
-      results.push({ email });
-    }
-    return {
-      success: true,
-      results
-    };
-  } catch (error) {
-    console.error("Error deleting user:", error);
+  // 入力値の基本的なバリデーション
+  if (!email) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : String(error)
+      error: "Email is required"
+    };
+  }
+
+  // emailの形式チェック
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return {
+      success: false,
+      error: "Invalid email format"
+    };
+  }
+
+  // メールアドレスからユーザーを取得
+  let userRecord;
+  try {
+    userRecord = await auth.getUserByEmail(email);
+  } catch (error) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "auth/user-not-found"
+    ) {
+      return {
+        success: false,
+        error: `User with email ${email} not found`
+      };
+    }
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return {
+      success: false,
+      error: `Failed to get user ${email}: ${errorMessage}`
+    };
+  }
+  const uid = userRecord.uid;
+
+  try {
+    // ユーザーを削除
+    await auth.deleteUser(uid);
+
+    // ユーザーデータをデータベースから削除
+    await db.ref(`users/${uid}`).remove();
+
+    return {
+      success: true
+    };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return {
+      success: false,
+      error: `Failed to delete user ${email}: ${errorMessage}`
     };
   }
 }

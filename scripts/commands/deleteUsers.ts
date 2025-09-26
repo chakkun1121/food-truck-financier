@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { deleteUser } from "../lib/deleteUser";
+import { deleteUserFromTSV } from "../lib/deleteUserFromTSV";
 
 async function main() {
   try {
@@ -20,13 +20,13 @@ async function main() {
 
     // TSVファイルが存在するかチェック
     if (!fs.existsSync(tsvPath)) {
-      console.error("TSV file not found:", tsvPath);
+      console.error("✗ TSV file not found:", tsvPath);
       process.exit(1);
     }
 
     // ファイルの拡張子チェック（警告のみ）
     if (!tsvPath.endsWith(".tsv")) {
-      console.warn("Warning: File does not have .tsv extension");
+      console.warn("⚠ Warning: File does not have .tsv extension");
     }
 
     console.log(`Reading TSV file: ${tsvPath}`);
@@ -36,21 +36,21 @@ async function main() {
     try {
       tsvContent = fs.readFileSync(tsvPath, "utf-8");
     } catch (error) {
-      console.error("Error reading TSV file:", tsvPath);
+      console.error("✗ Error reading TSV file:", tsvPath);
       console.error(error);
       process.exit(1);
     }
 
     // TSVファイルが空でないかチェック
     if (!tsvContent.trim()) {
-      console.error("TSV file is empty");
+      console.error("✗ TSV file is empty");
       process.exit(1);
     }
 
     console.log("Starting user deletion process...");
 
     try {
-      const result = await deleteUser(tsvContent);
+      const result = await deleteUserFromTSV(tsvContent);
 
       if (result.success) {
         console.log(`✓ ${result.results?.length} users deleted successfully:`);
@@ -58,7 +58,7 @@ async function main() {
           console.log(`  - ${email}`);
         });
       } else {
-        console.error(`✗ User to delete users: ${result.error}`);
+        console.error(`✗ Failed to delete users: ${result.error}`);
         process.exit(1);
       }
     } catch (error) {
@@ -69,7 +69,7 @@ async function main() {
     console.log("User deletion completed successfully");
     process.exit(0);
   } catch (error) {
-    console.error("Error processing TSV file:", error);
+    console.error("✗ Error processing TSV file:", error);
     process.exit(1);
   }
 }
