@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { Noto_Sans_JP } from "next/font/google";
+import { Noto_Sans_JP, Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -30,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={notoSansJP.variable}
+      className={cn("font-sans", inter.variable)}
     >
       <body className="min-h-full">{children}</body>
     </html>
