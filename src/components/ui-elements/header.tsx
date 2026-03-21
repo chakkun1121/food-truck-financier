@@ -10,7 +10,7 @@ export default function Header() {
             <AvatarImage src="" />
             <AvatarFallback>T</AvatarFallback>
           </Avatar>
-          <div className="ml-2 items-center">
+          <div className="ml-2 hidden items-center sm:block">
             <p>テストユーザー</p>
             <p className="text-muted-foreground text-sm">test@example.com</p>
           </div>
