@@ -1,0 +1,6 @@
+# .github/ISSUE_TEMPLATE/config.yml
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 ドキュメント (Usage Guide)
+    url: https://chakkun1121.github.io/food-truck-financier/
+    about: まずはドキュメントを確認して、使い方が記載されていないか確認してください。

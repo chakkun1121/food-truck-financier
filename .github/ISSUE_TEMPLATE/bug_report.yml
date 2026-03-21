@@ -1,0 +1,76 @@
+# .github/ISSUE_TEMPLATE/bug_report.yml
+name: "バグ報告 (Bug Report)"
+description: "バグや不具合を発見した場合の報告はこちらからお願いします。"
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees:
+  - chakkun1121 # ← あなたのGitHubユーザー名に修正
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグのご報告ありがとうございます！
+        このフォームの項目に沿って、できるだけ詳しく内容を教えてください。
+        注意: issueの内容はネット上で公開されます。個人情報などは絶対に含めないでください。
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: "どのような問題が発生しましたか？ 簡潔に説明してください。"
+      placeholder: "例：レジ画面で特定の操作をするとアプリがクラッシュする"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: 再現手順
+      description: "この問題を再現させるための手順を、順を追って具体的に記述してください。"
+      placeholder: |
+        1. レジ画面 `/register/menu` にアクセスする
+        2. 'ファンタ' を1つ注文リストに追加する
+        3. '注文する' ボタンをクリックする
+        4. 金額入力画面で '300' と入力し、'注文を確定する' をクリックする
+        5. アプリがクラッシュする
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 期待される動作
+      description: "本来であれば、どのような動作になることを期待していましたか？"
+      placeholder: "注文完了画面が表示され、整理券番号が発行されるはずだった。"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 実際の動作
+      description: "実際にどのような動作になりましたか？ エラーメッセージやスクリーンショットがあれば、ここに貼り付けてください。"
+      placeholder: "白い画面が表示されて操作不能になった。エラーメッセージは表示されなかった。"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: ご利用環境
+      description: "問題が発生した際の環境を教えてください。"
+      placeholder: |
+        - OS: [例: Windows 11, macOS Sonoma, iOS 17]
+        - ブラウザ: [例: Chrome 125, Safari 17]
+        - アプリのバージョン: [例: 1.1.1]
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 確認事項
+      description: "報告を送信する前に、以下の項目を確認してください。"
+      options:
+        - label: "既存のIssueを検索し、同様の報告がないことを確認しました。"
+          required: true
