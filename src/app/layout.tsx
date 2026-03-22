@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className="font-sans">
-      <body className="min-h-full">
+      <body className="min-h-full select-none">
         <Header />
         {children}
       </body>
