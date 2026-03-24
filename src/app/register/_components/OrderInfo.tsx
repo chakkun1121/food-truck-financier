@@ -29,7 +29,9 @@ export default function OrderInfo({
           variant="outline"
           size="icon"
           className="rounded-full"
-          onClick={() => setOrder({})}
+          onClick={() => {
+            confirm("本当に全ての商品を削除しますか？") && setOrder({});
+          }}
           title="全削除"
         >
           <Trash />
