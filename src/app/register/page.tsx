@@ -81,7 +81,12 @@ export default function Register() {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={25} className="flex flex-col p-4">
-          <OrderInfo commodities={commodities} order={order} />
+          <OrderInfo
+            commodities={commodities}
+            categories={categories}
+            order={order}
+            setOrder={setOrder}
+          />
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>
