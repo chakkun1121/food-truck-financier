@@ -39,9 +39,7 @@ export default function SelectCommodities({
         {Object.entries(commodities).map(([id, commodity]) => (
           <CommodityCard
             key={id}
-            name={commodity.name}
-            price={commodity.price}
-            stock={commodity.stock}
+            commodity={commodity}
             count={
               (order?.commodities as Record<string, number> | undefined)?.[
                 id
@@ -49,7 +47,8 @@ export default function SelectCommodities({
             }
             setCount={newCount => {
               if (newCount === 0) {
-                const { [id]: _, ...rest } = (order?.commodities ?? {}) as Record<string, number>;
+                const { [id]: _, ...rest } = (order?.commodities ??
+                  {}) as Record<string, number>;
                 setOrder({
                   ...order,
                   commodities: rest
@@ -64,6 +63,7 @@ export default function SelectCommodities({
                 }
               });
             }}
+            color={categories[commodity.category ?? ""]?.color ?? "primary"}
           />
         ))}
       </div>

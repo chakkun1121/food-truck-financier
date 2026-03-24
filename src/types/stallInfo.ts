@@ -39,24 +39,26 @@ export type OrderType = {
 
 export type CategoryType = {
   name: string;
-  color?:
-    | "red"
-    | "yellow"
-    | "lime"
-    | "green"
-    | "emerald"
-    | "teal"
-    | "cyan"
-    | "sky"
-    | "blue"
-    | "violet"
-    | "purple"
-    | "fuchsia"
-    | "pink"
-    | "rose"
-    | "stone"
-    | "neutral"
-    | "zinc"
-    | "gray"
-    | "slate";
+  color?: TailwindColorType;
 };
+
+export type TailwindColorType =
+  | "red"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "emerald"
+  | "teal"
+  | "cyan"
+  | "sky"
+  | "blue"
+  | "violet"
+  | "purple"
+  | "fuchsia"
+  | "pink"
+  | "rose"
+  | "stone"
+  | "neutral"
+  | "zinc"
+  | "gray"
+  | "slate";
