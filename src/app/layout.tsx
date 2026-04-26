@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 
+import { GlobalErrorCatcher } from "@/components/common/GlobalErrorCatcher";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
@@ -57,6 +58,7 @@ export default function RootLayout({
           enableSystem={true}
           disableTransitionOnChange={true}
         >
+          <GlobalErrorCatcher />
           {children}
           <Toaster />
         </ThemeProvider>
