@@ -67,7 +67,7 @@ export default function OrderDrawer({
   useEffect(() => {
     const result = valueSchema.safeParse(receivedMoney);
     if (!result.success) {
-      setError(result.error.errors[0].message);
+      setError(result.error.message);
     } else {
       setError(null);
     }
