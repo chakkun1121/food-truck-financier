@@ -1,7 +1,7 @@
 import { CommodityType } from "@/types/stallInfo";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, mock, test } from "bun:test";
-import CommodityCard from "../../../../components/functional/register/menu/commodityCard";
+import CommodityCard from "./commodityCard";
 
 describe("CommodityCard", () => {
   const commodity: CommodityType = {
@@ -140,12 +140,12 @@ describe("CommodityCard", () => {
     expect(stockText.className).toContain("text-destructive");
   });
 
-  test("should apply opacity style when count reaches stock", () => {
+  test("should apply mouse pointer style when count reaches stock", () => {
     const { container } = render(
       <CommodityCard commodity={commodity} count={10} setCount={mock()} />
     );
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.className).toContain("opacity-50");
+    expect(cardElement.className).toContain("cursor-not-allowed");
   });
 
   test("minus button should be disabled when count is 0", () => {
@@ -200,7 +200,7 @@ describe("CommodityCard", () => {
     const cardElement = container.firstChild as HTMLElement;
 
     expect(cardElement.className).toInclude("bg-red-400");
-    expect(cardElement.className).toInclude("border-red-800");
+    expect(cardElement.className).toInclude("border-red-500");
   });
   const commodityWithoutStock = {
     name: "Stock undefined commodity",
@@ -279,7 +279,7 @@ describe("CommodityCard", () => {
     expect(plusButton).toHaveProperty("disabled", true);
 
     const cardElement = container.firstChild as HTMLElement;
-    expect(cardElement.className).toContain("opacity-50");
+    expect(cardElement.className).toContain("cursor-not-allowed");
 
     const commodityCard = screen.getByText("Test Commodity");
     fireEvent.click(commodityCard);

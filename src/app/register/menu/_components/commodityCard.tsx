@@ -23,7 +23,7 @@ export default function CommodityCard({
       className={cn(
         "outline-border aspect-video h-40 rounded-md border-l-[6px] bg-[rgba(225,225,225,0.05)] px-2 py-6 outline",
         count > 0 && "text-foreground dark:text-background",
-        (commodity.stock ?? 0) <= 0 && "cursor-not-allowed opacity-50",
+        (commodity?.stock ?? 0) <= 0 && "cursor-not-allowed opacity-50",
         count >= (commodity?.stock ?? 0) && "cursor-not-allowed",
         colorToBorder500Class(category?.color || "primary"),
         count > 0 && colorToBg400Class(category?.color || "primary")
