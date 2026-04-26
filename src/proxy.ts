@@ -4,7 +4,7 @@ export const config = {
   matcher: ["/(.*)"]
 };
 
-export default function middleware(req: NextRequest) {
+export default function proxy(req: NextRequest) {
   if (process.env.NODE_ENV === "development") {
     return NextResponse.next();
   }

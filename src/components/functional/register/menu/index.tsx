@@ -80,8 +80,11 @@ export default function Register() {
     return { ...fullOrder, id: orderId };
   }
   return (
-    <ResizablePanelGroup direction={width < 768 ? "vertical" : "horizontal"}>
-      <ResizablePanel className="space-y-4 !overflow-y-scroll p-4">
+    <ResizablePanelGroup orientation={width < 768 ? "vertical" : "horizontal"}>
+      <ResizablePanel
+        className="space-y-4 overflow-y-scroll! p-4"
+        defaultSize={75}
+      >
         <Menu
           commodities={commodities}
           currentOrder={currentOrder}
@@ -97,7 +100,7 @@ export default function Register() {
       <ResizableHandle />
       <ResizablePanel
         // overflow-y-scrollは!をつけないと動かない
-        className="space-y-4 !overflow-y-scroll p-4"
+        className="space-y-4 overflow-y-scroll! p-4"
         defaultSize={25}
       >
         <Order

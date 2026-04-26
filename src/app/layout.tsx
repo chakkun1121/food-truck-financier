@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import firebase from "firebase/compat/app";
 
-import "@/lib/customErrorMap";
+import "@/zod.config";
 
 import "./globals.css";
 
