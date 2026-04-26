@@ -58,8 +58,14 @@ export default function LoginForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
+    
+    // 入力値に @ が含まれている場合はそのままメアドとして扱い、そうでない場合はドメインを付与
+    const loginId = values.id.includes("@") 
+      ? values.id 
+      : `${values.id}@${emailDomain}`;
+
     const user = await signInWithEmailAndPassword(
-      `${values.id}@${emailDomain}`,
+      loginId,
       values.password
     );
     if (!user) {
