@@ -23,6 +23,13 @@ export default function Menu({
   return (
     <>
       <div className="flex items-center gap-4 overflow-x-scroll">
+        <CategoryCard
+          category={{ name: "すべて" }}
+          itemCount={Object.entries(commodities ?? {}).length}
+          categoryName={categoryName}
+          setCategoryName={setCategoryName}
+          id="all"
+        />
         {Object.entries(categories ?? {}).map(([id, c]) => (
           <CategoryCard
             key={id}

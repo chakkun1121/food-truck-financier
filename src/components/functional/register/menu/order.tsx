@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { colorToBg400Class } from "@/lib/tailwindClasses";
 import { OrderType, StallInfo } from "@/types/stallInfo";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { UUID } from "crypto";
@@ -8,12 +9,14 @@ import OrderDrawer from "./orderDrawer";
 
 export default function Order({
   commodities,
+  categories,
   currentOrder,
   setCurrentOrder,
   handleOrder,
   stallId
 }: {
   commodities: StallInfo["commodities"];
+  categories?: StallInfo["category"];
   currentOrder: { [key: UUID]: number };
   setCurrentOrder: React.Dispatch<
     React.SetStateAction<{ [key: UUID]: number }>
@@ -45,7 +48,13 @@ export default function Order({
         {Object.entries(currentOrder)
           .filter(([, value]) => value)
           .map(([key, value]) => (
-            <Card key={key}>
+            <Card
+              key={key}
+              className={colorToBg400Class(
+                categories?.[commodities?.[key as UUID]?.category || ""]
+                  ?.color || "primary"
+              )}
+            >
               <CardContent className="p-2">
                 <div className="flex justify-between">
                   <p>
