@@ -1,5 +1,4 @@
 "use client";
-import AddCategoryDialog from "@/components/functional/register/stock/addCategoryDialog";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +12,7 @@ import { db } from "@/firebase";
 import { StallInfo } from "@/types/stallInfo";
 import { ref, set } from "firebase/database";
 import { Trash } from "lucide-react";
+import AddCategoryDialog from "./addCategoryDialog";
 
 export default function EditCategoryDialog({
   stallId,

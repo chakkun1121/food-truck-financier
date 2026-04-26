@@ -1,4 +1,4 @@
-import Receive from "@/components/functional/register/receive";
+import Receive from "@/app/register/receive/_components";
 import { Metadata } from "next";
 
 export default function ReceivePage() {

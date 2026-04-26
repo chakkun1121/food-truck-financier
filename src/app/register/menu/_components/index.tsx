@@ -1,7 +1,7 @@
 "use client";
+import Menu from "@/app/register/menu/_components/menu";
+import Order from "@/app/register/menu/_components/order";
 import AccessError from "@/components/accessError";
-import Menu from "@/components/functional/register/menu/menu";
-import Order from "@/components/functional/register/menu/order";
 import Loading from "@/components/ui-element/loading";
 import {
   ResizableHandle,

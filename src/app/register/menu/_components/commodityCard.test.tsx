@@ -1,7 +1,7 @@
 import { CommodityType } from "@/types/stallInfo";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, mock, test } from "bun:test";
-import CommodityCard from "./commodityCard";
+import CommodityCard from "../../../../components/functional/register/menu/commodityCard";
 
 describe("CommodityCard", () => {
   const commodity: CommodityType = {

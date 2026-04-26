@@ -1,7 +1,7 @@
 "use client";
 
+import OrderCard from "@/app/register/orders/_components/orderCard";
 import AccessError from "@/components/accessError";
-import OrderCard from "@/components/functional/register/orders/orderCard";
 import Loading from "@/components/ui-element/loading";
 import { auth, db } from "@/firebase";
 import { useError } from "@/hooks/useError";

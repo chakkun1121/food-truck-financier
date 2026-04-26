@@ -1,4 +1,4 @@
-import Dashboard from "@/components/functional/dashboard";
+import Dashboard from "@/app/dashboard/_components";
 import Header from "@/components/ui-element/registerHeader";
 import { Metadata } from "next";
 

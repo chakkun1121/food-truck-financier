@@ -1,4 +1,4 @@
-import Orders from "@/components/functional/register/orders";
+import Orders from "@/app/register/orders/_components";
 import { Metadata } from "next";
 
 export default function OrdersPage() {

@@ -1,4 +1,4 @@
-import Register from "@/components/functional/register/menu";
+import Register from "@/app/register/menu/_components";
 import { Metadata } from "next";
 
 export default function RegisterPage() {

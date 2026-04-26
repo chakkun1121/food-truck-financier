@@ -1,9 +1,6 @@
 "use client";
 
 import AccessError from "@/components/accessError";
-import AddCommodityDialog from "@/components/functional/register/stock/addCommodityDialog";
-import EditCategoryDialog from "@/components/functional/register/stock/editCategoryDialog";
-import EditStockDialog from "@/components/functional/register/stock/editStockDialog";
 import Loading from "@/components/ui-element/loading";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
@@ -16,6 +13,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ref, set } from "firebase/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useObjectVal } from "react-firebase-hooks/database";
+import AddCommodityDialog from "./_components/addCommodityDialog";
+import EditCategoryDialog from "./_components/editCategoryDialog";
+import EditStockDialog from "./_components/editStockDialog";
 
 export default function StockPage() {
   const [user, loading, error] = useAuthState(auth);
