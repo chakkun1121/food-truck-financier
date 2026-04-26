@@ -9,9 +9,12 @@ export default function Logout() {
   const [signOut] = useSignOut(auth);
   const router = useRouter();
   useEffect(() => {
-    signOut().then(() => {
+    const doLogout = async () => {
+      await fetch("/api/auth/logout", { method: "POST" });
+      await signOut();
       router.push("/login");
-    });
+    };
+    doLogout();
   }, [signOut, router]);
   return <div>ログアウト中...</div>;
 }

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { auth, db } from "@/firebase";
 import { useError } from "@/hooks/useError";
 import { ref } from "firebase/database";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useAuthState,
   useUpdatePassword,
@@ -16,6 +16,15 @@ import { toast } from "sonner";
 
 export default function UserPage() {
   const [user, loading, error] = useAuthState(auth);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      user.getIdTokenResult().then(result => {
+        setIsAdmin(!!result.claims.admin);
+      });
+    }
+  }, [user]);
 
   const [userInfo, userInfoLoading, userInfoError] = useObjectVal<{
     stallId?: string;
@@ -52,6 +61,7 @@ export default function UserPage() {
               setUpdating(false);
               if (success) {
                 toast.success("更新しました");
+                setNewPassword(""); // パスワード変更後にフィールドをクリア
               }
             }}
           >
@@ -63,6 +73,7 @@ export default function UserPage() {
                 disabled
                 value={user?.email ?? ""}
                 autoComplete="username"
+                name="email"
               />
             </p>
             <p>
@@ -72,16 +83,18 @@ export default function UserPage() {
                 value={newUserName}
                 onChange={e => setNewUserName(e.target.value)}
                 autoComplete="name"
+                name="name"
               />
             </p>
 
             <p>
-              パスワード:
+              新しいパスワード:
               <Input
                 type="password"
                 value={newPassword}
                 onChange={e => setNewPassword(e.target.value)}
                 autoComplete="new-password"
+                name="password"
               />
             </p>
             <Button type="submit" disabled={updating}>
@@ -91,7 +104,10 @@ export default function UserPage() {
 
           <h2 className="text-2xl">所属屋台情報</h2>
           <p>
-            屋台名: <span className="select-text">{stallName}</span>
+            屋台名:{" "}
+            <span className="select-text">
+              {isAdmin ? "管理者" : stallName}
+            </span>
           </p>
         </>
       )}

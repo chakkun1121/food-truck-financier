@@ -7,7 +7,7 @@ export async function requireAdminAuth() {
   const session = cookieStore.get("admin_session")?.value;
 
   if (!session) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   try {
@@ -22,6 +22,6 @@ export async function requireAdminAuth() {
     }
   } catch (error) {
     console.error("Invalid session cookie:", error);
-    redirect("/admin/login");
+    redirect("/login");
   }
 }

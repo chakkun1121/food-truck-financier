@@ -7,7 +7,7 @@ if (!getApps()?.length) {
     credential: cert(
       JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY || "{}")
     ),
-    databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
   });
 }
 
