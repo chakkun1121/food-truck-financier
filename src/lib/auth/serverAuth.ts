@@ -12,8 +12,11 @@ export async function requireAdminAuth() {
 
   try {
     // サーバーサイドでセッションCookieの検証
-    const decodedClaim = await serverFirebase.auth.verifySessionCookie(session, true);
-    
+    const decodedClaim = await serverFirebase.auth.verifySessionCookie(
+      session,
+      true
+    );
+
     if (decodedClaim.admin !== true) {
       throw new Error("Missing admin claim.");
     }

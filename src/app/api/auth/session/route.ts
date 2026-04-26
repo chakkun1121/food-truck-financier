@@ -15,7 +15,9 @@ export async function POST(request: Request) {
 
     // Custom Claim で "admin" が付与されているか確認する
     if (decodedToken.admin !== true) {
-      console.log(`[Admin Login Denied] UID: ${decodedToken.uid} does not have admin claim.`);
+      console.log(
+        `[Admin Login Denied] UID: ${decodedToken.uid} does not have admin claim.`
+      );
       return NextResponse.json(
         { error: "管理コンソールにログインする権限がありません。" },
         { status: 403 }
