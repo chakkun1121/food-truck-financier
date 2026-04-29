@@ -35,11 +35,11 @@ export default async function AdminDashboard() {
           description: "売上やユーザーの動向を確認できます",
           href: "/admin/dashboard"
         },
-        {
-          title: "各種設定",
-          description: "アプリ全体やアカウントの設定を行います",
-          href: "/admin/settings"
-        }
+        // {
+        //   title: "各種設定",
+        //   description: "アプリ全体やアカウントの設定を行います",
+        //   href: "/admin/settings"
+        // }
       ].map(section => (
         <Card key={section.href}>
           <CardHeader>
