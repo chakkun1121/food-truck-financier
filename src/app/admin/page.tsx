@@ -26,6 +26,11 @@ export default async function AdminDashboard() {
           href: "/admin/products"
         },
         {
+          title: "ユーザー管理",
+          description: "ユーザーの追加、一括登録、削除、店舗連携設定を行います",
+          href: "/admin/users"
+        },
+        {
           title: "ダッシュボード",
           description: "売上やユーザーの動向を確認できます",
           href: "/admin/dashboard"

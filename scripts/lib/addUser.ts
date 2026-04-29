@@ -17,9 +17,15 @@ export async function addUser({
   stallId
 }: AddUserParams): Promise<AddUserResult> {
   // emailとpasswordとstallIdの前後の空白を除去
-  const trimmedEmail = email.trim();
+  let trimmedEmail = email.trim();
   const trimmedPassword = password.trim();
   const trimmedStallId = stallId.trim();
+
+  // emailに@が含まれていない場合、デフォルトのドメインを付与する
+  if (trimmedEmail && !trimmedEmail.includes("@")) {
+    const emailDomain = process.env.NEXT_PUBLIC_EMAIL_DOMAIN || "food-truck.local";
+    trimmedEmail = `${trimmedEmail}@${emailDomain}`;
+  }
 
   // 入力値の空チェックを追加
   if (!trimmedEmail || !trimmedPassword || !trimmedStallId) {
@@ -53,7 +59,7 @@ export async function addUser({
     .once("value")
     .then(snapshot => snapshot.val());
 
-  if (!stalls || !stalls[trimmedStallId]) {
+  if (trimmedStallId !== "admin" && trimmedStallId !== "none" && (!stalls || !stalls[trimmedStallId])) {
     return {
       success: false,
       error: `Stall with ID "${trimmedStallId}" does not exist.`
@@ -86,7 +92,16 @@ export async function addUser({
       email: trimmedEmail,
       password: trimmedPassword
     });
-    await db.ref(`users/${userRecord.uid}`).set({ stallId: trimmedStallId });
+
+    if (trimmedStallId === "admin") {
+      await db.ref(`users/${userRecord.uid}`).set({ stallId: "admin" });
+      await auth.setCustomUserClaims(userRecord.uid, { admin: true });
+    } else if (trimmedStallId === "none") {
+      // noneの場合は stallId を保存しない
+    } else {
+      await db.ref(`users/${userRecord.uid}`).set({ stallId: trimmedStallId });
+    }
+
     return {
       success: true,
       uid: userRecord.uid
