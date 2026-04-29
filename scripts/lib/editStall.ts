@@ -1,21 +1,21 @@
 import { serverFirebase } from "@/firebase/server";
 
-type AddStallParams = {
+type EditStallParams = {
   stallId: string;
   name: string;
   prefix: string;
 };
-type AddStallResult = {
+
+type EditStallResult = {
   success: boolean;
   error?: string;
 };
 
-export async function addStall({
+export async function editStall({
   stallId,
   name,
   prefix
-}: AddStallParams): Promise<AddStallResult> {
-  // 入力値の空チェックを追加
+}: EditStallParams): Promise<EditStallResult> {
   if (!stallId || !name || !prefix) {
     return {
       success: false,
@@ -23,28 +23,17 @@ export async function addStall({
     };
   }
 
-  // stallIdとnameの前後の空白を除去
   const trimmedStallId = stallId.trim();
   const trimmedName = name.trim();
   const trimmedPrefix = prefix.trim();
 
-  // prefixの形式を確認（1文字以上）
   if (trimmedPrefix.length < 1) {
     return {
       success: false,
       error: "Prefix should be at least 1 character."
     };
   }
-  // stallIdの形式チェック（英数字とハイフンのみ許可）
-  const stallIdRegex = /^[a-zA-Z0-9-_]+$/;
-  if (!stallIdRegex.test(trimmedStallId)) {
-    return {
-      success: false,
-      error:
-        "Stall ID should only contain alphanumeric characters, hyphens, or underscores."
-    };
-  }
-  // nameの長さチェック
+
   if (trimmedName.length === 0) {
     return {
       success: false,
@@ -66,29 +55,28 @@ export async function addStall({
       .once("value")
       .then(snapshot => snapshot.val())) || {};
 
-  // すでに同じstallIdが存在するか確認
-  if (existingStalls && existingStalls[trimmedStallId]) {
+  if (!existingStalls[trimmedStallId]) {
     return {
       success: false,
-      error: `Stall with ID "${trimmedStallId}" already exists.`
+      error: `Stall with ID "${trimmedStallId}" does not exist.`
     };
   }
 
-  // prefixの一意性を確認
-  if (existingStalls) {
-    for (const key in existingStalls) {
-      if (existingStalls[key]?.prefix === trimmedPrefix) {
-        return {
-          success: false,
-          error: `Stall with prefix "${trimmedPrefix}" already exists.`
-        };
-      }
+  for (const key in existingStalls) {
+    if (
+      key !== trimmedStallId &&
+      existingStalls[key]?.prefix === trimmedPrefix
+    ) {
+      return {
+        success: false,
+        error: `Stall with prefix "${trimmedPrefix}" already exists.`
+      };
     }
   }
 
   try {
-    // 店舗情報をデータベースに追加
-    await db.ref(`stalls/${trimmedStallId}`).set({
+    // Partial update of the stall object to avoid wiping out other data (category, commodities, etc.)
+    await db.ref(`stalls/${trimmedStallId}`).update({
       name: trimmedName,
       prefix: trimmedPrefix
     });
@@ -96,7 +84,7 @@ export async function addStall({
     const errorMessage = error instanceof Error ? error.message : String(error);
     return {
       success: false,
-      error: `Failed to add stall (${trimmedStallId}): ${errorMessage}`
+      error: `Failed to edit stall (${trimmedStallId}): ${errorMessage}`
     };
   }
 
