@@ -7,6 +7,10 @@ export async function requireAdminAuth() {
   const session = cookieStore.get("admin_session")?.value;
 
   if (!session) {
+    console.log(
+      "No session cookie found, redirecting to /login",
+      cookieStore.getAll()
+    );
     redirect("/login");
   }
 
@@ -18,6 +22,7 @@ export async function requireAdminAuth() {
     );
 
     if (decodedClaim.admin !== true) {
+      console.log("Missing admin claim in decoded token:", decodedClaim);
       throw new Error("Missing admin claim.");
     }
   } catch (error) {
