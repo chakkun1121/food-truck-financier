@@ -2,7 +2,7 @@
 import nextPWA from "next-pwa";
 const withPWA = nextPWA();
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   redirects: async () => {
     return [
       {
@@ -11,7 +11,8 @@ const nextConfig = {
         permanent: true
       }
     ];
-  }
+  },
+  allowedDevOrigins: ["192.168.*.*"]
 };
 
 export default withPWA(nextConfig);
