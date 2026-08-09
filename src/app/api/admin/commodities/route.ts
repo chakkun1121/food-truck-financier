@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { addCommodity } from "../../../../../scripts/lib/addCommodity";
 import { editCommodity } from "../../../../../scripts/lib/editCommodity";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
